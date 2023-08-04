@@ -1,4 +1,4 @@
-package com.bizmodo_retail
+package com.bizmodo_royalprime
 
 import io.flutter.embedding.android.FlutterActivity
 

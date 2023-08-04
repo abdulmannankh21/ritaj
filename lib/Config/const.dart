@@ -129,6 +129,8 @@ class AppImages {
       'assets/bizmodo_icons/Bizmodo Retail Icon.png';
   static const String retailLogo =
       'assets/bizmodo_icons/Bizmodo Retail Logo.png';
+  static const String royalLogo = 'assets/bizmodo_icons/royal.png';
+  static const String royalIcon = 'assets/bizmodo_icons/royalicon.png';
 }
 
 class AppTextStyles {

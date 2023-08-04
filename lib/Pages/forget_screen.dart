@@ -42,7 +42,7 @@ class ForgetPasswordScreen extends StatelessWidget {
               child: Container(
                 // width: 100,
                 // height: 100,
-                child: Image(image: AssetImage(AppImages.retailLogo)),
+                child: Image(image: AssetImage(AppImages.royalLogo)),
               ),
               fadeDuration: const Duration(milliseconds: 200),
             ),

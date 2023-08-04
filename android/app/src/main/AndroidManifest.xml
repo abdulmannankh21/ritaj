@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bizmodo_retail">
+    package="com.bizmodo_royalprime">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -10,7 +10,7 @@
         android:icon="@mipmap/launcher_icon"
         android:allowBackup="false"
         android:fullBackupContent="false"
-        android:label="BizModo Retail"
+        android:label="BizModo Royal Prime"
         >
         <activity
             android:name=".MainActivity"

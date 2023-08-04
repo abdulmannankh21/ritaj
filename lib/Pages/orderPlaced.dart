@@ -70,7 +70,7 @@ class _OrderPlacedState extends State<OrderPlaced> {
                           color: Colors.blueGrey.shade800),
                     ),
                     SizedBox(height: 10),
-                    Image.asset(AppImages.retailLogo),
+                    Image.asset(AppImages.royalLogo),
                   ],
                 ),
                 Spacer(),

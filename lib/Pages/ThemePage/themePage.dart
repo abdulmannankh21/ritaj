@@ -18,7 +18,7 @@ class ThemePage extends StatefulWidget {
 class _ThemePageState extends State<ThemePage> {
   final ThemeController themeController = Get.find();
   int themeColors = 0xFF11cdef;
-  String selectedColor = 'FF008080';
+  String selectedColor = 'FFdaab18';
   var colorTheme = Colors.deepPurple;
 
   addColorToSF() async {
@@ -27,7 +27,7 @@ class _ThemePageState extends State<ThemePage> {
   }
 
   List<String> colorsCode = [
-    'FF008080',
+    'FFdaab18',
     'ffFF0000',
     'FFFFFF00',
     'FF0000FF',
