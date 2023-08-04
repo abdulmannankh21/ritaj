@@ -15,13 +15,13 @@ class AppConfig {
   static final String appName = "BizModo Royal Prime";
 
   // // to get the token
-  static String clientId = "8";
-  static String clientSecret = "vq0BFIMp8w2aQAZsrhtLm9Wnl7TXxde9Va3W9uWj";
-
-  // api base url
-  static String baseUrl = "https://manage.bizmodo.ae/";
-  // static String socketBaseUrl = "https://manage.bizmodo.ae:8006";
-  static String socketBaseUrl = "https://manage.bizmodo.ae:8008";
+  // static String clientId = "8";
+  // static String clientSecret = "vq0BFIMp8w2aQAZsrhtLm9Wnl7TXxde9Va3W9uWj";
+  //
+  // // api base url
+  // static String baseUrl = "https://manage.bizmodo.ae/";
+  // // static String socketBaseUrl = "https://manage.bizmodo.ae:8006";
+  // static String socketBaseUrl = "https://manage.bizmodo.ae:8008";
 
   static String grantType = "password";
   static String scope = "";
@@ -35,12 +35,12 @@ class AppConfig {
   // static String socketBaseUrl = "https://manage.bizmodo.ae:8008";
 
   /// For IO
-  // // Client Access Token & ID
-  // static String clientId = "11";
-  // static String clientSecret = "6nRy0lz57qx4NaGEdVypPO2JlM5NyDUeizQcz9Mc";
-  // // API base url
-  // static String baseUrl = "https://manage.bizmodo.io/";
-  // static String socketBaseUrl = "https://manage.bizmodo.io:8006";
+  // Client Access Token & ID
+  static String clientId = "12";
+  static String clientSecret = "GA4KPGEzIAl2C5yndKldgB0paAzGC2f3t2vp5Qg2";
+  // API base url
+  static String baseUrl = "https://manage.bizmodo.io/";
+  static String socketBaseUrl = "https://manage.bizmodo.io:8006";
 
   // static final bool isDemoMode = true;
   static final bool isDemoMode = false;
