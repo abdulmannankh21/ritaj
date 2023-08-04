@@ -1,5 +1,5 @@
-import 'package:bizmodo_emenu/Controllers/ReceiptsController/receiptsController.dart';
-import 'package:bizmodo_emenu/Pages/Tabs/View/TabsPage.dart';
+import 'package:royal_prime/Controllers/ReceiptsController/receiptsController.dart';
+import 'package:royal_prime/Pages/Tabs/View/TabsPage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

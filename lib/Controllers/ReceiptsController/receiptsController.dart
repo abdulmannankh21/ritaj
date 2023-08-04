@@ -1,4 +1,4 @@
-import 'package:bizmodo_emenu/Controllers/ProductController/all_products_controller.dart';
+import 'package:royal_prime/Controllers/ProductController/all_products_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';

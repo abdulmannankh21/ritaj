@@ -1,4 +1,4 @@
-import 'package:bizmodo_emenu/Controllers/StockTransferController/stockTransferController.dart';
+import 'package:royal_prime/Controllers/StockTransferController/stockTransferController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../Components/p5Headings.dart';

@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:bizmodo_emenu/Controllers/Tax%20Controller/TaxController.dart';
+import 'package:royal_prime/Controllers/Tax%20Controller/TaxController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 

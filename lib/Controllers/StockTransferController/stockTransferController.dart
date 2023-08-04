@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bizmodo_emenu/Models/ViewStockTransferModel/statusListModel.dart';
+import 'package:royal_prime/Models/ViewStockTransferModel/statusListModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 

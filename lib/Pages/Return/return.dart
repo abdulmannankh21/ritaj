@@ -1,6 +1,6 @@
-import 'package:bizmodo_emenu/Pages/Return/returnTile.dart';
-import 'package:bizmodo_emenu/Pages/Return/saleReturn.dart';
-import 'package:bizmodo_emenu/Pages/Return/searchSalesReturn.dart';
+import 'package:royal_prime/Pages/Return/returnTile.dart';
+import 'package:royal_prime/Pages/Return/saleReturn.dart';
+import 'package:royal_prime/Pages/Return/searchSalesReturn.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

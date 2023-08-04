@@ -1,7 +1,7 @@
-import 'package:bizmodo_emenu/Config/DateTimeFormat.dart';
-import 'package:bizmodo_emenu/Config/utils.dart';
-import 'package:bizmodo_emenu/Pages/Profile_View/profile_view.dart';
-import 'package:bizmodo_emenu/Theme/colors.dart';
+import 'package:royal_prime/Config/DateTimeFormat.dart';
+import 'package:royal_prime/Config/utils.dart';
+import 'package:royal_prime/Pages/Profile_View/profile_view.dart';
+import 'package:royal_prime/Theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';

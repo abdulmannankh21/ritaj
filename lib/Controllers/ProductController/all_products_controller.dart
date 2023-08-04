@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:bizmodo_emenu/Controllers/ProductController/product_cart_controller.dart';
-import 'package:bizmodo_emenu/Models/order_type_model/SaleOrderModel.dart';
-import 'package:bizmodo_emenu/Pages/Tabs/View/TabsPage.dart';
+import 'package:royal_prime/Controllers/ProductController/product_cart_controller.dart';
+import 'package:royal_prime/Models/order_type_model/SaleOrderModel.dart';
+import 'package:royal_prime/Pages/Tabs/View/TabsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

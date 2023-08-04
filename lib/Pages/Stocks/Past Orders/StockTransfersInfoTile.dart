@@ -1,5 +1,5 @@
-import 'package:bizmodo_emenu/Config/DateTimeFormat.dart';
-import 'package:bizmodo_emenu/Models/ViewStockTransferModel/viewStockTransferModel.dart';
+import 'package:royal_prime/Config/DateTimeFormat.dart';
+import 'package:royal_prime/Models/ViewStockTransferModel/viewStockTransferModel.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

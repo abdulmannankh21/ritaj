@@ -1,9 +1,9 @@
-import 'package:bizmodo_emenu/Controllers/AllSalesController/allSalesController.dart';
-import 'package:bizmodo_emenu/Pages/PrintDesign/pdfGenerate.dart';
-import 'package:bizmodo_emenu/Pages/PrintDesign/pos_print_layout.dart';
-import 'package:bizmodo_emenu/Pages/SalesView/paymentDetails.dart';
-import 'package:bizmodo_emenu/Pages/SalesView/shippingCharge.dart';
-import 'package:bizmodo_emenu/Pages/print_page.dart';
+import 'package:royal_prime/Controllers/AllSalesController/allSalesController.dart';
+import 'package:royal_prime/Pages/PrintDesign/pdfGenerate.dart';
+import 'package:royal_prime/Pages/PrintDesign/pos_print_layout.dart';
+import 'package:royal_prime/Pages/SalesView/paymentDetails.dart';
+import 'package:royal_prime/Pages/SalesView/shippingCharge.dart';
+import 'package:royal_prime/Pages/print_page.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

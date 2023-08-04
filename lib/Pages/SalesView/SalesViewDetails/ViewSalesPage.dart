@@ -1,5 +1,5 @@
-import 'package:bizmodo_emenu/Components/custom_circular_button.dart';
-import 'package:bizmodo_emenu/Pages/CreateOrder/createOrderPage.dart';
+import 'package:royal_prime/Components/custom_circular_button.dart';
+import 'package:royal_prime/Pages/CreateOrder/createOrderPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../Controllers/AllSalesController/allSalesController.dart';

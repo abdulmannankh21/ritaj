@@ -1,9 +1,9 @@
-import 'package:bizmodo_emenu/Components/custom_circular_button.dart';
-import 'package:bizmodo_emenu/Config/DateTimeFormat.dart';
-import 'package:bizmodo_emenu/Config/enums.dart';
+import 'package:royal_prime/Components/custom_circular_button.dart';
+import 'package:royal_prime/Config/DateTimeFormat.dart';
+import 'package:royal_prime/Config/enums.dart';
 
-import 'package:bizmodo_emenu/Pages/Receipts/receiptsTile.dart';
-import 'package:bizmodo_emenu/Pages/Receipts/searchInReceipts.dart';
+import 'package:royal_prime/Pages/Receipts/receiptsTile.dart';
+import 'package:royal_prime/Pages/Receipts/searchInReceipts.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

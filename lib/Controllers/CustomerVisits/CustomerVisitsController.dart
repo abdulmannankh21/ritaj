@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'package:bizmodo_emenu/Controllers/ContactController/ContactController.dart';
-import 'package:bizmodo_emenu/Controllers/ListUserController/ListUserController.dart';
-import 'package:bizmodo_emenu/Models/ContactsModel/CustomerCheckInModel.dart';
-import 'package:bizmodo_emenu/Models/ContactsModel/CustomerCheckOutModel.dart';
+import 'package:royal_prime/Controllers/ContactController/ContactController.dart';
+import 'package:royal_prime/Controllers/ListUserController/ListUserController.dart';
+import 'package:royal_prime/Models/ContactsModel/CustomerCheckInModel.dart';
+import 'package:royal_prime/Models/ContactsModel/CustomerCheckOutModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';

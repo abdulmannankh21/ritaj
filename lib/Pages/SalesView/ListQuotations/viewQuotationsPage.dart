@@ -1,5 +1,5 @@
-import 'package:bizmodo_emenu/Config/utils.dart';
-import 'package:bizmodo_emenu/Controllers/AllSalesController/quotationController.dart';
+import 'package:royal_prime/Config/utils.dart';
+import 'package:royal_prime/Controllers/AllSalesController/quotationController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '/Config/DateTimeFormat.dart';

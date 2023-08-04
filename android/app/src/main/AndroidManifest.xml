@@ -10,7 +10,7 @@
         android:icon="@mipmap/launcher_icon"
         android:allowBackup="false"
         android:fullBackupContent="false"
-        android:label="BizModo Royal Prime"
+        android:label="Royal Prime"
         >
         <activity
             android:name=".MainActivity"

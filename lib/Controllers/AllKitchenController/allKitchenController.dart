@@ -1,4 +1,4 @@
-import 'package:bizmodo_emenu/Models/AllKitchenModel/AllKitchenModel.dart';
+import 'package:royal_prime/Models/AllKitchenModel/AllKitchenModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 

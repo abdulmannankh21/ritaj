@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:bizmodo_emenu/Components/custom_circular_button.dart';
-import 'package:bizmodo_emenu/Components/textfield.dart';
-import 'package:bizmodo_emenu/Controllers/FundsController/fundsController.dart';
+import 'package:royal_prime/Components/custom_circular_button.dart';
+import 'package:royal_prime/Components/textfield.dart';
+import 'package:royal_prime/Controllers/FundsController/fundsController.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

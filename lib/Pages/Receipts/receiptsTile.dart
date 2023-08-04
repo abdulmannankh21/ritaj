@@ -1,5 +1,5 @@
-import 'package:bizmodo_emenu/Config/enums.dart';
-import 'package:bizmodo_emenu/Controllers/ReceiptsController/receiptsController.dart';
+import 'package:royal_prime/Config/enums.dart';
+import 'package:royal_prime/Controllers/ReceiptsController/receiptsController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../Theme/colors.dart';

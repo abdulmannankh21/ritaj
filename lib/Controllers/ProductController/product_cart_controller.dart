@@ -1,4 +1,4 @@
-import 'package:bizmodo_emenu/Config/enums.dart';
+import 'package:royal_prime/Config/enums.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -1,5 +1,5 @@
-import 'package:bizmodo_emenu/Services/storage_services.dart';
-import 'package:bizmodo_emenu/Theme/colors.dart';
+import 'package:royal_prime/Services/storage_services.dart';
+import 'package:royal_prime/Theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

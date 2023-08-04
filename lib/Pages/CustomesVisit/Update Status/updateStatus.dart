@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:bizmodo_emenu/Components/custom_circular_button.dart';
+import 'package:royal_prime/Components/custom_circular_button.dart';
 
-import 'package:bizmodo_emenu/Controllers/CustomerVisits/CustomerVisitsController.dart';
+import 'package:royal_prime/Controllers/CustomerVisits/CustomerVisitsController.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

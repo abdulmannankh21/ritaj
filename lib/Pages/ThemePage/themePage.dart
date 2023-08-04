@@ -1,5 +1,5 @@
-import 'package:bizmodo_emenu/Components/custom_circular_button.dart';
-import 'package:bizmodo_emenu/Config/utils.dart';
+import 'package:royal_prime/Components/custom_circular_button.dart';
+import 'package:royal_prime/Config/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';

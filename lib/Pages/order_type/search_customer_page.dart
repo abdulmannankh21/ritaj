@@ -203,7 +203,7 @@
 //   }
 // }
 
-import 'package:bizmodo_emenu/Pages/CreateNewCustomer/showCustomerDetails.dart';
+import 'package:royal_prime/Pages/CreateNewCustomer/showCustomerDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

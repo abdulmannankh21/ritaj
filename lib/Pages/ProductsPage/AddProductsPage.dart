@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:bizmodo_emenu/Controllers/AllKitchenController/allKitchenController.dart';
+import 'package:royal_prime/Controllers/AllKitchenController/allKitchenController.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

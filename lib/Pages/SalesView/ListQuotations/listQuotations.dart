@@ -1,5 +1,5 @@
-import 'package:bizmodo_emenu/Controllers/AllSalesController/allSalesController.dart';
-import 'package:bizmodo_emenu/Pages/SalesView/ListQuotations/viewQuotationsPage.dart';
+import 'package:royal_prime/Controllers/AllSalesController/allSalesController.dart';
+import 'package:royal_prime/Pages/SalesView/ListQuotations/viewQuotationsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../Config/utils.dart';

@@ -1,4 +1,4 @@
-// import 'package:bizmodo_emenu/Config/AppTextStyles.dart';
+// import 'package:royal_prime/Config/AppTextStyles.dart';
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
 //

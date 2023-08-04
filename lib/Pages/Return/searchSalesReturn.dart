@@ -1,4 +1,4 @@
-import 'package:bizmodo_emenu/Controllers/SalesReturnController/saleReturnController.dart';
+import 'package:royal_prime/Controllers/SalesReturnController/saleReturnController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

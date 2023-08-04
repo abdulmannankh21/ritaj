@@ -1,4 +1,4 @@
-import 'package:bizmodo_emenu/Config/DateTimeFormat.dart';
+import 'package:royal_prime/Config/DateTimeFormat.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

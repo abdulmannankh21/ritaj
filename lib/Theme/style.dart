@@ -1,5 +1,5 @@
-import 'package:bizmodo_emenu/Controllers/AuthController/auth_controller.dart';
-import 'package:bizmodo_emenu/Services/storage_services.dart';
+import 'package:royal_prime/Controllers/AuthController/auth_controller.dart';
+import 'package:royal_prime/Services/storage_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

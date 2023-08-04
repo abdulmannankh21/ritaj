@@ -1,6 +1,6 @@
-import 'package:bizmodo_emenu/Config/DateTimeFormat.dart';
-import 'package:bizmodo_emenu/Controllers/AllKitchenController/allKitchenController.dart';
-import 'package:bizmodo_emenu/Controllers/ProductController/all_products_controller.dart';
+import 'package:royal_prime/Config/DateTimeFormat.dart';
+import 'package:royal_prime/Controllers/AllKitchenController/allKitchenController.dart';
+import 'package:royal_prime/Controllers/ProductController/all_products_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../Theme/colors.dart';

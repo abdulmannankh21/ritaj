@@ -1,8 +1,8 @@
-import 'package:bizmodo_emenu/Components/custom_circular_button.dart';
-import 'package:bizmodo_emenu/Config/utils.dart';
-import 'package:bizmodo_emenu/Controllers/ContactController/ContactController.dart';
-import 'package:bizmodo_emenu/Controllers/CustomerVisits/CustomerVisitsController.dart';
-import 'package:bizmodo_emenu/Controllers/ListUserController/ListUserController.dart';
+import 'package:royal_prime/Components/custom_circular_button.dart';
+import 'package:royal_prime/Config/utils.dart';
+import 'package:royal_prime/Controllers/ContactController/ContactController.dart';
+import 'package:royal_prime/Controllers/CustomerVisits/CustomerVisitsController.dart';
+import 'package:royal_prime/Controllers/ListUserController/ListUserController.dart';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';

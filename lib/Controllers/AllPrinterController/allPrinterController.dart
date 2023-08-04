@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:bizmodo_emenu/Controllers/ProductController/all_products_controller.dart';
+import 'package:royal_prime/Controllers/ProductController/all_products_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 import 'package:get/get.dart';

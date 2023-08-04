@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bizmodo_emenu/Models/order_type_model/SaleOrderModel.dart';
+import 'package:royal_prime/Models/order_type_model/SaleOrderModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

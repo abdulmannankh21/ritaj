@@ -1,5 +1,5 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
-import 'package:bizmodo_emenu/Models/ProductsModel/ProductVariationAndModifierModel.dart';
+import 'package:royal_prime/Models/ProductsModel/ProductVariationAndModifierModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

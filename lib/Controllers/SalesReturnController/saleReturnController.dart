@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:bizmodo_emenu/Controllers/ProductController/all_products_controller.dart';
-import 'package:bizmodo_emenu/Pages/Return/return.dart';
+import 'package:royal_prime/Controllers/ProductController/all_products_controller.dart';
+import 'package:royal_prime/Pages/Return/return.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
