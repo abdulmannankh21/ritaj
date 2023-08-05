@@ -159,6 +159,15 @@ class AllProductsController extends GetxController {
         .toString();
   }
 
+  checkSelectedUnitsShortNameWithActualName({
+    String? unitName,
+  }) {
+    return unitListModel?.data
+        ?.firstWhereOrNull((i) => i.actualName == unitName)
+        ?.shortName
+        .toString();
+  }
+
   checkUnitValueWithGivenId({
     int? idNumber,
   }) {

@@ -53,7 +53,7 @@ class _ItemsPageState extends State<ItemsPage> {
                         item.name ?? "",
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle1!
+                            .titleMedium!
                             .copyWith(fontSize: 12),
                         overflow: TextOverflow.ellipsis,
                         softWrap: true,
@@ -144,7 +144,7 @@ class _ItemsPageState extends State<ItemsPage> {
                                                   .countItemInCart(item.id),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .subtitle1!
+                                                  .titleMedium!
                                                   .copyWith(
                                                       fontSize: 10,
                                                       color: Colors.white),
@@ -176,7 +176,7 @@ class _ItemsPageState extends State<ItemsPage> {
                               ' /-',
                           style: Theme.of(context)
                               .textTheme
-                              .subtitle1!
+                              .titleMedium!
                               .copyWith(
                                   fontSize: 12, fontWeight: FontWeight.bold),
                         ),

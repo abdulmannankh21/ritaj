@@ -63,6 +63,7 @@ class _ItemsPageState extends State<ItemsPage> {
       //     }),
       appBar: AppBar(
         automaticallyImplyLeading: true,
+        elevation: 0,
         title: Container(
             // width: isPortrait ? 200 : 300,
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 4),
@@ -96,7 +97,7 @@ class _ItemsPageState extends State<ItemsPage> {
                   txt2: 'product_name'.tr,
                   txt3: 'price'.tr,
                   txt4: 'stock'.tr,
-                  txt5: 'Pieces'.tr,
+                  txt5: 'unit'.tr,
                 ),
               ),
               Divider(
@@ -151,16 +152,20 @@ class _ItemsPageState extends State<ItemsPage> {
                                           ///SKU
                                           Expanded(
                                             flex: 1,
-                                            child: Text(
-                                              ' ${allProdCtrlObj.productShowListModel?.data?[index].sku}',
-                                              textAlign: TextAlign.center,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleSmall!
-                                                  .copyWith(
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0),
+                                              child: Text(
+                                                ' ${allProdCtrlObj.productShowListModel?.data?[index].sku}',
+                                                textAlign: TextAlign.left,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleSmall!
+                                                    .copyWith(
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                              ),
                                             ),
                                           ),
 
@@ -190,7 +195,7 @@ class _ItemsPageState extends State<ItemsPage> {
                                                     '${allProdCtrlObj.productShowListModel?.data?[index].maxPrice ?? ''}',
                                                   ).toStringAsFixed(2) +
                                                   ' /-',
-                                              textAlign: TextAlign.right,
+                                              textAlign: TextAlign.center,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .titleMedium!
@@ -203,11 +208,14 @@ class _ItemsPageState extends State<ItemsPage> {
 
                                           Expanded(
                                               flex: 1,
-                                              child: Center(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
                                                 child: Text(
                                                   double.parse(
                                                           '${allProdCtrlObj.productShowListModel?.data?[index].currentStock ?? '0.00'}')
                                                       .toStringAsFixed(2),
+                                                  textAlign: TextAlign.left,
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .titleMedium!
@@ -218,9 +226,12 @@ class _ItemsPageState extends State<ItemsPage> {
                                               )),
                                           Expanded(
                                               flex: 1,
-                                              child: Center(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 8.0),
                                                 child: Text(
-                                                  '${allProdCtrlObj.productShowListModel?.data?[index].unit ?? ''}',
+                                                  '${allProdCtrlObj.checkSelectedUnitsShortNameWithActualName(unitName: allProdCtrlObj.productShowListModel?.data?[index].unit) ?? ''}',
+                                                  textAlign: TextAlign.center,
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .titleMedium!

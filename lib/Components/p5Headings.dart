@@ -28,7 +28,7 @@ class Product5Headings extends StatelessWidget {
           ),
         if (txt2 != null)
           Expanded(
-            flex: 3,
+            flex: 2,
             child: Center(
               child: Text(
                 '${txt2}',
@@ -70,7 +70,7 @@ class Product5Headings extends StatelessWidget {
             flex: 1,
             child: Center(
               child: Text(
-                '${txt4}',
+                '${txt5}',
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,

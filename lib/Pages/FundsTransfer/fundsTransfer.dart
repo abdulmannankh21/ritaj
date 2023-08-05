@@ -120,6 +120,7 @@ class _FundsTransferState extends State<FundsTransfer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: Text('funds_transfer'.tr),
         centerTitle: true,
       ),
