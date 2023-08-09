@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:royal_prime/Models/order_type_model/SaleOrderModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +10,7 @@ import 'package:printing/printing.dart';
 import '../../Config/DateTimeFormat.dart';
 import '../../Controllers/ProductController/all_products_controller.dart';
 import '../../Models/ProductsModel/ProductModel.dart';
+import '../../Models/order_type_model/SaleOrderModel.dart';
 import '../../Services/storage_services.dart';
 import '/Controllers/ProductController/product_cart_controller.dart';
 import 'package:http/http.dart' as http;
@@ -314,11 +314,12 @@ class PrintData extends StatelessWidget {
               finalDetails(
                   txt1: 'Total:',
                   txt2:
-                      '${AppFormat.doubleToStringUpTo2(saleOrderDataModel?.finalTotal)}'),
+                      '${AppFormat.doubleToStringUpTo2(saleOrderDataModel.finalTotal)}'),
               pw.SizedBox(height: 5),
               finalDetails(
                   txt1: 'Total paid:',
-                  txt2: '${saleOrderDataModel?.totalPaid ?? '0.00'}'),
+                  txt2:
+                      '${AppFormat.doubleToStringUpTo2(saleOrderDataModel.totalPaid ?? '0.00')}'),
               pw.SizedBox(height: 5),
               finalDetails(
                   txt1: 'Due Amount:',

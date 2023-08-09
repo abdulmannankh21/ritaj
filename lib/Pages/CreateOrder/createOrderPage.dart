@@ -1,8 +1,8 @@
-import 'package:royal_prime/Components/custom_circular_button.dart';
-import 'package:royal_prime/Config/utils.dart';
-import 'package:royal_prime/Pages/CreateOrder/selectionDialogue.dart';
-import 'package:royal_prime/Pages/checkout/check_out.dart';
-import 'package:royal_prime/Theme/style.dart';
+import '../../Components/custom_circular_button.dart';
+import '../../Config/utils.dart';
+import '../../Pages/CreateOrder/selectionDialogue.dart';
+import '../../Pages/checkout/check_out.dart';
+import '../../Theme/style.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,14 +12,19 @@ import '../../Components/textfield.dart';
 import '../../Config/DateTimeFormat.dart';
 import '../../Controllers/ContactController/ContactController.dart';
 import '../../Controllers/ProductController/all_products_controller.dart';
+import '../../Models/order_type_model/SaleOrderModel.dart';
 import '../../Services/storage_services.dart';
 import '../../Theme/colors.dart';
 import '../../const/dimensions.dart';
 import '../SalesView/discount.dart';
 import '../Tabs/View/TabsPage.dart';
+import '../checkout/check_out.dart';
 
 class CreateOrderPage extends StatefulWidget {
-  const CreateOrderPage({Key? key}) : super(key: key);
+  final SaleOrderDataModel? salesOrderData;
+  final bool isUpdate;
+  CreateOrderPage({Key? key, this.salesOrderData, this.isUpdate = false})
+      : super(key: key);
 
   @override
   State<CreateOrderPage> createState() => _CreateOrderPageState();
@@ -32,15 +37,22 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
 
   @override
   void initState() {
-    allProdCtrlObj.productQuantityCtrl.clear();
-    allProdCtrlObj.selectedProducts.clear();
-    allProdCtrlObj.selectedUnitsList.clear();
-    allProdCtrlObj.nestedist.clear();
-    allProdCtrlObj.unitListStatusIds.clear();
-    allProdCtrlObj.unitListStatus.clear();
-    allProdCtrlObj.selectedUnitsNames.clear();
-    allProdCtrlObj.fetchAllProducts();
     allProdCtrlObj.finalTotal = 0.00;
+    if (widget.isUpdate == false) {
+      allProdCtrlObj.nestedist.clear();
+      allProdCtrlObj.productQuantityCtrl.clear();
+      allProdCtrlObj.selectedProducts.clear();
+      allProdCtrlObj.selectedUnitsList.clear();
+      allProdCtrlObj.unitListStatusIds.clear();
+      allProdCtrlObj.unitListStatus.clear();
+      allProdCtrlObj.selectedUnitsNames.clear();
+      allProdCtrlObj.fetchAllProducts();
+    }
+
+    if (widget.isUpdate == true)
+      allProdCtrlObj.finalTotal =
+          double.parse('${widget.salesOrderData?.finalTotal ?? '0.00'}');
+    allProdCtrlObj.addOrderedItemsQty(salesOrderData: widget.salesOrderData);
 
     super.initState();
   }
@@ -63,7 +75,6 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('create_order'.tr),
-        elevation: 0,
         leading: AppStyles.backButton(onTap: () {
           Get.offAll(TabsPage());
         }),
@@ -160,92 +171,106 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                     ),
 
                                     // Unit
-                                    DropdownButtonHideUnderline(
-                                      child: DropdownButton2(
-                                        isExpanded: true,
-                                        hint: Align(
-                                            alignment: AlignmentDirectional
-                                                .centerStart,
-                                            child: Text(
-                                              'Select',
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w500),
-                                            )),
-                                        items: allProdCtrlObj
-                                            .nestedist[index] //unitStatusList()
-                                            .map((String items) {
-                                          return DropdownMenuItem(
-                                            value: items,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10.0),
+                                    Container(
+                                      // height:
+                                      //     MediaQuery.of(context).size.height *
+                                      //         0.06,
+                                      //width: MediaQuery.of(context).size.width,
+                                      child: DropdownButtonHideUnderline(
+                                        child: DropdownButton2(
+                                          isExpanded: true,
+                                          hint: Align(
+                                              alignment: AlignmentDirectional
+                                                  .centerStart,
                                               child: Text(
-                                                items,
-                                                style: TextStyle(fontSize: 10),
+                                                'Select',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 10,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              )),
+                                          items: allProdCtrlObj.nestedist[
+                                                  index] //unitStatusList()
+                                              .map((String items) {
+                                            return DropdownMenuItem(
+                                              value: items,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10.0),
+                                                child: Text(
+                                                  items,
+                                                  style:
+                                                      TextStyle(fontSize: 10),
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        }).toList(),
-                                        value: allProdCtrlObj
-                                            .unitListStatus[index],
-                                        dropdownWidth:
-                                            MediaQuery.of(context).size.width *
-                                                0.2,
-                                        dropdownDecoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
-                                        dropdownMaxHeight:
-                                            MediaQuery.of(context).size.height *
-                                                0.7,
-                                        dropdownPadding:
-                                            EdgeInsets.only(left: 5),
-                                        buttonPadding:
-                                            EdgeInsets.only(left: 10, right: 2),
-                                        onChanged: (String? value) {
-                                          setState(() {
-                                            allProdCtrlObj
-                                                .unitListStatus[index] = value!;
+                                            );
+                                          }).toList(),
+                                          value: allProdCtrlObj
+                                              .unitListStatus[index],
+                                          dropdownWidth: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.2,
+                                          dropdownDecoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          dropdownMaxHeight:
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.7,
+                                          dropdownPadding:
+                                              EdgeInsets.only(left: 5),
+                                          buttonPadding: EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          onChanged: (String? value) {
+                                            setState(() {
+                                              allProdCtrlObj
+                                                      .unitListStatus[index] =
+                                                  value!;
 
-                                            allProdCtrlObj
-                                                    .unitListStatusIds[index] =
-                                                allProdCtrlObj
-                                                    .checkSelectedUnitsIds(
-                                                        unitName: value);
+                                              allProdCtrlObj.unitListStatusIds[
+                                                      index] =
+                                                  allProdCtrlObj
+                                                      .checkSelectedUnitsIds(
+                                                          unitName: value);
 
-                                            allProdCtrlObj.totalAmount[index] =
-                                                '${double.parse('${allProdCtrlObj.productQuantityCtrl[index].text.isEmpty ? '0.00' : allProdCtrlObj.productQuantityCtrl[index].text}') * double.parse('${allProdCtrlObj.productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') * double.parse(allProdCtrlObj.checkUnitsActualBaseMultiplier(unitName: value) ?? '1.00')}';
-                                            debugPrint(allProdCtrlObj
-                                                .totalAmount[index]);
-                                            debugPrint(allProdCtrlObj
-                                                .unitListStatus[index]);
+                                              allProdCtrlObj
+                                                      .totalAmount[index] =
+                                                  '${double.parse('${allProdCtrlObj.productQuantityCtrl[index].text.isEmpty ? '0.00' : allProdCtrlObj.productQuantityCtrl[index].text}') * double.parse('${allProdCtrlObj.productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') * double.parse(allProdCtrlObj.checkUnitsActualBaseMultiplier(unitName: value) ?? '1.00')}';
+                                              debugPrint(allProdCtrlObj
+                                                  .totalAmount[index]);
+                                              debugPrint(allProdCtrlObj
+                                                  .unitListStatus[index]);
 
-                                            allProdCtrlObj
-                                                .calculateFinalAmount();
-                                            allProdCtrlObj.update();
-                                          });
-                                        },
-                                        // buttonHeight: 40,
-                                        buttonWidth:
-                                            MediaQuery.of(context).size.width *
-                                                0.24,
-                                        // buttonDecoration: BoxDecoration(
-                                        //     color: kWhiteColor,
-                                        //     border: Border.all(
-                                        //         width: 1,
-                                        //         color: Theme.of(context)
-                                        //             .colorScheme
-                                        //             .primary),
-                                        //     borderRadius:
-                                        //         BorderRadius.circular(15)),
-                                        // itemHeight: 40,
-                                        //icon: SizedBox(),
-                                        itemPadding: EdgeInsets.zero,
-                                        itemHighlightColor: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
+                                              allProdCtrlObj
+                                                  .calculateFinalAmount();
+                                              allProdCtrlObj.update();
+                                            });
+                                          },
+                                          // buttonHeight: 40,
+                                          buttonWidth: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.27,
+                                          // buttonDecoration: BoxDecoration(
+                                          //     color: kWhiteColor,
+                                          //     border: Border.all(
+                                          //         width: 1,
+                                          //         color: Theme.of(context)
+                                          //             .colorScheme
+                                          //             .primary),
+                                          //     borderRadius:
+                                          //         BorderRadius.circular(15)),
+                                          // itemHeight: 40,
+                                          //icon: SizedBox(),
+                                          itemPadding: EdgeInsets.zero,
+                                          itemHighlightColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
                                       ),
                                     ),
 
@@ -279,6 +304,11 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                           //
                                           // },
                                           onChanged: (value) {
+                                            print(AppStorage
+                                                    .getBusinessDetailsData()
+                                                ?.businessData
+                                                ?.posSettings
+                                                ?.allowOverselling);
                                             if (double.parse(allProdCtrlObj
                                                         .productModelObjs[index]
                                                         .productVariationsDetails
@@ -290,8 +320,10 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                                       ?.businessData
                                                       ?.posSettings
                                                       ?.allowOverselling ==
-                                                  '1') {
+                                                  1) {
                                                 print('in allow if');
+                                                allProdCtrlObj.finalTotal =
+                                                    0.00;
                                                 allProdCtrlObj
                                                         .totalAmount[index] =
                                                     '${double.parse('${allProdCtrlObj.productQuantityCtrl[index].text.isEmpty ? '0.00' : allProdCtrlObj.productQuantityCtrl[index].text}') * double.parse('${allProdCtrlObj.productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') * double.parse(allProdCtrlObj.checkUnitsActualBaseMultiplier(unitName: allProdCtrlObj.unitListStatus[index]) ?? '1.00')}';
@@ -316,6 +348,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                                     '0.00') >
                                                 0.00) {
                                               print(' in third if');
+                                              allProdCtrlObj.finalTotal = 0.00;
                                               allProdCtrlObj
                                                       .totalAmount[index] =
                                                   '${double.parse('${allProdCtrlObj.productQuantityCtrl[index].text.isEmpty ? '0.00' : allProdCtrlObj.productQuantityCtrl[index].text}') * double.parse('${allProdCtrlObj.productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') * double.parse(allProdCtrlObj.checkUnitsActualBaseMultiplier(unitName: allProdCtrlObj.unitListStatus[index]) ?? '1.00')}';

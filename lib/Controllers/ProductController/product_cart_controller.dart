@@ -1,9 +1,8 @@
-import 'package:royal_prime/Config/enums.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../../Config/enums.dart';
 import '/Config/DateTimeFormat.dart';
 import '/Config/utils.dart';
 import '/Controllers/ContactController/ContactController.dart';
@@ -111,7 +110,7 @@ class ProductCartController extends GetxController {
     try {
       if (_item.productVariations.isNotEmpty &&
           _item.productVariations.first.variations.isNotEmpty) {
-        VariationModel _productVariation =
+        VariationModels _productVariation =
             _item.productVariations.first.variations.first;
         _price = double.parse(
                 '${_item.taxType == TaxType.INCLUSIVE ? _productVariation.sellPriceIncTax : _productVariation.defaultSellPrice}') *
@@ -223,8 +222,8 @@ class ProductCartController extends GetxController {
   }
 
   bool isVariationsSame(
-      {required List<VariationModel> itemProdVariations,
-      required List<VariationModel> cartProdVariations}) {
+      {required List<VariationModels> itemProdVariations,
+      required List<VariationModels> cartProdVariations}) {
     bool _isVariationMatch = false;
 
     // extract modifier variations ids and store in new array
@@ -632,53 +631,53 @@ class ProductCartController extends GetxController {
     return AppFormat.doubleToStringUpTo2('${_itemsPriceCount}') ?? '0';
   }
 
-  // String orderedTotalTaxAmount() {
-  //   // (taxAmount/100)*taxValue // TODO: tax calculation
-  //   return '0';
-  // }
-  //
-  // String orderedFinalAmount() {
-  //   //  TODO: (Total Amount - Discount) + Tax Amount
-  //   return totalAmount();
-  // }
+// String orderedTotalTaxAmount() {
+//   // (taxAmount/100)*taxValue // TODO: tax calculation
+//   return '0';
+// }
+//
+// String orderedFinalAmount() {
+//   //  TODO: (Total Amount - Discount) + Tax Amount
+//   return totalAmount();
+// }
 
-  // ----- Update Amount Calculation Function End
+// ----- Update Amount Calculation Function End
 
   /// ----- Order Update (End)
 
   ///Function for firebase messaging
-  // sendNotificationofOrderCompletion(
-  //     {required String token,
-  //     required String id,
-  //     required String body,
-  //     required String title}) async {
-  //   Map<String, String> headerMap = {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': serverToken,
-  //   };
-  //
-  //   Map notificationMap = {'body': body, 'title': title};
-  //
-  //   Map dataMap = {
-  //     'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-  //     'id': '1',
-  //     'status': 'done',
-  //     'ride_request_id': id
-  //   };
-  //
-  //   Map sendNotificationMap = {
-  //     "notification": notificationMap,
-  //     "data": dataMap,
-  //     "priority": "high",
-  //     "to": token,
-  //   };
-  //
-  //   var res = await http.post(
-  //     Uri.parse('https://fcm.googleapis.com/fcm/send'),
-  //     headers: headerMap,
-  //     body: jsonEncode(sendNotificationMap),
-  //   );
-  //   print('response:::::::::::::::::::::');
-  //   print(res.body);
-  // }
+// sendNotificationofOrderCompletion(
+//     {required String token,
+//     required String id,
+//     required String body,
+//     required String title}) async {
+//   Map<String, String> headerMap = {
+//     'Content-Type': 'application/json',
+//     'Authorization': serverToken,
+//   };
+//
+//   Map notificationMap = {'body': body, 'title': title};
+//
+//   Map dataMap = {
+//     'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+//     'id': '1',
+//     'status': 'done',
+//     'ride_request_id': id
+//   };
+//
+//   Map sendNotificationMap = {
+//     "notification": notificationMap,
+//     "data": dataMap,
+//     "priority": "high",
+//     "to": token,
+//   };
+//
+//   var res = await http.post(
+//     Uri.parse('https://fcm.googleapis.com/fcm/send'),
+//     headers: headerMap,
+//     body: jsonEncode(sendNotificationMap),
+//   );
+//   print('response:::::::::::::::::::::');
+//   print(res.body);
+// }
 }

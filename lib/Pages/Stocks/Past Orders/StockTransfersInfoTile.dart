@@ -1,11 +1,11 @@
-import 'package:royal_prime/Config/DateTimeFormat.dart';
-import 'package:royal_prime/Models/ViewStockTransferModel/viewStockTransferModel.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../Config/DateTimeFormat.dart';
+import '../../../Models/ViewStockTransferModel/viewStockTransferModel.dart';
+
 class StockTransfersInfoTile extends StatelessWidget {
-  Datum? viewStocksModel;
+  StockTransferData? viewStocksModel;
   StockTransfersInfoTile(this.viewStocksModel, {Key? key}) : super(key: key);
 
   Widget build(BuildContext context) {

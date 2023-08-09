@@ -214,8 +214,7 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                         bytes = await posInvoiceAndKotPrintLayout(
                           generator,
                           selectedSaleOrderData:
-                              Get.find<AllProductsController>()
-                                  .salesOrderModel!,
+                              Get.find<AllProductsController>().salesOrderModel,
                         );
                         allPrinterCtrlObj.printEscPos(bytes, generator);
                       }

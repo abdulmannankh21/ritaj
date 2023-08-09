@@ -1,9 +1,9 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
-import 'package:royal_prime/Models/ProductsModel/ProductVariationAndModifierModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../Models/ProductsModel/ProductVariationAndModifierModel.dart';
 import '/Components/custom_circular_button.dart';
 import '/Components/multi_selection_chip.dart';
 import '/Controllers/ProductController/all_products_controller.dart';
@@ -114,7 +114,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                                       ),
                                       if (_modifier.variations.isNotEmpty)
                                         MultiSelectChip(
-                                          initChoices: <VariationModel>[],
+                                          initChoices: <VariationModels>[],
                                           chipsDataList: _modifier.variations,
                                           onSelectionChanged: (value) {
                                             try {

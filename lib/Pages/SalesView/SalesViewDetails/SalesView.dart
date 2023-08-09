@@ -2,6 +2,7 @@ import 'package:royal_prime/Config/utils.dart';
 import 'package:royal_prime/Controllers/AllSalesController/allSalesController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../Controllers/ProductController/all_products_controller.dart';
 import '../../Return/saleReturn.dart';
 import '../../order_type/search_customer_page.dart';
 import 'SalesViewTile.dart';
@@ -22,6 +23,7 @@ class _SalesViewState extends State<SalesView> {
   @override
   void initState() {
     // TODO: implement initState
+    Get.find<AllProductsController>().fetchAllProducts();
     if (widget.isSalesReturn) {
       allSalesCtrl.callFirstOrderPageForReceipt();
     } else {

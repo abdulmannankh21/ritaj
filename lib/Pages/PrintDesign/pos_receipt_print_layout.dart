@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:royal_prime/Models/ReceiptModel.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,11 +6,12 @@ import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as i;
 
 import '../../Config/DateTimeFormat.dart';
+import '../../Models/ReceiptModel.dart';
 import '../../Services/storage_services.dart';
 
 Future<List<int>> posReceiptLayout(
   Generator printer, {
-  SingleReceiptModel? singleReceiptModel,
+  SingleReceiptData? singleReceiptModel,
   // List<SellLine>? items,
   String? kitchenName,
 }) async {
