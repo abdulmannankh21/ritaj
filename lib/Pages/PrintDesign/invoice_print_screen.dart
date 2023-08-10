@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:royal_prime/Components/custom_circular_button.dart';
 import 'package:royal_prime/Config/utils.dart';
@@ -12,7 +11,6 @@ import 'package:royal_prime/Pages/Tabs/View/TabsPage.dart';
 import 'package:royal_prime/Theme/colors.dart';
 import 'package:royal_prime/Theme/style.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 import 'package:get/get.dart';

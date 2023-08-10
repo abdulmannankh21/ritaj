@@ -47,7 +47,17 @@ class _OrdersTabPageState extends State<OrdersTabPage> {
                 color: kWhiteColor,
                 child: TabBar(
                   labelColor: Theme.of(context).colorScheme.primary,
-                  indicatorColor: Theme.of(context).colorScheme.primary,
+                  unselectedLabelColor:
+                      Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                  indicator: UnderlineTabIndicator(
+                    borderSide: BorderSide(
+                      width: 2, // Adjust the thickness of the underline
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary, // Color of the underline
+                    ),
+                  ),
+                  automaticIndicatorColorAdjustment: true,
                   tabs:
                       StockTransferController.stockTabsList().map((_orderTab) {
                     return Tab(text: _orderTab.label);

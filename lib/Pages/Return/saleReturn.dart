@@ -76,11 +76,8 @@ class _SalesReturnState extends State<SalesReturn> {
   @override
   void initState() {
     print(widget.id);
-    print('Parent sale line id');
-    print(saleReturnCtrlObj
-        .editSaleReturnModelDart?.sellLines?[0].parentSellLineId);
-    saleReturnCtrlObj.fetchEditSalesReturnList(id: widget.id);
 
+    saleReturnCtrlObj.fetchEditSalesReturnList(id: widget.id);
     saleReturnCtrlObj.saleReturnDateCtrl.text =
         AppFormat.dateDDMMYY(DateTime.now()); // DateTime.now().toString();
     productCtrlCtrlObj.discoutCtrl.clear();
@@ -125,9 +122,6 @@ class _SalesReturnState extends State<SalesReturn> {
             padding: const EdgeInsets.all(10.0),
             child: GetBuilder<SaleReturnController>(
                 builder: (SaleReturnController saleReturnCtrl) {
-              print('Parent sale line id');
-              print(saleReturnCtrlObj
-                  .editSaleReturnModelDart?.sellLines?[0].parentSellLineId);
               if (saleReturnCtrl.editSaleReturnModelDart == null)
                 return progressIndicator();
               return Column(
