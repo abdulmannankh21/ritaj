@@ -280,7 +280,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                       child: Center(
                                         child: Text(
                                           AppFormat.doubleToStringUpTo2(
-                                                '${double.parse(allProdCtrlObj.productModelObjs[index].productVariationsDetails?.qtyAvailable ?? '0.00') / double.parse(allProdCtrlObj.checkUnitsActualBaseMultiplier(unitName: allProdCtrlObj.unitListStatus[index]))}',
+                                                '${double.parse(allProdCtrlObj.checkProductStockLocationBasedForOrderCreate(locationId: AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id, index: index) ?? '0.00') / double.parse(allProdCtrlObj.checkUnitsActualBaseMultiplier(unitName: allProdCtrlObj.unitListStatus[index]))}',
                                               ) ??
                                               '0.00',
                                           overflow: TextOverflow.ellipsis,

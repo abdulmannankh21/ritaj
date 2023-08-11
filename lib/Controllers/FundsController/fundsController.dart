@@ -103,7 +103,7 @@ class FundsController extends GetxController {
 
       clearAllFields();
       stopProgress();
-      showToast('Finalize Created Successfully');
+      showToast('Funds Transferred Successfully');
       Get.close(1);
     }).onError((error, stackTrace) {
       debugPrint('Error => $error');

@@ -11,6 +11,7 @@ import '../../const/CurvedContainer.dart';
 import '../CustomesVisit/newCustomerVisits.dart';
 import '../FundsTransfer/fundsTransfer.dart';
 import '../Orders/View/OrdersTabPage.dart';
+import '../Receipts/receipts.dart';
 import '../SalesView/SalesViewDetails/SalesView.dart';
 import '../Upload/upload.dart';
 import '../ProductsPage/ItemsPage.dart';

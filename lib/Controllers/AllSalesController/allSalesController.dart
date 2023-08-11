@@ -10,6 +10,7 @@ import '../../Pages/SalesView/ListQuotations/listQuotations.dart';
 import '../../Pages/SalesView/SalesViewDetails/SalesView.dart';
 import '../../Services/api_services.dart';
 import '../../Services/api_urls.dart';
+import '../../Services/storage_services.dart';
 import '../ContactController/ContactController.dart';
 import '../exception_controller.dart';
 
@@ -148,7 +149,7 @@ class AllSalesController extends GetxController {
     print('Function calling');
     return await ApiServices.getMethod(
             feedUrl:
-                '${ApiUrls.allOrders}?page=$page&per_page=20&global_search=${global_search}')
+                '${ApiUrls.allOrders}?page=$page&per_page=20&global_search=${global_search}&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}')
         .then((_res) {
       if (_res == null) return null;
       final _data = saleOrderModelFromJson(_res);
@@ -231,7 +232,7 @@ class AllSalesController extends GetxController {
     print('Function calling');
     return await ApiServices.getMethod(
             feedUrl:
-                '${ApiUrls.allOrders}?page=$_page&per_page=20&global_search=${contactCtrlObj.nameCtrl.text.isNotEmpty ? contactCtrlObj.nameCtrl.text : ''}')
+                '${ApiUrls.allOrders}?page=$_page&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}&per_page=20&global_search=${contactCtrlObj.nameCtrl.text.isNotEmpty ? contactCtrlObj.nameCtrl.text : ''}')
         .then((_res) {
       if (_res == null) return null;
       final _data = saleOrderModelFromJson(_res);

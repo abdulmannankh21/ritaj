@@ -24,11 +24,12 @@ class _SalesViewState extends State<SalesView> {
   void initState() {
     // TODO: implement initState
     Get.find<AllProductsController>().fetchAllProducts();
-    if (widget.isSalesReturn) {
-      allSalesCtrl.callFirstOrderPageForReceipt();
-    } else {
-      allSalesCtrl.callFirstOrderPage();
-    }
+    allSalesCtrl.callFirstOrderPage();
+    // if (widget.isSalesReturn) {
+    //   allSalesCtrl.callFirstOrderPageForReceipt();
+    // } else {
+    //
+    // }
 
     scrollControllerLis();
     super.initState();

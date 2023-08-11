@@ -41,7 +41,7 @@ class _ReceiptsState extends State<Receipts> {
   @override
   void initState() {
     // TODO: implement initState
-    allSalesCtrl.callFirstOrderPageForReceipt();
+    allSalesCtrl.callFirstOrderPage();
     stockTranCtrlObj.fetchStockTransfersList();
     receiptsCtrl.totalAmount = '0';
     receiptsCtrl.listSaleOrderDataModel =
@@ -174,7 +174,8 @@ class _ReceiptsState extends State<Receipts> {
             builder: (AllSalesController allSalesCtrlObj) {
               return RefreshIndicator(
                 onRefresh: () async {
-                  await allSalesCtrlObj.callFirstOrderPageForReceipt();
+                  await allSalesCtrlObj.callFirstOrderPage();
+                  // await allSalesCtrlObj.callFirstOrderPageForReceipt();
                   setState(() {
                     receiptsCtrl.totalAmount = '0';
                   });

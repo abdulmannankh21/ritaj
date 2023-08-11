@@ -89,6 +89,7 @@ class AllProductsController extends GetxController {
   }
 
   List<Product> productModelObjs = [];
+  List<Product> searchedProducts = [];
   List<Product> selectedProducts = [];
   List<String> selectedQuantityList = [];
   List<String> selectedUnitsList = [];
@@ -108,6 +109,8 @@ class AllProductsController extends GetxController {
       }
     }
 
+    searchedProducts = productModelObjs;
+
     for (int i = 0; i < productModelObjs.length; i++) {
       // checkUnits(product: productModelObjs[i]);
       unitListStatus.add(checkUnits(product: productModelObjs[i]));
@@ -119,6 +122,34 @@ class AllProductsController extends GetxController {
     }
 
     return null;
+  }
+
+  checkProductStockLocationBased({
+    int? locationId,
+    required int index,
+  }) {
+    return searchedProducts[index]
+        .productVariations
+        ?.first
+        .variations
+        ?.first
+        .variationLocationDetails
+        ?.firstWhereOrNull((i) => i.locationId == locationId)
+        ?.qtyAvailable;
+  }
+
+  checkProductStockLocationBasedForOrderCreate({
+    int? locationId,
+    required int index,
+  }) {
+    return productModelObjs[index]
+        .productVariations
+        ?.first
+        .variations
+        ?.first
+        .variationLocationDetails
+        ?.firstWhereOrNull((i) => i.locationId == locationId)
+        ?.qtyAvailable;
   }
 
   checkUnitsInList({int? id, List<Product>? product, required int index}) {
