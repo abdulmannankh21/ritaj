@@ -8,13 +8,11 @@ import '../../Config/DateTimeFormat.dart';
 import '../../Config/utils.dart';
 
 import '../../Models/ProductsModel/ListProductsModel.dart';
-// import '../../Models/ProductsModel/Product.dart';
 import '../../Models/ProductsModel/ProductShowListModel.dart';
 import '../../Models/ProductsModel/product.dart';
 import '../../Models/ReceiptModel.dart';
 import '../../Models/UnitModels/UnitListModel.dart';
 import '../../Models/order_type_model/SaleOrderModel.dart';
-import '../../Pages/HomePageRetail/homepageRetail.dart';
 import '../../Pages/Orders/Controller/OrderController.dart';
 import '../../Pages/PrintDesign/invoice_print_screen.dart';
 import '../../Pages/PrintDesign/pdfGenerate.dart';
@@ -857,6 +855,7 @@ class AllProductsController extends GetxController {
       } catch (error) {
         debugPrint('Error -> $error');
       }
+      receiptPayment = false;
       update();
       clearAllOtherFields();
       clearAllAddPaymentControllerInformation();

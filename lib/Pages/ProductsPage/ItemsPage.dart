@@ -151,8 +151,8 @@ class _ItemsPageState extends State<ItemsPage> {
                                 onTap: () {
                                   Get.to(ViewProductsPage(
                                     isView: true,
-                                    productModelObjs: allProdCtrlObj
-                                        .productShowListModel?.data?[index],
+                                    productModelObjs:
+                                        allProdCtrlObj.searchedProducts[index],
                                   ));
                                 },
                                 child: Container(
