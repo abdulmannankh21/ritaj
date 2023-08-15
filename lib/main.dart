@@ -65,7 +65,7 @@ void main() async {
   await GetStorage.init();
   initializeControllers();
   Get.find<AuthController>().currentColor =
-      sharedPreferences.getString("themeColor") ?? 'FF008080';
+      sharedPreferences.getString("themeColor") ?? 'FFdaab18';
   // NotificationServices.initialize();
   // FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgoundHandler);
   // try {

@@ -594,6 +594,8 @@ class AllProductsController extends GetxController {
 
         stopProgress();
         showToast('Finalize Created Successfully');
+        receiptPayment = false;
+        update();
         if (isPDFView == false) {
           print('inside print invoice');
 
@@ -635,6 +637,7 @@ class AllProductsController extends GetxController {
 
   void clearAllAddPaymentControllerInformation() {
     paymentCtrlObj.amountCtrl.clear();
+    receiptPayment = false;
     paymentCtrlObj.transactionNoCtrl.clear();
     paymentCtrlObj.checkNoCtrl.clear();
     paymentCtrlObj.paymentNoteCtrl.clear();
@@ -663,6 +666,7 @@ class AllProductsController extends GetxController {
     productQuantityCtrl.clear();
     listProductsModel = null;
     paidAmount = 0.00;
+    receiptPayment = false;
     paymentCtrlObj.amountCtrl.clear();
     paymentCtrlObj.transactionNoCtrl.clear();
     paymentCtrlObj.paymentMethodCtrl.clear();
@@ -812,13 +816,14 @@ class AllProductsController extends GetxController {
       }
 
       receiptPayment = true;
+      update();
       receiptData = await receiptModelFromJson(response);
 
       //   for (int i = 0; i < receiptData!.data!.length; i++) {
       stopProgress();
       try {
         if (isPDFView == false) {
-          print('printing calling function');
+          debugPrint('printing calling function');
           Get.dialog(Dialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
@@ -855,7 +860,7 @@ class AllProductsController extends GetxController {
       } catch (error) {
         debugPrint('Error -> $error');
       }
-      receiptPayment = false;
+      // receiptPayment = false;
       update();
       clearAllOtherFields();
       clearAllAddPaymentControllerInformation();
@@ -1142,6 +1147,8 @@ class AllProductsController extends GetxController {
         return;
       }
 
+      receiptPayment = false;
+      update();
       try {
         salesOrderModel = await saleOrderDataModelFromJson(
             jsonDecode(response)['transaction'][0]); //

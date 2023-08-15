@@ -131,8 +131,7 @@ class StockTransferController extends GetxController {
   /// Fetching Stock transfer
   Future fetchStockTransfersList({String? pageUrl}) async {
     await ApiServices.getMethod(
-            feedUrl: pageUrl ??
-                '${ApiUrls.viewStockTransfer}?location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}&per_page=20')
+            feedUrl: pageUrl ?? '${ApiUrls.viewStockTransfer}?per_page=20')
         .then((_res) {
       update();
       if (_res == null) return null;
