@@ -25,6 +25,7 @@ class _ViewStockTransferState extends State<ViewStockTransfer> {
     // TODO: implement initState
     stockTranCtrlObj.fetchStatusList();
     stockTranCtrlObj.fetchStockTransfersList();
+    stockTranCtrlObj.searchProductList();
     Get.find<AllProductsController>().fetchUnitList();
     super.initState();
   }

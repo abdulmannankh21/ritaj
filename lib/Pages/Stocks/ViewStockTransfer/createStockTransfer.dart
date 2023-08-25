@@ -2,7 +2,6 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
-import 'package:royal_prime/Controllers/ProductController/all_products_controller.dart';
 
 import '../../../Components/custom_circular_button.dart';
 import '../../../Components/textfield.dart';
@@ -388,21 +387,21 @@ class _CreateStockTransferState extends State<CreateStockTransfer> {
                                       ),
                                     ),
                                   ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Center(
-                                      child: Text(
-                                        'total'.tr,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium!
-                                            .copyWith(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                                color: kWhiteColor),
-                                      ),
-                                    ),
-                                  ),
+                                  // Expanded(
+                                  //   flex: 1,
+                                  //   child: Center(
+                                  //     child: Text(
+                                  //       'total'.tr,
+                                  //       style: Theme.of(context)
+                                  //           .textTheme
+                                  //           .titleMedium!
+                                  //           .copyWith(
+                                  //               fontSize: 12,
+                                  //               fontWeight: FontWeight.bold,
+                                  //               color: kWhiteColor),
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               )),
 
@@ -668,18 +667,18 @@ class _CreateStockTransferState extends State<CreateStockTransfer> {
                                                       }),
                                                 ),
 
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Center(
-                                                    child: Text(
-                                                      '${AppFormat.doubleToStringUpTo2(stockTransferCtrl.totalAmount[index])}',
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                          fontSize: 11),
-                                                    ),
-                                                  ),
-                                                ),
+                                                // Expanded(
+                                                //   flex: 1,
+                                                //   child: Center(
+                                                //     child: Text(
+                                                //       '${AppFormat.doubleToStringUpTo2(stockTransferCtrl.totalAmount[index])}',
+                                                //       overflow:
+                                                //           TextOverflow.ellipsis,
+                                                //       style: TextStyle(
+                                                //           fontSize: 11),
+                                                //     ),
+                                                //   ),
+                                                // ),
                                               ],
                                             );
                                           }),
@@ -718,9 +717,9 @@ class _CreateStockTransferState extends State<CreateStockTransfer> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  headings(
-                                      txt: 'total_amount'.tr +
-                                          ': ${stockTranCtrlObj.finalTotal}'),
+                                  // headings(
+                                  //     txt: 'total_amount'.tr +
+                                  //         ': ${stockTranCtrlObj.finalTotal}'),
                                   CustomButton(
                                     title: Text(
                                       'save'.tr,
