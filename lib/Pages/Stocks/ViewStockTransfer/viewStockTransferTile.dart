@@ -5,6 +5,7 @@ import 'package:royal_prime/Theme/colors.dart';
 import '../../../Config/DateTimeFormat.dart';
 import '../../../Controllers/StockTransferController/stockTransferController.dart';
 import '../../../Models/ViewStockTransferModel/viewStockTransferModel.dart';
+import '../../../Services/storage_services.dart';
 import 'changeStockTransferStatus.dart';
 
 class ViwStockTile extends StatefulWidget {
@@ -197,31 +198,33 @@ class _ViwStockTileState extends State<ViwStockTile> {
                               letterSpacing: 0.06,
                             ),
                       ),
-                      // Container(
-                      //     margin: EdgeInsets.symmetric(horizontal: 10),
-                      //     height: 12,
-                      //     width: 1,
-                      //     color: Colors.black),
-                      // orderInfoRow(
-                      //   context,
-                      //   text1: 'final_amount'.tr + ': ',
-                      //   text1Style: Theme.of(context)
-                      //       .textTheme
-                      //       .headlineMedium!
-                      //       .copyWith(fontSize: 12),
-                      //   text2: AppFormat.doubleToStringUpTo2(
-                      //           widget.stockTransferData?.finalTotal) ??
-                      //       '',
-                      //   text2Style: Theme.of(context)
-                      //       .textTheme
-                      //       .headlineMedium!
-                      //       .copyWith(
-                      //         color: Color(0xffffa025),
-                      //         fontWeight: FontWeight.bold,
-                      //         fontSize: 12,
-                      //         letterSpacing: 0.06,
-                      //       ),
-                      // ),
+                      if (AppStorage.getLoggedUserData()!.staffUser.isAdmin!)
+                        Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            height: 12,
+                            width: 1,
+                            color: Colors.black),
+                      if (AppStorage.getLoggedUserData()!.staffUser.isAdmin!)
+                        orderInfoRow(
+                          context,
+                          text1: 'final_amount'.tr + ': ',
+                          text1Style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium!
+                              .copyWith(fontSize: 12),
+                          text2: AppFormat.doubleToStringUpTo2(
+                                  widget.stockTransferData?.finalTotal) ??
+                              '',
+                          text2Style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium!
+                              .copyWith(
+                                color: Color(0xffffa025),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                letterSpacing: 0.06,
+                              ),
+                        ),
                     ],
                   ),
                   if (widget.stockTransferData?.additionalNotes != null)
