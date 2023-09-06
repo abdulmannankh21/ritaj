@@ -3,7 +3,7 @@ description: A new Flutter application.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.1+6
+version: 1.0.1+8
 
 
 environment:
@@ -57,7 +57,7 @@ dependencies:
   upgrader: ^6.5.0
   mailer: ^6.0.1
   flutter_pos_printer_platform: ^1.1.0
-  esc_pos_printer: ^4.1.0
+#  esc_pos_printer: ^4.1.0
   esc_pos_utils: ^1.1.0
 
 

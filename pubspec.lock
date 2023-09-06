@@ -97,14 +97,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
-  charset_converter:
-    dependency: transitive
-    description:
-      name: charset_converter
-      sha256: e4827b2d623ab75c2b6767d69e03485ea5bc894db6f6bdcb2ffeda58446bbe26
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.1"
   checked_yaml:
     dependency: transitive
     description:
@@ -241,14 +233,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.5"
-  esc_pos_printer:
-    dependency: "direct main"
-    description:
-      name: esc_pos_printer
-      sha256: "312b05f909f3f7dd1e6a3332cf384dcee2c3a635138823654cd9c0133d8b5c45"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.1.0"
   esc_pos_utils:
     dependency: "direct main"
     description:
