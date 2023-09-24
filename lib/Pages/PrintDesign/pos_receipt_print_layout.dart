@@ -145,6 +145,35 @@ Future<List<int>> posReceiptLayout(
     }
   }
 
+  List<int> cl3({String? cTxt1, String? cTxt2, cTxt3, bool isBold = false}) {
+    try {
+      return (cTxt1 == null && cTxt2 == null && cTxt3 == null)
+          ? printer.text('')
+          : printer.row(
+              [
+                PosColumn(
+                  width: 1,
+                  text: cTxt1 ?? '',
+                  styles: PosStyles(bold: isBold),
+                ),
+                PosColumn(
+                  width: 7,
+                  text: cTxt2 ?? '',
+                  styles: PosStyles(bold: isBold),
+                ),
+                PosColumn(
+                  width: 4,
+                  text: cTxt3 ?? '',
+                  styles: PosStyles(bold: isBold, align: PosAlign.center),
+                ),
+              ],
+            );
+    } catch (e) {
+      debugPrint('pos invoice and kot print layout issue -> $e');
+      return printer.text('Inside cl5 Issue -> $e');
+    }
+  }
+
   /// Layout
   // Business Logo
   Future<List<int>> fetchNetworkImage(String? imageUrl) async {
@@ -259,13 +288,11 @@ Future<List<int>> posReceiptLayout(
   bytes += printDivider();
 
   // Items Table Columns Title
-  bytes += cl5(
+  bytes += cl3(
     cTxt1: '#',
     cTxt2: 'Description',
     cTxt3: 'Amount',
     isBold: true,
-    cTxt4: null,
-    cTxt5: null,
   );
 
   // Divider
@@ -275,12 +302,12 @@ Future<List<int>> posReceiptLayout(
   List.generate(
     singleReceiptModel?.length ?? 0,
     (index) {
-      bytes += cl5(
+      bytes += cl3(
         // Serial Number
         cTxt1: '${index + 1}',
         // Item Details
         cTxt2:
-            '${singleReceiptModel?[index].refNo}\n${singleReceiptModel?[index].invoiceNo}',
+            '${singleReceiptModel?[index].paymentLines?.first.paymentRefNo}\n${singleReceiptModel?[index].invoiceNo}',
 
         // Item Quantity
         cTxt3:

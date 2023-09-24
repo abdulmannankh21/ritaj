@@ -222,7 +222,7 @@ class ReceiptPdfGenerate extends StatelessWidget {
                         child: pw.Padding(
                           padding: pw.EdgeInsets.symmetric(horizontal: 2.5),
                           child: pw.Text(
-                              '${singleReceiptModel?[index].refNo}\n${singleReceiptModel?[index].invoiceNo}',
+                              '${singleReceiptModel?[index].paymentLines?.first.paymentRefNo}\n${singleReceiptModel?[index].invoiceNo}',
                               style: pw.TextStyle(
                                 fontSize: 16,
                               )),
