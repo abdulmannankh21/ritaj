@@ -11,6 +11,9 @@ class ApiUrls {
   // find customer
   static String contactApi = "connector/api/contactapi";
 
+  // update customer
+  static String updateContactApi = "connector/api/contactapi/update/";
+
   //Get Specified Contact Api
   static String getSpecifiedContactApi = "connector/api/contactapi/";
 

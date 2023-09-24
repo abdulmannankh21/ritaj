@@ -76,7 +76,7 @@ class PrintData extends StatelessWidget {
                       fontSize: 16, fontWeight: pw.FontWeight.bold))),
           pw.Center(
             child: pw.Text(
-                '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id ?? ''}, '
+                '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.name ?? ''}, '
                 '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.landmark ?? ''}, '
                 '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.city ?? ''}, '
                 '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.country ?? ''}'),

@@ -62,7 +62,8 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   List<int> centeredBoldTitle(String? txt) {
     return printer.text(
       txt ?? '',
-      styles: PosStyles(align: PosAlign.center, bold: true),
+      styles: PosStyles(
+          align: PosAlign.center, bold: true, height: PosTextSize.size1),
     );
   }
 
@@ -253,7 +254,7 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
 
   // Business Location
   bytes += centeredTitle(
-    '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id ?? ''}, '
+    '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.name ?? ''}, '
     '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.landmark ?? ''}, '
     '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.city ?? ''}, '
     '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.country ?? ''}',

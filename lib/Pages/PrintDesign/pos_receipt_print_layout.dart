@@ -12,17 +12,17 @@ import '../../Services/storage_services.dart';
 
 Future<List<int>> posReceiptLayout(
   Generator printer, {
-  SingleReceiptData? singleReceiptModel,
+  List<SingleReceiptData>? singleReceiptModel,
   // List<SellLine>? items,
   String? kitchenName,
 }) async {
-  // double totalPayedAmount() {
-  //   double totalPayed = 0;
-  //   selectedSaleOrderData.paymentLines.forEach((element) {
-  //     totalPayed += double.parse('${element.amount ?? 0}');
-  //   });
-  //   return totalPayed;
-  // }
+  double totalPayedAmount() {
+    double totalPayed = 0;
+    singleReceiptModel?.forEach((element) {
+      totalPayed += double.parse('${element.finalTotal ?? 0}');
+    });
+    return totalPayed;
+  }
 
   // double? anyAmountDue({bool isDueValue = false}) {
   //   if (selectedSaleOrderData.sellDue != null &&
@@ -57,7 +57,8 @@ Future<List<int>> posReceiptLayout(
   List<int> centeredBoldTitle(String? txt) {
     return printer.text(
       txt ?? '',
-      styles: PosStyles(align: PosAlign.center, bold: true),
+      styles: PosStyles(
+          align: PosAlign.center, bold: true, height: PosTextSize.size1),
     );
   }
 
@@ -199,7 +200,7 @@ Future<List<int>> posReceiptLayout(
 
   // Business Location
   bytes += centeredTitle(
-    '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id ?? ''}, '
+    '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.name ?? ''}, '
     '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.landmark ?? ''}, '
     '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.city ?? ''}, '
     '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.country ?? ''}',
@@ -229,27 +230,28 @@ Future<List<int>> posReceiptLayout(
   bytes += printDivider();
   // Customer Information
   bytes += cl2(
-    cTxt1: (singleReceiptModel?.contact?.name != null)
-        ? 'Customer: ${singleReceiptModel?.contact?.name ?? ''}'
+    cTxt1: (singleReceiptModel?.first.contact?.name != null)
+        ? 'Customer: ${singleReceiptModel?.first.contact?.name ?? ''}'
         : null,
-    cTxt2: (singleReceiptModel?.contact?.mobile != null)
-        ? 'Contact No: ${singleReceiptModel?.contact?.mobile ?? ''}'
+    cTxt2: (singleReceiptModel?.first.contact?.mobile != null)
+        ? 'Contact No: ${singleReceiptModel?.first.contact?.mobile ?? ''}'
         : null,
   );
   bytes += cl2(
-    cTxt1: 'Salesman: ${singleReceiptModel?.salesPerson?.firstName ?? ''}',
+    cTxt1:
+        'Salesman: ${singleReceiptModel?.first.salesPerson?.firstName ?? ''}',
     // Invoice Number
-    cTxt2: 'Receipt Date: ${singleReceiptModel?.transactionDate ?? ''}',
+    cTxt2: 'Receipt Date: ${singleReceiptModel?.first.transactionDate ?? ''}',
 
     // Staff Name
   );
 
-  bytes += cl2(
-    cTxt1: 'Invoice No: ${singleReceiptModel?.invoiceNo ?? ''}',
-    // Invoice Number
-
-    // Staff Name
-  );
+  // bytes += cl2(
+  //   cTxt1: 'Invoice No: ${singleReceiptModel?.invoiceNo ?? ''}',
+  //   // Invoice Number
+  //
+  //   // Staff Name
+  // );
 
   /// product details
 
@@ -259,7 +261,7 @@ Future<List<int>> posReceiptLayout(
   // Items Table Columns Title
   bytes += cl5(
     cTxt1: '#',
-    cTxt2: 'Document Reference No',
+    cTxt2: 'Description',
     cTxt3: 'Amount',
     isBold: true,
     cTxt4: null,
@@ -271,18 +273,20 @@ Future<List<int>> posReceiptLayout(
 
   // Items Table
   List.generate(
-    singleReceiptModel!.paymentLines!.length,
+    singleReceiptModel?.length ?? 0,
     (index) {
       bytes += cl5(
         // Serial Number
         cTxt1: '${index + 1}',
         // Item Details
-        cTxt2: '${singleReceiptModel.paymentLines?[index].paymentRefNo}',
+        cTxt2:
+            '${singleReceiptModel?[index].refNo}\n${singleReceiptModel?[index].invoiceNo}',
 
         // Item Quantity
         cTxt3:
-            '${AppFormat.doubleToStringUpTo2(singleReceiptModel.paymentLines?[index].amount)}',
-        // Price
+            '${AppFormat.doubleToStringUpTo2(singleReceiptModel?[index].finalTotal)}',
+        // cTxt4:
+        // '${AppFormat.doubleToStringUpTo2(singleReceiptModel?[index].)}',
       );
     },
   );
@@ -291,14 +295,14 @@ Future<List<int>> posReceiptLayout(
 
   bytes += printDivider();
 
-  bytes +=
-      cl2(cTxt1: 'Currency: AED', cTxt2: '${singleReceiptModel.finalTotal}');
+  // bytes += cl2(cTxt1: 'Currency: AED', cTxt2: '${totalPayedAmount()}');
   bytes += cl2(
-    cTxt1: 'Payment Mode: CASH',
+    cTxt1:
+        'Payment Moethod: ${singleReceiptModel?.first.paymentLines?.first.method}',
   );
 
   bytes += cl2(
-    cTxt1: 'Total outstanding Amount: 0.00 AED',
+    cTxt1: 'Total Paid Amount: ${totalPayedAmount()} AED',
   );
 
   // Divider

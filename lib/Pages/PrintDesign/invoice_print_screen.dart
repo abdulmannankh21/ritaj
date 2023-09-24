@@ -19,8 +19,10 @@ import '../../Controllers/AllPrinterController/allPrinterController.dart';
 import '../../const/dimensions.dart';
 
 class InVoicePrintScreen extends StatefulWidget {
+  final bool isPrintReceipt;
   InVoicePrintScreen({
     Key? key,
+    this.isPrintReceipt = false,
   }) : super(key: key);
 
   @override
@@ -198,14 +200,13 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                           profile);
                       // bytes += generator.text('Retail App Print');
                       print(Get.find<AllProductsController>().receiptPayment);
-                      if (Get.find<AllProductsController>().receiptPayment ==
-                          true) {
-                        print('Inside Invoce print screen');
+                      if (widget.isPrintReceipt == true) {
+                        print('Inside receipt print screen');
                         bytes = await posReceiptLayout(
                           generator,
                           singleReceiptModel: Get.find<AllProductsController>()
                               .receiptData
-                              ?.data?[0],
+                              ?.data,
                         );
                         allPrinterCtrlObj.printEscPos(bytes, generator);
                       } else {

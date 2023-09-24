@@ -373,7 +373,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                 Center(
                   child: Text(
                     'total'.tr +
-                        ' (AED) = ${AppFormat.doubleToStringUpTo2('${allProdCtrlObj.finalTotal}')}',
+                        ' (AED) = ${AppFormat.doubleToStringUpTo2('${allProdCtrlObj.finalTotal - allProdCtrlObj.calculatingTotalDiscount()}')}',
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -398,43 +398,53 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                       },
                     ),
                     CustomButton(
-                        onTap: () {
-                          allProdCtrlObj.isDirectCheckout = true;
-                          allProdCtrlObj.update();
-                          Get.dialog(Dialog(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    Dimensions.radiusSmall)),
-                            insetPadding:
-                                EdgeInsets.all(Dimensions.paddingSizeSmall),
-                            child: SelectionDialogue(),
-                          ));
-                        },
+                        onTap:
+                            (allProdCtrlObj.productQuantityCtrl.any((element) {
+                          return element.text != '' && element.text != '0';
+                        }))
+                                ? () {
+                                    allProdCtrlObj.isDirectCheckout = true;
+                                    allProdCtrlObj.update();
+                                    Get.dialog(Dialog(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              Dimensions.radiusSmall)),
+                                      insetPadding: EdgeInsets.all(
+                                          Dimensions.paddingSizeSmall),
+                                      child: SelectionDialogue(),
+                                    ));
+                                  }
+                                : null,
                         title: Text(
                           'credit'.tr,
                           style: TextStyle(color: kWhiteColor),
                         ),
                         bgColor: Theme.of(context).colorScheme.primary),
                     CustomButton(
-                        onTap: () {
-                          //showProgress();
-                          allProdCtrlObj.isDirectCheckout = false;
-                          allProdCtrlObj.update();
-                          // Get.find<PaymentController>()
-                          //     .paymentWidgetList[0]
-                          //     .amountCtrl
-                          //     .clear();
-                          // Get.find<PaymentController>()
-                          //         .paymentWidgetList[0]
-                          //         .amountCtrl
-                          //         .text =
-                          //     '${AppFormat.doubleToStringUpTo2('${allProdCtrlObj.finalTotal}')}';
-                          // Get.find<PaymentController>().update();
-                          Get.to(CheckOutPage(
-                            isReceipt: false,
-                          ));
-                          // allProdCtrlObj.orderCreate();
-                        },
+                        onTap:
+                            (allProdCtrlObj.productQuantityCtrl.any((element) {
+                          return element.text != '' && element.text != '0';
+                        }))
+                                ? () {
+                                    //showProgress();
+                                    allProdCtrlObj.isDirectCheckout = false;
+                                    allProdCtrlObj.update();
+                                    // Get.find<PaymentController>()
+                                    //     .paymentWidgetList[0]
+                                    //     .amountCtrl
+                                    //     .clear();
+                                    // Get.find<PaymentController>()
+                                    //         .paymentWidgetList[0]
+                                    //         .amountCtrl
+                                    //         .text =
+                                    //     '${AppFormat.doubleToStringUpTo2('${allProdCtrlObj.finalTotal}')}';
+                                    // Get.find<PaymentController>().update();
+                                    Get.to(CheckOutPage(
+                                      isReceipt: false,
+                                    ));
+                                    // allProdCtrlObj.orderCreate();
+                                  }
+                                : null,
                         title: Text(
                           'pay'.tr,
                           style: TextStyle(color: kWhiteColor),

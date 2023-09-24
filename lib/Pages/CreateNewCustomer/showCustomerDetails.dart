@@ -1,3 +1,4 @@
+import 'package:royal_prime/Components/custom_circular_button.dart';
 import 'package:royal_prime/Config/utils.dart';
 import 'package:royal_prime/Controllers/ContactController/ContactController.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,29 @@ class _ShowCustomerDetailsState extends State<ShowCustomerDetails> {
         title: Text(
           'customer_details'.tr,
         ),
+        actions: [
+          GetBuilder<ContactController>(
+              builder: (ContactController contactCtrl) {
+            return CustomButton(
+              onTap: () {
+                if (contactCtrl.isForEdit == true) {
+                  contactCtrl.isForEdit = false;
+                  contactCtrl.update();
+                } else if (contactCtrl.isForEdit == false) {
+                  contactCtrl.isForEdit = true;
+                  contactCtrl.update();
+                }
+              },
+              title: Text(
+                contactCtrl.isForEdit == true ? 'edit'.tr : 'view'.tr,
+                style: TextStyle(color: kWhiteColor),
+              ),
+            );
+          }),
+          SizedBox(
+            width: 10,
+          )
+        ],
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -75,11 +99,11 @@ class _ShowCustomerDetailsState extends State<ShowCustomerDetails> {
                 ),
                 AppFormField(
                   labelText: 'prefix'.tr,
-                  readOnly: true,
+                  readOnly: contactCtrl.isForEdit == true ? true : false,
                   controller: contactCtrl.prefixCtrl,
                 ),
                 AppFormField(
-                  readOnly: true,
+                  readOnly: contactCtrl.isForEdit == true ? true : false,
                   validator: (String? v) {
                     if (v!.isEmpty) return 'field_required'.tr;
                     return null;
@@ -89,16 +113,16 @@ class _ShowCustomerDetailsState extends State<ShowCustomerDetails> {
                 ),
                 AppFormField(
                   labelText: 'middle_name'.tr,
-                  readOnly: true,
+                  readOnly: contactCtrl.isForEdit == true ? true : false,
                   controller: contactCtrl.middleNameCtrl,
                 ),
                 AppFormField(
                   labelText: 'last_name'.tr,
-                  readOnly: true,
+                  readOnly: contactCtrl.isForEdit == true ? true : false,
                   controller: contactCtrl.lastNameCtrl,
                 ),
                 AppFormField(
-                  readOnly: true,
+                  readOnly: contactCtrl.isForEdit == true ? true : false,
                   // validator: (String? v) {
                   //   if (v!.isEmpty) return 'field_required'.tr;
                   //   return null;
@@ -112,42 +136,54 @@ class _ShowCustomerDetailsState extends State<ShowCustomerDetails> {
                   //   if (v!.isEmpty) return 'field_required'.tr;
                   //   return null;
                   // },
-                  readOnly: true,
+                  readOnly: contactCtrl.isForEdit == true ? true : false,
                   labelText: 'mobile_number'.tr,
                   controller: contactCtrl.mobileNumberCtrl,
                   keyboardType: TextInputType.number,
                 ),
                 AppFormField(
-                  readOnly: true,
+                  readOnly: contactCtrl.isForEdit == true ? true : false,
                   labelText: 'alternate_contact_number'.tr,
                   controller: contactCtrl.alternateMblNbrNumberCtrl,
                 ),
                 // street
                 AppFormField(
-                  readOnly: true,
+                  readOnly: contactCtrl.isForEdit == true ? true : false,
                   labelText: 'landline'.tr,
                   controller: contactCtrl.landLineCtrl,
                 ),
                 // villa, building, apartment
                 AppFormField(
                   labelText: 'email'.tr,
-                  readOnly: true,
+                  readOnly: contactCtrl.isForEdit == true ? true : false,
                   controller: contactCtrl.emailCtrl,
                 ),
                 AppFormField(
                   labelText: 'trn'.tr,
-                  readOnly: true,
+                  readOnly: contactCtrl.isForEdit == true ? true : false,
                   controller: contactCtrl.trnCtrl,
                 ),
                 AppFormField(
                   labelText: 'license_small'.tr,
-                  readOnly: true,
+                  readOnly: contactCtrl.isForEdit == true ? true : false,
                   controller: contactCtrl.licenseCtrl,
                 ),
                 SizedBox(
                   height: h * 0.02,
                 ),
-                Divider(),
+                // Divider(),
+                if (contactCtrl.isForEdit == false)
+                  CustomButton(
+                    onTap: () {
+                      showProgress();
+                      contactCtrl.updateContactCustomer(
+                          contactApi: widget.contactApi);
+                    },
+                    title: Text(
+                      'update'.tr,
+                      style: TextStyle(color: kWhiteColor),
+                    ),
+                  )
               ],
             ),
           );

@@ -52,7 +52,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                     ? '${Get.find<AllProductsController>().finalTotal ?? ''}'
                     : '${Get.find<ReceiptsController>().totalAmount ?? ''}',
               ) -
-              allProdCtrlObj.paidAmount,
+              allProdCtrlObj.paidAmount -
+              allProdCtrlObj.calculatingTotalDiscount(),
         );
       } else if (_paymentCtrlObj.paymentWidgetList.isNotEmpty) {
         _paymentCtrlObj.paymentWidgetList.clear();
@@ -62,7 +63,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                     ? '${Get.find<AllProductsController>().finalTotal ?? ''}'
                     : '${Get.find<ReceiptsController>().totalAmount ?? ''}',
               ) -
-              allProdCtrlObj.paidAmount,
+              allProdCtrlObj.paidAmount -
+              allProdCtrlObj.calculatingTotalDiscount(),
         );
       }
     } catch (e) {
@@ -224,11 +226,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
               borderRadius: 10,
               onTap: () {
                 _paymentCtrlObj.addPaymentWidget(
-                  totalAmount: double.tryParse(
-                    (Get.find<AllProductsController>().finalTotal != 0.00)
-                        ? '${Get.find<AllProductsController>().finalTotal ?? ''}'
-                        : '${Get.find<ReceiptsController>().totalAmount ?? ''}',
-                  ),
+                  totalAmount: double.parse(
+                        (Get.find<AllProductsController>().finalTotal != 0.00)
+                            ? '${Get.find<AllProductsController>().finalTotal ?? ''}'
+                            : '${Get.find<ReceiptsController>().totalAmount ?? ''}',
+                      ) -
+                      allProdCtrlObj.calculatingTotalDiscount(),
                 );
               },
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:royal_prime/Controllers/ProductController/all_products_controller.dart';
 
 import '../../Components/custom_circular_button.dart';
 import '../../Components/discountTypeDropDown.dart';
@@ -91,17 +92,9 @@ class _DiscountState extends State<Discount> {
                   padding: EdgeInsets.only(top: 20),
                   child: CustomButton(
                       onTap: () {
-                        if ('Percentage' ==
-                            productCtrlCtrlObj.discountType.text) {
-                          productCtrlCtrlObj.totalDiscountPercentage();
-                          print('percentage');
-                          productCtrlCtrlObj.update();
-                        } else if (productCtrlCtrlObj.discountType.text ==
-                            'Fixed') {
-                          print('Fixed');
-                          productCtrlCtrlObj.update();
-                        }
-
+                        Get.find<AllProductsController>()
+                            .calculatingTotalDiscount();
+                        productCtrlCtrlObj.update();
                         Get.back();
                       },
                       btnTxt: 'update'.tr,

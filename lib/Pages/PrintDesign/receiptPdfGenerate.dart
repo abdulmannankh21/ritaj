@@ -15,7 +15,7 @@ import '/Controllers/ProductController/product_cart_controller.dart';
 import 'package:http/http.dart' as http;
 
 class ReceiptPdfGenerate extends StatelessWidget {
-  final SingleReceiptData? singleReceiptModel;
+  final List<SingleReceiptData>? singleReceiptModel;
   ReceiptPdfGenerate({Key? key, this.singleReceiptModel}) : super(key: key);
 
   @override
@@ -57,7 +57,7 @@ class ReceiptPdfGenerate extends StatelessWidget {
     String? mobile,
     String? shippingAddress,
     List<ProductModel> itemList = const [],
-    SingleReceiptData? singleReceiptModel,
+    List<SingleReceiptData>? singleReceiptModel,
     required pw.MemoryImage image,
   }) {
     return pw.Page(
@@ -77,11 +77,11 @@ class ReceiptPdfGenerate extends StatelessWidget {
               child: pw.Text(
                   AppStorage.getBusinessDetailsData()?.businessData?.name ?? '',
                   style: pw.TextStyle(
-                      fontSize: 18, fontWeight: pw.FontWeight.bold))),
+                      fontSize: 16, fontWeight: pw.FontWeight.bold))),
 
           pw.Center(
             child: pw.Text(
-              '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id ?? ''}, '
+              '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.name ?? ''}, '
               '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.landmark ?? ''}, '
               '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.city ?? ''}, '
               '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.country ?? ''}',
@@ -136,25 +136,27 @@ class ReceiptPdfGenerate extends StatelessWidget {
           pw.SizedBox(height: 10),
           printBasicInfoWidget(
               title: 'Customer Name: ',
-              titleVal: '${singleReceiptModel?.contact?.name}'),
+              titleVal: '${singleReceiptModel?.first.contact?.name}'),
           pw.Row(
               mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
               children: [
                 printBasicInfoWidget(
                     title: 'Salesman: ',
-                    titleVal: '${singleReceiptModel?.salesPerson?.firstName}'),
+                    titleVal:
+                        '${singleReceiptModel?.first.salesPerson?.firstName}'),
                 printBasicInfoWidget(
                     title: 'Receipt Date: ',
                     titleVal:
-                        '${AppFormat.dateYYYYMMDDHHMM24(singleReceiptModel?.transactionDate)}'),
+                        '${AppFormat.dateYYYYMMDDHHMM24(singleReceiptModel?.first.transactionDate)}'),
               ]),
-          printBasicInfoWidget(
-              title: 'Invoice No: ',
-              titleVal: '${singleReceiptModel?.invoiceNo ?? ''}'),
-          if (singleReceiptModel?.contact?.taxNumber != null)
+          // printBasicInfoWidget(
+          //     title: 'Invoice No: ',
+          //     titleVal: '${singleReceiptModel?.invoiceNo ?? ''}'),
+          if (singleReceiptModel?.first.contact?.taxNumber != null)
             printBasicInfoWidget(
                 title: 'Customer Tax No: ',
-                titleVal: '${singleReceiptModel?.contact?.taxNumber ?? ''}'),
+                titleVal:
+                    '${singleReceiptModel?.first.contact?.taxNumber ?? ''}'),
 
           pw.SizedBox(height: 10),
           pw.Divider(),
@@ -178,7 +180,7 @@ class ReceiptPdfGenerate extends StatelessWidget {
                     flex: 7,
                     child: pw.Padding(
                       padding: pw.EdgeInsets.symmetric(horizontal: 2.5),
-                      child: pw.Text('Reference No',
+                      child: pw.Text('Description',
                           style: pw.TextStyle(
                               fontSize: 16, fontWeight: pw.FontWeight.bold)),
                     ),
@@ -198,7 +200,7 @@ class ReceiptPdfGenerate extends StatelessWidget {
           ),
           pw.Divider(),
           pw.Column(children: [
-            ...List.generate(singleReceiptModel!.paymentLines!.length, (index) {
+            ...List.generate(singleReceiptModel?.length ?? 0, (index) {
               return pw.Table(
                 //border: pw.TableBorder.all(width: 0.8),
 
@@ -220,7 +222,7 @@ class ReceiptPdfGenerate extends StatelessWidget {
                         child: pw.Padding(
                           padding: pw.EdgeInsets.symmetric(horizontal: 2.5),
                           child: pw.Text(
-                              '${singleReceiptModel.paymentLines?[index].paymentRefNo}',
+                              '${singleReceiptModel?[index].refNo}\n${singleReceiptModel?[index].invoiceNo}',
                               style: pw.TextStyle(
                                 fontSize: 16,
                               )),
@@ -231,7 +233,7 @@ class ReceiptPdfGenerate extends StatelessWidget {
                         child: pw.Padding(
                           padding: pw.EdgeInsets.symmetric(horizontal: 2.5),
                           child: pw.Text(
-                              '${AppFormat.doubleToStringUpTo2(singleReceiptModel.paymentLines?[index].amount)}',
+                              '${AppFormat.doubleToStringUpTo2(singleReceiptModel?[index].finalTotal)}',
                               style: pw.TextStyle(
                                 fontSize: 16,
                               )),
@@ -250,20 +252,19 @@ class ReceiptPdfGenerate extends StatelessWidget {
 
             children: [
               pw.SizedBox(height: 15),
-              finalDetails(
-                  txt1: 'Subtotal:',
-                  txt2:
-                      '${AppFormat.doubleToStringUpTo2(singleReceiptModel.totalBeforeTax)}'),
+              // finalDetails(
+              //     txt1: 'Subtotal:',
+              //     txt2:
+              //         '${AppFormat.doubleToStringUpTo2(singleReceiptModel.totalBeforeTax)}'),
               pw.SizedBox(height: 5),
+              // finalDetails(
+              //     txt1: 'Tax (VAT):',
+              //     txt2: '${AppFormat.doubleToStringUpTo2(totalReceiptTax())}'),
+              // pw.SizedBox(height: 5),
               finalDetails(
-                  txt1: 'Tax (VAT):',
+                  txt1: 'Total Paid Amount:',
                   txt2:
-                      '${AppFormat.doubleToStringUpTo2(singleReceiptModel.taxAmount)}'),
-              pw.SizedBox(height: 5),
-              finalDetails(
-                  txt1: 'Total:',
-                  txt2:
-                      '${AppFormat.doubleToStringUpTo2(singleReceiptModel.finalTotal)}'),
+                      '${AppFormat.doubleToStringUpTo2(totalPayedAmount())} AED'),
               pw.SizedBox(height: 5),
             ],
           ),
@@ -275,6 +276,31 @@ class ReceiptPdfGenerate extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  totalReceiptTax() {
+    double totalReceiptTax = 0.00;
+    var length = singleReceiptModel?.length ?? 0;
+    for (int i = 0; i < length; i++) {
+      totalReceiptTax =
+          totalReceiptTax + totalItemsTax(singleOrder: singleReceiptModel?[i]);
+    }
+    return totalReceiptTax;
+  }
+
+  totalItemsTax({SingleReceiptData? singleOrder}) {
+    double totalTax = 0.00;
+    var length = singleOrder?.sellLines?.length ?? 0;
+    ;
+    for (int i = 0; i < length; i++) {
+      totalTax = totalTax +
+          (double.parse('${singleOrder?.sellLines?[i].itemTax}') *
+              double.parse('${singleOrder?.sellLines?[i].quantity}')
+          // * double.parse(
+          //     '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[i].subUnitId)}')
+          );
+    }
+    return totalTax;
   }
 
   pw.Row finalDetails({String? txt1, String? txt2}) {
@@ -315,5 +341,13 @@ class ReceiptPdfGenerate extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  totalPayedAmount() {
+    double totalPayed = 0;
+    singleReceiptModel?.forEach((element) {
+      totalPayed += double.parse('${element.finalTotal ?? 0}');
+    });
+    return totalPayed;
   }
 }

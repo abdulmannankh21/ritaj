@@ -477,9 +477,10 @@ class AllProductsController extends GetxController {
 
     _fields['status'] = '${statusValue != null ? statusValue : 'final'}';
     _fields['type'] = 'sell';
-    _fields['discounttype'] = '${productCtrlCtrlObj.discountType.text}';
+    _fields['discounttype'] =
+        '${productCtrlCtrlObj.discountType.text.toLowerCase()}';
     _fields['discount_amount'] = '${productCtrlCtrlObj.discoutCtrl.text}';
-    _fields['final_total'] = '${finalTotal}';
+    _fields['final_total'] = '${finalTotal - calculatingTotalDiscount()}';
     _fields['exchange_rate'] = '0.00';
     _fields['packing_charge'] = '0.00';
     _fields['packing_charge_type'] = 'fixed';
@@ -828,7 +829,9 @@ class AllProductsController extends GetxController {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
             insetPadding: EdgeInsets.all(Dimensions.paddingSizeSmall),
-            child: InVoicePrintScreen(),
+            child: InVoicePrintScreen(
+              isPrintReceipt: true,
+            ),
           ));
         }
       } catch (e) {
@@ -841,7 +844,7 @@ class AllProductsController extends GetxController {
           Get.offAll(TabsPage());
           print('pdf calling function');
           Get.to(ReceiptPdfGenerate(
-            singleReceiptModel: receiptData?.data?.first,
+            singleReceiptModel: receiptData?.data,
           ));
           // for (int i = 0; i < receiptData!.data!.length; i++) {
           //   Get.to(ReceiptPdfGenerate(
@@ -1216,5 +1219,28 @@ class AllProductsController extends GetxController {
 
   checkTheIndex({int? id}) {
     return productModelObjs.firstWhereOrNull((i) => i.id == id)?.name;
+  }
+
+  ProductCartController prodCtrl = Get.find<ProductCartController>();
+
+  //function to calculate total discount
+  double calculatingTotalDiscount() {
+    double itemsDiscountCount = 0.0;
+    try {
+      if ('Percentage' == prodCtrl.discountType.text) {
+        itemsDiscountCount =
+            ((double.parse(prodCtrl.discoutCtrl.text) ?? 0) / 100) * finalTotal;
+        print('Executing Percentage Discount');
+        update();
+      } else if (prodCtrl.discountType.text == 'Fixed') {
+        itemsDiscountCount = (double.parse(prodCtrl.discoutCtrl.text));
+        print('Executing Fixed Discount');
+        update();
+      }
+    } catch (e) {
+      logger.e('Error to calculate Discount Amount => $e');
+    }
+
+    return itemsDiscountCount;
   }
 }
