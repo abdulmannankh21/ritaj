@@ -45,7 +45,7 @@ class SellLine {
   int? transactionId;
   int? productId;
   int? variationId;
-  int quantity = 1;
+  double quantity = 1;
   String? secondaryUnitQuantity;
   String? mfgWastePercent;
   dynamic mfgIngredientGroupId;
@@ -81,7 +81,7 @@ class SellLine {
     int? transactionId,
     int? productId,
     int? variationId,
-    int? quantity,
+    double? quantity,
     String? secondaryUnitQuantity,
     String? mfgWastePercent,
     dynamic mfgIngredientGroupId,

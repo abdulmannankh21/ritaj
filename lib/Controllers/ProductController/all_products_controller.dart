@@ -480,7 +480,8 @@ class AllProductsController extends GetxController {
     _fields['discounttype'] =
         '${productCtrlCtrlObj.discountType.text.toLowerCase()}';
     _fields['discount_amount'] = '${productCtrlCtrlObj.discoutCtrl.text}';
-    _fields['final_total'] = '${finalTotal - calculatingTotalDiscount()}';
+    _fields['final_total'] =
+        '${AppFormat.doubleToStringUpTo1('${finalTotal - calculatingTotalDiscount()}')}';
     _fields['exchange_rate'] = '0.00';
     _fields['packing_charge'] = '0.00';
     _fields['packing_charge_type'] = 'fixed';
@@ -503,11 +504,11 @@ class AllProductsController extends GetxController {
             '${double.parse(selectedQuantityList[i]) * double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')}';
         _fields['line_discount_type[$i]'] = 'fixed';
         _fields['unit_price_before_discount[$i]'] =
-            '${double.parse(selectedProducts[i].productVariations?.first.variations?.first.defaultSellPrice ?? '0.00')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
+            '${AppFormat.doubleToStringUpTo1('${double.parse(selectedProducts[i].productVariations?.first.variations?.first.defaultSellPrice ?? '0.00')}')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
         _fields['unit_price[$i]'] =
-            '${double.parse(selectedProducts[i].productVariations?.first.variations?.first.defaultSellPrice ?? '0.00')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
+            '${AppFormat.doubleToStringUpTo1('${double.parse(selectedProducts[i].productVariations?.first.variations?.first.defaultSellPrice ?? '0.00')}')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
         _fields['unit_price_inc_tax[$i]'] =
-            '${double.parse(selectedProducts[i].productVariations?.first.variations?.first.sellPriceIncTax ?? '0.00')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
+            '${AppFormat.doubleToStringUpTo1('${double.parse(selectedProducts[i].productVariations?.first.variations?.first.sellPriceIncTax ?? '0.00')}')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
 
         if (selectedProducts[i].productTax != null) {
           _fields['tax_id'] = '${selectedProducts[i].productTax?.id}';
@@ -607,6 +608,10 @@ class AllProductsController extends GetxController {
             child: InVoicePrintScreen(),
           ));
         }
+
+        logger.i(salesOrderModel?.sellLines);
+        print(
+            'Sale Order Data Model Sell Lines --> ${salesOrderModel?.sellLines?.first.product?.name}');
 
         if (isPDFView == true) {
           Get.offAll(TabsPage());
@@ -1168,6 +1173,10 @@ class AllProductsController extends GetxController {
             child: InVoicePrintScreen(),
           ));
         }
+
+        logger.i(salesOrderModel?.sellLines);
+        print(
+            'Sale Order Data Model Sell Lines --> ${salesOrderModel?.sellLines?.first.product?.name}');
 
         if (isPDFView == true) {
           Get.offAll(TabsPage());

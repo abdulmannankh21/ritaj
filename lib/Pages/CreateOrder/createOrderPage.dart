@@ -327,11 +327,17 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                                 allProdCtrlObj
                                                         .totalAmount[index] =
                                                     '${double.parse('${allProdCtrlObj.productQuantityCtrl[index].text.isEmpty ? '0.00' : allProdCtrlObj.productQuantityCtrl[index].text}') * double.parse('${allProdCtrlObj.productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') * double.parse(allProdCtrlObj.checkUnitsActualBaseMultiplier(unitName: allProdCtrlObj.unitListStatus[index]) ?? '1.00')}';
+
+                                                print(
+                                                    'product final Amount  ${allProdCtrlObj.calculateFinalAmount()}');
                                                 allProdCtrlObj
                                                     .calculateFinalAmount();
                                                 debugPrint('Product Amount');
-                                                debugPrint(allProdCtrlObj
-                                                    .totalAmount[index]);
+                                                debugPrint(AppFormat
+                                                    .doubleToStringUpTo2(
+                                                        allProdCtrlObj
+                                                                .totalAmount[
+                                                            index]));
                                                 allProdCtrlObj.update();
                                               } else {
                                                 allProdCtrlObj
@@ -352,11 +358,14 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                               allProdCtrlObj
                                                       .totalAmount[index] =
                                                   '${double.parse('${allProdCtrlObj.productQuantityCtrl[index].text.isEmpty ? '0.00' : allProdCtrlObj.productQuantityCtrl[index].text}') * double.parse('${allProdCtrlObj.productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') * double.parse(allProdCtrlObj.checkUnitsActualBaseMultiplier(unitName: allProdCtrlObj.unitListStatus[index]) ?? '1.00')}';
+                                              debugPrint(
+                                                  'single product price --> ${allProdCtrlObj.productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}');
+                                              debugPrint(
+                                                  'product final Amount  ${allProdCtrlObj.calculateFinalAmount()}');
                                               allProdCtrlObj
                                                   .calculateFinalAmount();
-                                              debugPrint('Product Amount');
-                                              debugPrint(allProdCtrlObj
-                                                  .totalAmount[index]);
+                                              debugPrint(
+                                                  'Product Amount --> ${AppFormat.doubleToStringUpTo1(allProdCtrlObj.totalAmount[index])}');
                                               allProdCtrlObj.update();
                                             }
                                           }),
@@ -373,7 +382,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                 Center(
                   child: Text(
                     'total'.tr +
-                        ' (AED) = ${AppFormat.doubleToStringUpTo2('${allProdCtrlObj.finalTotal - allProdCtrlObj.calculatingTotalDiscount()}')}',
+                        ' (AED) = ${AppFormat.doubleToStringUpTo1('${allProdCtrlObj.finalTotal - allProdCtrlObj.calculatingTotalDiscount()}')}',
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),

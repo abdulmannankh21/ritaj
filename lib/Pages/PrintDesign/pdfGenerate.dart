@@ -267,7 +267,7 @@ class PrintData extends StatelessWidget {
                         child: pw.Padding(
                           padding: pw.EdgeInsets.symmetric(horizontal: 2.5),
                           child: pw.Text(
-                              '${double.parse('${saleOrderDataModel?.sellLines[index].unitPriceIncTax}') * double.parse('${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[index].subUnitId)}')}',
+                              '${AppFormat.doubleToStringUpTo1('${double.parse('${saleOrderDataModel.sellLines[index].unitPriceIncTax}') * double.parse('${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel.sellLines[index].subUnitId)}')}')}',
                               textAlign: pw.TextAlign.center,
                               style: pw.TextStyle(
                                 fontSize: 16,
@@ -279,8 +279,8 @@ class PrintData extends StatelessWidget {
                         child: pw.Padding(
                           padding: pw.EdgeInsets.symmetric(horizontal: 2.5),
                           child: pw.Text(
-                              AppFormat.doubleToStringUpTo2(
-                                      '${double.parse('${saleOrderDataModel?.sellLines[index].unitPriceIncTax ?? 0.0}') * double.parse('${saleOrderDataModel?.sellLines[index].quantity ?? 0.0}')}') ??
+                              AppFormat.doubleToStringUpTo1(
+                                      '${double.parse('${saleOrderDataModel.sellLines[index].unitPriceIncTax ?? 0.0}') * double.parse('${saleOrderDataModel.sellLines[index].quantity ?? 0.0}')}') ??
                                   '0.0',
                               textAlign: pw.TextAlign.right,
                               style: pw.TextStyle(
@@ -304,7 +304,7 @@ class PrintData extends StatelessWidget {
               finalDetails(
                   txt1: 'Subtotal:',
                   txt2:
-                      '${AppFormat.doubleToStringUpTo2(saleOrderDataModel?.totalBeforeTax)}'),
+                      '${AppFormat.doubleToStringUpTo1(saleOrderDataModel?.totalBeforeTax)}'),
               pw.SizedBox(height: 5),
               finalDetails(
                   txt1: 'Discount:',
@@ -377,10 +377,11 @@ class PrintData extends StatelessWidget {
 
   totalItemsTax() {
     double totalTax = 0.00;
-    for (int i = 0; i < saleOrderDataModel!.sellLines.length; i++) {
+    var length = saleOrderDataModel?.sellLines.length ?? 0;
+    for (int i = 0; i < length; i++) {
       totalTax = totalTax +
-          (double.parse('${saleOrderDataModel!.sellLines[i].itemTax}') *
-              double.parse('${saleOrderDataModel!.sellLines[i].quantity}')
+          (double.parse('${saleOrderDataModel?.sellLines[i].itemTax}') *
+              double.parse('${saleOrderDataModel?.sellLines[i].quantity}')
           // * double.parse(
           //     '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[i].subUnitId)}')
           );

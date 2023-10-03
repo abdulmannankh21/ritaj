@@ -152,7 +152,7 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
 
   totalItemsTax() {
     double totalTax = 0.00;
-    var length = selectedSaleOrderData!.sellLines.length ?? 0;
+    var length = selectedSaleOrderData!.sellLines?.length ?? 0;
     for (int i = 0; i < length; i++) {
       totalTax = totalTax +
           (double.parse('${selectedSaleOrderData.sellLines[i].itemTax}') *

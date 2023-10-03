@@ -49,7 +49,7 @@ class ProductCartController extends GetxController {
     shippingChargeCtrl.clear();
   }
 
-  double productTotalAmount(String? price, int quantity) {
+  double productTotalAmount(String? price, double quantity) {
     return double.parse('${price ?? 0.0}') * quantity;
   }
 
