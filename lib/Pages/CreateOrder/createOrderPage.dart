@@ -1,5 +1,6 @@
 import '../../Components/custom_circular_button.dart';
 import '../../Config/utils.dart';
+import '../../Controllers/Tax Controller/TaxController.dart';
 import '../../Pages/CreateOrder/selectionDialogue.dart';
 import '../../Pages/checkout/check_out.dart';
 import '../../Theme/style.dart';
@@ -53,6 +54,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
       allProdCtrlObj.finalTotal =
           double.parse('${widget.salesOrderData?.finalTotal ?? '0.00'}');
     allProdCtrlObj.addOrderedItemsQty(salesOrderData: widget.salesOrderData);
+    Get.find<TaxController>().fetchListTax();
 
     super.initState();
   }
@@ -239,11 +241,13 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
 
                                               allProdCtrlObj
                                                       .totalAmount[index] =
-                                                  '${double.parse('${allProdCtrlObj.productQuantityCtrl[index].text.isEmpty ? '0.00' : allProdCtrlObj.productQuantityCtrl[index].text}') * double.parse('${allProdCtrlObj.productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') * double.parse(allProdCtrlObj.checkUnitsActualBaseMultiplier(unitName: value) ?? '1.00')}';
-                                              debugPrint(allProdCtrlObj
-                                                  .totalAmount[index]);
-                                              debugPrint(allProdCtrlObj
-                                                  .unitListStatus[index]);
+                                                  allProdCtrlObj
+                                                      .calculatingProductAmountForUnit(
+                                                          index: index);
+                                              // debugPrint(allProdCtrlObj
+                                              //     .totalAmount[index]);
+                                              // debugPrint(allProdCtrlObj
+                                              //     .unitListStatus[index]);
 
                                               allProdCtrlObj
                                                   .calculateFinalAmount();
@@ -279,10 +283,8 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                       flex: 1,
                                       child: Center(
                                         child: Text(
-                                          AppFormat.doubleToStringUpTo2(
-                                                '${double.parse(allProdCtrlObj.checkProductStockLocationBasedForOrderCreate(locationId: AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id, index: index) ?? '0.00') / double.parse(allProdCtrlObj.checkUnitsActualBaseMultiplier(unitName: allProdCtrlObj.unitListStatus[index]))}',
-                                              ) ??
-                                              '0.00',
+                                          allProdCtrlObj.calculatingStock(
+                                              index: index),
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(fontSize: 10),
                                         ),
@@ -304,11 +306,6 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                           //
                                           // },
                                           onChanged: (value) {
-                                            print(AppStorage
-                                                    .getBusinessDetailsData()
-                                                ?.businessData
-                                                ?.posSettings
-                                                ?.allowOverselling);
                                             if (double.parse(allProdCtrlObj
                                                         .productModelObjs[index]
                                                         .productVariationsDetails
@@ -321,24 +318,19 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                                       ?.posSettings
                                                       ?.allowOverselling ==
                                                   1) {
-                                                print('in allow if');
+                                                print('in 1st allow if');
                                                 allProdCtrlObj.finalTotal =
                                                     0.00;
                                                 allProdCtrlObj
                                                         .totalAmount[index] =
-                                                    '${double.parse('${allProdCtrlObj.productQuantityCtrl[index].text.isEmpty ? '0.00' : allProdCtrlObj.productQuantityCtrl[index].text}') * double.parse('${allProdCtrlObj.productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') * double.parse(allProdCtrlObj.checkUnitsActualBaseMultiplier(unitName: allProdCtrlObj.unitListStatus[index]) ?? '1.00')}';
-
-                                                print(
-                                                    'product final Amount  ${allProdCtrlObj.calculateFinalAmount()}');
+                                                    allProdCtrlObj
+                                                        .calculatingProductAmountForUnit(
+                                                            index:
+                                                                index); // created function to calculate the value Qty * (price * unit)
                                                 allProdCtrlObj
                                                     .calculateFinalAmount();
-                                                debugPrint('Product Amount');
-                                                debugPrint(AppFormat
-                                                    .doubleToStringUpTo2(
-                                                        allProdCtrlObj
-                                                                .totalAmount[
-                                                            index]));
-                                                allProdCtrlObj.update();
+                                                debugPrint(
+                                                    'Product Amount After all Calculation --->> ${allProdCtrlObj.totalAmount[index]}');
                                               } else {
                                                 allProdCtrlObj
                                                     .productQuantityCtrl[index]
@@ -353,21 +345,21 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                                         ?.qtyAvailable ??
                                                     '0.00') >
                                                 0.00) {
-                                              print(' in third if');
+                                              print('in third if');
                                               allProdCtrlObj.finalTotal = 0.00;
                                               allProdCtrlObj
                                                       .totalAmount[index] =
-                                                  '${double.parse('${allProdCtrlObj.productQuantityCtrl[index].text.isEmpty ? '0.00' : allProdCtrlObj.productQuantityCtrl[index].text}') * double.parse('${allProdCtrlObj.productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') * double.parse(allProdCtrlObj.checkUnitsActualBaseMultiplier(unitName: allProdCtrlObj.unitListStatus[index]) ?? '1.00')}';
+                                                  allProdCtrlObj
+                                                      .calculatingProductAmountForUnit(
+                                                          index:
+                                                              index); // created function to calculate the value Qty * (price * unit)
+
                                               debugPrint(
-                                                  'single product price --> ${allProdCtrlObj.productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}');
-                                              debugPrint(
-                                                  'product final Amount  ${allProdCtrlObj.calculateFinalAmount()}');
+                                                  'Product Amount After all Calculation --->> ${allProdCtrlObj.totalAmount[index]}');
                                               allProdCtrlObj
                                                   .calculateFinalAmount();
-                                              debugPrint(
-                                                  'Product Amount --> ${AppFormat.doubleToStringUpTo1(allProdCtrlObj.totalAmount[index])}');
-                                              allProdCtrlObj.update();
                                             }
+                                            allProdCtrlObj.update();
                                           }),
                                     ),
                                   ],
@@ -382,7 +374,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                 Center(
                   child: Text(
                     'total'.tr +
-                        ' (AED) = ${AppFormat.doubleToStringUpTo1('${allProdCtrlObj.finalTotal - allProdCtrlObj.calculatingTotalDiscount()}')}',
+                        ' (AED) = ${allProdCtrlObj.finalTotal - allProdCtrlObj.calculatingTotalDiscount()}',
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),

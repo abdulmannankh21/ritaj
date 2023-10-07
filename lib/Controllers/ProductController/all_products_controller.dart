@@ -160,8 +160,9 @@ class AllProductsController extends GetxController {
     Product? product,
   }) {
     return unitListModel?.data
-        ?.firstWhereOrNull((i) => i.id == product?.unitId)
-        ?.shortName;
+            ?.firstWhereOrNull((i) => i.id == product?.unitId)
+            ?.shortName ??
+        '';
   }
 
   checkUnitsShortName({
@@ -354,6 +355,17 @@ class AllProductsController extends GetxController {
     print('final Total = ${finalTotal}');
   }
 
+  calculatingProductAmountForUnit({required int index}) {
+    return '${double.parse('${productQuantityCtrl[index].text.isEmpty ? '0.00' : productQuantityCtrl[index].text}') * double.parse(AppFormat.doubleToStringUpTo2('${double.parse('${productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') * double.parse(checkUnitsActualBaseMultiplier(unitName: unitListStatus[index]) ?? '1.00')}') ?? '0.00')}';
+  }
+
+  calculatingStock({required int index}) {
+    return AppFormat.doubleToStringUpTo2(
+          '${double.parse(checkProductStockLocationBasedForOrderCreate(locationId: AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id, index: index) ?? '0.00') / double.parse(checkUnitsActualBaseMultiplier(unitName: unitListStatus[index]))}',
+        ) ??
+        '0.00';
+  }
+
   List<String> payTermList() {
     List<String> options = ['Months', 'Days'];
     return options;
@@ -369,6 +381,15 @@ class AllProductsController extends GetxController {
     return options;
   }
 
+  calculatingProductAmountForOrder({required int i}) {
+    return '${double.parse(AppFormat.doubleToStringUpTo2('${double.parse('${selectedProducts[i].productVariations?.first.variations?.first.sellPriceIncTax ?? 0.0}') * double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')}') ?? '0.00') * double.parse(selectedQuantityList[i])}';
+  }
+
+  //
+  // calculatingProductAmountAfterTaxForOrder({required int i}) {
+  //   return '${double.parse(calculatingProductAmountForOrder(i: i)) - taxCtrlObj.inlineTaxAmount(selectedProducts[i], calculatingProductAmountForOrder(i: i))}';
+  // }
+
   String subTotalAmount(
       {List<Product>? items, double ordersItemsSubTotalAmount = 0.0}) {
     double itemsPriceCount = 0.0;
@@ -376,12 +397,10 @@ class AllProductsController extends GetxController {
     try {
       for (int i = 0; i < selectedProducts.length; i++) {
         // itemsPriceCount += _itr.productTotalPrice;
-        itemsPriceCount += double.parse(
-                '${selectedProducts[i].productVariations?.first.variations?.first.sellPriceIncTax ?? 0.0}') *
-            double.parse(selectedQuantityList[i]) *
-            double.parse(checkUnitsActualBaseMultiplier(
-                    unitName: selectedUnitsNames[i]) ??
-                '1.00');
+        itemsPriceCount += double.parse(AppFormat.doubleToStringUpTo2(
+                    '${double.parse('${selectedProducts[i].productVariations?.first.variations?.first.sellPriceIncTax ?? 0.0}') * double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')}') ??
+                '0.00') *
+            double.parse(selectedQuantityList[i]);
       }
     } catch (e) {
       logger.e('Error to calculate sub total amount => $e');
@@ -481,7 +500,7 @@ class AllProductsController extends GetxController {
         '${productCtrlCtrlObj.discountType.text.toLowerCase()}';
     _fields['discount_amount'] = '${productCtrlCtrlObj.discoutCtrl.text}';
     _fields['final_total'] =
-        '${AppFormat.doubleToStringUpTo1('${finalTotal - calculatingTotalDiscount()}')}';
+        '${AppFormat.doubleToStringUpTo2('${finalTotal - calculatingTotalDiscount()}')}';
     _fields['exchange_rate'] = '0.00';
     _fields['packing_charge'] = '0.00';
     _fields['packing_charge_type'] = 'fixed';
@@ -501,20 +520,24 @@ class AllProductsController extends GetxController {
         _fields['variation_id[$i]'] =
             '${selectedProducts[i].productVariations?.first.variations?.first.id}';
         _fields['quantity[$i]'] =
-            '${double.parse(selectedQuantityList[i]) * double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')}';
+            '${double.parse(selectedQuantityList[i]) * double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')}'; //
         _fields['line_discount_type[$i]'] = 'fixed';
         _fields['unit_price_before_discount[$i]'] =
-            '${AppFormat.doubleToStringUpTo1('${double.parse(selectedProducts[i].productVariations?.first.variations?.first.defaultSellPrice ?? '0.00')}')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
+            // calculatingProductAmountAfterTaxForOrder(i: i);
+            '${AppFormat.doubleToStringUpTo2('${double.parse(selectedProducts[i].productVariations?.first.variations?.first.defaultSellPrice ?? '0.00')}')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
         _fields['unit_price[$i]'] =
-            '${AppFormat.doubleToStringUpTo1('${double.parse(selectedProducts[i].productVariations?.first.variations?.first.defaultSellPrice ?? '0.00')}')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
+            // calculatingProductAmountAfterTaxForOrder(i: i);
+            '${AppFormat.doubleToStringUpTo2('${double.parse(selectedProducts[i].productVariations?.first.variations?.first.defaultSellPrice ?? '0.00')}')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
         _fields['unit_price_inc_tax[$i]'] =
-            '${AppFormat.doubleToStringUpTo1('${double.parse(selectedProducts[i].productVariations?.first.variations?.first.sellPriceIncTax ?? '0.00')}')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
+            // calculatingProductAmountForOrder(i: i);
+            '${AppFormat.doubleToStringUpTo2('${double.parse(selectedProducts[i].productVariations?.first.variations?.first.sellPriceIncTax ?? '0.00')}')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
 
         if (selectedProducts[i].productTax != null) {
           _fields['tax_id'] = '${selectedProducts[i].productTax?.id}';
         }
         _fields['item_tax[$i]'] =
-            '${taxCtrlObj.inlineTaxAmount(selectedProducts[i])}';
+            '${AppFormat.doubleToStringUpTo2('${taxCtrlObj.inlineTaxAmount(selectedProducts[i])}')}';
+        // '${taxCtrlObj.inlineTaxAmount(selectedProducts[i], calculatingProductAmountForOrder(i: i))}';
         _fields['sub_unit_id[$i]'] = '${selectedUnitsList[i]}';
       }
     }

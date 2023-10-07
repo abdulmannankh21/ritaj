@@ -161,7 +161,8 @@ class SellLine {
         json["transaction_id"] == null ? null : json["transaction_id"];
     productId = json["product_id"] == null ? null : json["product_id"];
     variationId = json["variation_id"] == null ? null : json["variation_id"];
-    quantity = json["quantity"] == null ? 1 : json["quantity"];
+    quantity =
+        json["quantity"] == null ? 1 : double.parse('${json["quantity"]}');
     secondaryUnitQuantity = json["secondary_unit_quantity"] == null
         ? null
         : json["secondary_unit_quantity"];

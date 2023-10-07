@@ -11,6 +11,7 @@ import 'package:image/image.dart' as i;
 import '../../Config/DateTimeFormat.dart';
 import '../../Controllers/ProductController/all_products_controller.dart';
 import '../../Controllers/ProductController/product_cart_controller.dart';
+import '../../Controllers/Tax Controller/TaxController.dart';
 import '../../Services/storage_services.dart';
 import '/Models/order_type_model/SellLineModel.dart';
 import '../../Models/order_type_model/SaleOrderModel.dart';
@@ -41,13 +42,21 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
     return null;
   }
 
+  calculatingQty({required int index}) {
+    return '${AppFormat.doubleToStringUpTo2('${double.parse('${selectedSaleOrderData?.sellLines[index].quantity}') / double.parse('${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: selectedSaleOrderData?.sellLines[index].subUnitId)}')}')}';
+  }
+
+  calculatingUnitPrice({required int index}) {
+    return '${AppFormat.doubleToStringUpTo2('${double.parse('${selectedSaleOrderData?.sellLines[index].unitPriceIncTax}') * double.parse('${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: selectedSaleOrderData?.sellLines[index].subUnitId)}')}')}';
+  }
+
   List<int> bytes = [];
   String totalQuantity(List<SellLine>? allSellItems) {
     int totalProducts = 0;
+    var length = allSellItems?.length ?? 0;
     try {
-      allSellItems?.forEach((element) {
-        totalProducts += double.parse('${element.quantity}').toInt();
-      });
+      for (int i = 0; i < length; i++)
+        totalProducts += double.parse(calculatingQty(index: i)).toInt();
     } catch (_e) {
       debugPrint('Error => $_e');
     }
@@ -118,15 +127,17 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
                 ),
                 PosColumn(
                   width: cTxt4 == null && cTxt5 == null
-                      ? 9
+                      ? 7
                       : cTxt4 == null || cTxt5 == null
-                          ? 10
-                          : 6,
+                          ? 8
+                          : 4,
                   text: cTxt2 ?? '',
-                  styles: PosStyles(bold: isBold),
+                  styles: PosStyles(
+                    bold: isBold,
+                  ),
                 ),
                 PosColumn(
-                  width: cTxt4 == null && cTxt5 == null ? 2 : 1,
+                  width: cTxt4 == null && cTxt5 == null ? 4 : 3,
                   text: cTxt3 ?? '',
                   styles: PosStyles(bold: isBold, align: PosAlign.center),
                 ),
@@ -152,15 +163,30 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
 
   totalItemsTax() {
     double totalTax = 0.00;
-    var length = selectedSaleOrderData!.sellLines?.length ?? 0;
+    var length = selectedSaleOrderData?.sellLines.length ?? 0;
     for (int i = 0; i < length; i++) {
+      print(
+          'Item Tax Id in PDF --->${selectedSaleOrderData?.sellLines[i].taxId}');
+      // Get.find<TaxController>().inlineTaxAmountForPDF(amount: )
+      print(
+          'Item quantity in PDF ---> ${selectedSaleOrderData?.sellLines[i].quantity}');
+
+      print(
+          'Item Tax After Calculation --->>> ${Get.find<TaxController>().inlineTaxAmountForPDF(selectedSaleOrderData?.sellLines[i].taxId, '${double.parse(calculatingUnitPrice(index: i) ?? '0.00') * double.parse(calculatingQty(index: i) ?? '0.00')}')}');
+
       totalTax = totalTax +
-          (double.parse('${selectedSaleOrderData.sellLines[i].itemTax}') *
-              double.parse('${selectedSaleOrderData.sellLines[i].quantity}')
+              double.parse(
+                  '${Get.find<TaxController>().inlineTaxAmountForPDF(selectedSaleOrderData?.sellLines[i].taxId, '${double.parse(calculatingUnitPrice(index: i) ?? '0.00') * double.parse(calculatingQty(index: i) ?? '0.00')}')}')
+          // (double.parse('${saleOrderDataModel?.sellLines[i].itemTax}') *
+          //     double.parse('${saleOrderDataModel?.sellLines[i].quantity}')
+          // double.parse('${calculatingQty(index: i)}')
           // * double.parse(
           //     '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[i].subUnitId)}')
-          );
+          ;
+      print(
+          'Item Tax --> ${selectedSaleOrderData?.sellLines[i].itemTax} * Item quantity --> ${selectedSaleOrderData?.sellLines[i].quantity} === ${double.parse('${selectedSaleOrderData?.sellLines[i].itemTax}') * double.parse('${selectedSaleOrderData?.sellLines[i].quantity}')}');
     }
+    print('Item Total Tax ---> ${totalTax}');
     return totalTax;
   }
 
@@ -451,13 +477,14 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
               */
         // Item Quantity
         cTxt3:
-            '${double.parse('${selectedSaleOrderData?.sellLines[index].quantity}') / double.parse('${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: selectedSaleOrderData?.sellLines[index].subUnitId)}')} ${Get.find<AllProductsController>().checkUnitsShortName(unitId: selectedSaleOrderData?.sellLines[index].subUnitId)}',
+            // '${double.parse('${selectedSaleOrderData?.sellLines[index].quantity}') / double.parse('${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: selectedSaleOrderData?.sellLines[index].subUnitId)}')} ${Get.find<AllProductsController>().checkUnitsShortName(unitId: selectedSaleOrderData?.sellLines[index].subUnitId)}',
+            ' ${calculatingQty(index: index)}/${Get.find<AllProductsController>().checkUnitsShortName(unitId: selectedSaleOrderData?.sellLines[index].subUnitId)}',
         // Price
-        cTxt4:
-            '${AppFormat.doubleToStringUpTo2('${selectedSaleOrderData?.sellLines[index].unitPriceIncTax}') ?? ''}',
+
+        cTxt4: '${calculatingUnitPrice(index: index)}',
         // Total
         cTxt5:
-            '${AppFormat.doubleToStringUpTo2('${Get.find<ProductCartController>().productTotalAmount(selectedSaleOrderData?.sellLines[index].unitPriceIncTax, selectedSaleOrderData?.sellLines[index].quantity ?? 0)}') ?? ''}',
+            '${double.parse(calculatingUnitPrice(index: index) ?? '0.00') * double.parse(calculatingQty(index: index) ?? '0.00')}',
       );
     },
   );
@@ -473,15 +500,15 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
     cTxt2:
         'Sub Total: ${AppFormat.doubleToStringUpTo2('${selectedSaleOrderData?.totalBeforeTax}')}',
   );
-  bytes += cl2(
-    // Total Quantity
-    cTxt1: 'Qty: ${totalQuantity(selectedSaleOrderData?.sellLines)}',
-    // Total Quantity
-    cTxt2: (selectedSaleOrderData?.taxAmount != null &&
-            selectedSaleOrderData?.taxAmount != '0.00')
-        ? 'VAT: ${AppFormat.doubleToStringUpTo2('${totalItemsTax()}')}'
-        : null,
-  );
+  // bytes += cl2(
+  //   // Total Quantity
+  //   cTxt1: 'Qty: ${totalQuantity(selectedSaleOrderData?.sellLines)}',
+  //   // Total Quantity
+  //   cTxt2: (selectedSaleOrderData?.taxAmount != null &&
+  //           selectedSaleOrderData?.taxAmount != '0.00')
+  //       ? 'VAT: ${AppFormat.doubleToStringUpTo2('${totalItemsTax()}')}'
+  //       : null,
+  // );
 
   bytes += cl2(
     cTxt1: '',

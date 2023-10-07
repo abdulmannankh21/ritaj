@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../Models/ProductsModel/product.dart';
 import '../../Config/DateTimeFormat.dart';
 import '../../Models/business_n_register/BusinessModel.dart';
+import '../../Models/order_type_model/SaleOrderModel.dart';
 import '../../Services/storage_services.dart';
 import '../ProductController/all_products_controller.dart';
 import '../exception_controller.dart';
@@ -137,7 +138,9 @@ class TaxController extends GetxController {
   }
 
   /// inline tax amount calculation method
-  double inlineTaxAmount(Product itemProduct) {
+  double inlineTaxAmount(
+    Product itemProduct,
+  ) {
     if (!isInlineTaxEnable) return 0;
     final AllProductsController prodCartCtrlObj =
         Get.find<AllProductsController>();
@@ -150,5 +153,31 @@ class TaxController extends GetxController {
                 '${itemProduct.productVariations?.first.variations?.first.defaultSellPrice}') /
             100) *
         double.parse('${itemProduct.productTax?.amount ?? 0.00}');
+  }
+
+  /// inline tax amount calculation method
+  double inlineTaxAmountForPDF(
+    int? taxId,
+    String? amount,
+  ) {
+    if (!isInlineTaxEnable) return 0;
+    final AllProductsController prodCartCtrlObj =
+        Get.find<AllProductsController>();
+
+    // return (double.parse(
+    //             '${itemProduct.productVariations?.first.variations?.first.sellPriceIncTax}') *
+    //         double.parse('${itemProduct.productTax?.amount ?? 0.00}')) /
+    //     (100 + double.parse('${itemProduct.productTax?.amount ?? 0.00}'));
+    print(
+        'Inside Tax Ctrl --> ${(double.parse('${amount}') / 100) * double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}')}');
+    return (double.parse('${amount}') / 100) *
+        double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}');
+  }
+
+  checkTaxAmount({
+    int? taxId,
+  }) {
+    return listTaxModel?.data?.firstWhereOrNull((i) => i.id == taxId)?.amount ??
+        '0.00';
   }
 }
