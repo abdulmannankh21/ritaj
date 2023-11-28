@@ -305,7 +305,7 @@ class PrintData extends StatelessWidget {
               finalDetails(
                   txt1: 'Subtotal:',
                   txt2:
-                      '${AppFormat.doubleToStringUpTo2(saleOrderDataModel.totalBeforeTax)}'),
+                      '${AppFormat.doubleToStringUpTo2('${double.parse('${saleOrderDataModel.totalBeforeTax}') - totalItemsTax()}')}'),
               pw.SizedBox(height: 5),
               finalDetails(
                   txt1: 'Discount:',

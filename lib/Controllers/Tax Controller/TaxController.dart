@@ -180,4 +180,11 @@ class TaxController extends GetxController {
     return listTaxModel?.data?.firstWhereOrNull((i) => i.id == taxId)?.amount ??
         '0.00';
   }
+
+  checkTaxName({
+    int? taxId,
+  }) {
+    return listTaxModel?.data?.firstWhereOrNull((i) => i.id == taxId)?.name ??
+        '';
+  }
 }
