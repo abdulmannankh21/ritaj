@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../Models/ProductsModel/product.dart';
-import '../../Config/DateTimeFormat.dart';
-import '../../Models/business_n_register/BusinessModel.dart';
-import '../../Models/order_type_model/SaleOrderModel.dart';
-import '../../Services/storage_services.dart';
-import '../ProductController/all_products_controller.dart';
-import '../exception_controller.dart';
+import '/Config/app_format.dart';
 import '/Config/utils.dart';
+import '/Models/ProductsModel/product.dart';
 import '/Models/TaxModel/taxModel.dart';
+import '/Models/business_n_register/BusinessModel.dart';
 import '/Services/api_services.dart';
 import '/Services/api_urls.dart';
+import '/Services/storage_services.dart';
+import '../ProductController/all_products_controller.dart';
+import '../exception_controller.dart';
 
 class TaxController extends GetxController {
   ListTaxModel? listTaxModel;

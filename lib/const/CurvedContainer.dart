@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 
-import '/Config/DateTimeFormat.dart';
+import '/Config/app_format.dart';
 import '/Config/utils.dart';
+import '/Controllers/DashboardController/dashboardController.dart';
+import '/Pages/Notifications/notifications.dart';
 import '/Pages/Profile_View/profile_view.dart';
+import '/Services/storage_services.dart';
 import '/Theme/colors.dart';
-import '../Controllers/DashboardController/dashboardController.dart';
-import '../Pages/Notifications/notifications.dart';
-import '../Services/storage_services.dart';
-import 'dimensions.dart';
 
 class CurvedContainer extends StatefulWidget {
   @override
@@ -22,7 +21,7 @@ class _CurvedContainerState extends State<CurvedContainer> {
 
   ///Date time range picker
   Future<void> _showDateRangePicker() async {
-    List<DateTime>? dateTimeList = await showOmniDateTimeRangePicker(
+    await showOmniDateTimeRangePicker(
       context: context,
       startInitialDate: DateTime.now(),
       startFirstDate: DateTime(1600).subtract(const Duration(days: 3652)),
@@ -65,17 +64,18 @@ class _CurvedContainerState extends State<CurvedContainer> {
           return true;
         }
       },
-    );
-
-    dashBoardCtrl.startDateCtrl.text =
-        AppFormat.dateYYYYMMDDHHMM24(dateTimeList?[0] ?? DateTime.now());
-    dashBoardCtrl.startDate = dateTimeList?[0] ?? DateTime.now();
-    dashBoardCtrl.endDateCtrl.text =
-        AppFormat.dateYYYYMMDDHHMM24(dateTimeList?[1] ?? DateTime.now());
-    dashBoardCtrl.endDate = dateTimeList?[1] ?? DateTime.now();
-    showProgress();
-    dashBoardCtrl.fetchDashboardData();
-    dashBoardCtrl.update();
+    ).then((List<DateTime>? dateTimeList) {
+      if (dateTimeList == null) return;
+      dashBoardCtrl.startDateCtrl.text =
+          AppFormat.dateYYYYMMDDHHMM24(dateTimeList[0]);
+      dashBoardCtrl.startDate = dateTimeList[0];
+      dashBoardCtrl.endDateCtrl.text =
+          AppFormat.dateYYYYMMDDHHMM24(dateTimeList[1]);
+      dashBoardCtrl.endDate = dateTimeList[1];
+      showProgress();
+      dashBoardCtrl.fetchDashboardData();
+      dashBoardCtrl.update();
+    });
   }
 
   @override
@@ -124,9 +124,7 @@ class _CurvedContainerState extends State<CurvedContainer> {
                       color: kWhiteColor,
                     ),
                   ),
-                  SizedBox(
-                    width: 5,
-                  ),
+                  SizedBox(width: 5),
                   GestureDetector(
                     onTap: () {
                       Get.to(() => Notifications());
@@ -136,9 +134,7 @@ class _CurvedContainerState extends State<CurvedContainer> {
                       color: kWhiteColor,
                     ),
                   ),
-                  SizedBox(
-                    width: 5,
-                  )
+                  SizedBox(width: 5)
                   // Icon(
                   //   Icons.add,
                   //   color: kWhiteColor,
@@ -147,7 +143,7 @@ class _CurvedContainerState extends State<CurvedContainer> {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.to(ProfileView());
+                  Get.to(() => ProfileView());
                 },
                 child: Row(
                   children: [
@@ -210,9 +206,7 @@ class _CurvedContainerState extends State<CurvedContainer> {
                     //     // ),
                     //   ),
                     // ),
-                    SizedBox(
-                      width: 15,
-                    ),
+                    SizedBox(width: 15),
                     Text(
                       '${AppStorage.getLoggedUserData()?.staffUser.firstName ?? ''} ${AppStorage.getLoggedUserData()?.staffUser.lastName ?? ''}',
                       style: Theme.of(context)

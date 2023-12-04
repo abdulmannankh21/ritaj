@@ -1,19 +1,19 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:esc_pos_utils/esc_pos_utils.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
 
+import 'package:esc_pos_utils/esc_pos_utils.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as i;
 
-import '../../Config/DateTimeFormat.dart';
-import '../../Controllers/ProductController/all_products_controller.dart';
-import '../../Controllers/Tax Controller/TaxController.dart';
-import '../../Services/storage_services.dart';
+import '/Config/app_format.dart';
+import '/Controllers/ProductController/all_products_controller.dart';
+import '/Controllers/Tax Controller/TaxController.dart';
+import '/Models/order_type_model/SaleOrderModel.dart';
 import '/Models/order_type_model/SellLineModel.dart';
-import '../../Models/order_type_model/SaleOrderModel.dart';
+import '/Services/storage_services.dart';
 
 Future<List<int>> posInvoiceAndKotPrintLayout(
   Generator printer, {
@@ -515,7 +515,7 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   bytes += cl2(
     cTxt1: '',
     cTxt2:
-    'Add: ${Get.find<TaxController>().checkTaxName(taxId: selectedSaleOrderData?.taxId)}(${Get.find<TaxController>().checkTaxAmount(taxId: selectedSaleOrderData?.taxId)}%)  ${totalItemsTax()}',
+        'Add: ${Get.find<TaxController>().checkTaxName(taxId: selectedSaleOrderData?.taxId)}(${Get.find<TaxController>().checkTaxAmount(taxId: selectedSaleOrderData?.taxId)}%)  ${totalItemsTax()}',
   );
   // bytes += cl2(
   //   // Total Quantity
@@ -526,8 +526,6 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   //       ? 'VAT: ${AppFormat.doubleToStringUpTo2('${totalItemsTax()}')}'
   //       : null,
   // );
-
-
 
   bytes += cl2(
     cTxt1: '',

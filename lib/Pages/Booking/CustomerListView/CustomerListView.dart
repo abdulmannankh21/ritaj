@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Components/OptionSelectionView.dart';
-import '../../../Config/utils.dart';
-import '../../../Controllers/Booking Controller/BookingController.dart';
-import '../../../Controllers/ContactController/ContactController.dart';
+import '/Components/OptionSelectionView.dart';
+import '/Config/utils.dart';
+import '/Controllers/Booking Controller/BookingController.dart';
+import '/Controllers/ContactController/ContactController.dart';
 
 class CustomerListView extends StatefulWidget {
-  ContactController contactCtrlObj;
+  final ContactController contactCtrlObj;
   CustomerListView({Key? key, required this.contactCtrlObj}) : super(key: key);
 
   @override
@@ -19,13 +19,12 @@ class _CustomerListViewState extends State<CustomerListView> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ContactController>(
-        builder: (ContactController customerNameCtrlObj) {
-      if (customerNameCtrlObj.customerContacts == null)
-        return progressIndicator();
+        builder: (ContactController customerCtrlObj) {
+      if (customerCtrlObj.customerContacts == null) return progressIndicator();
 
       return RefreshIndicator(
         onRefresh: () async {
-          await Get.find<ContactController>().fetchCustomerInfo('');
+          await customerCtrlObj.fetchCustomerInfo(1);
         },
         child: OptionSelectionView(
           itemCount:
@@ -38,23 +37,20 @@ class _CustomerListViewState extends State<CustomerListView> {
             // print(_data1);
             return OptionSelectionTile(
               onTap: () {
-                customerNameCtrlObj.customerNameCtrl.text =
+                customerCtrlObj.customerNameCtrl.text =
                     '${widget.contactCtrlObj.customerContacts?.contactDataList[index].name ?? ''} ${widget.contactCtrlObj.customerContacts?.contactDataList[index].contactId ?? ''}';
                 print(
                     '${widget.contactCtrlObj.customerContacts?.contactDataList[index].name}');
-                customerNameCtrlObj.contactId = widget.contactCtrlObj
+                customerCtrlObj.contactId = widget.contactCtrlObj
                         .customerContacts?.contactDataList[index].contactId ??
                     '';
-                customerNameCtrlObj.searchCustomerCtrl.text =
+                customerCtrlObj.searchCustomerCtrl.text =
                     '${widget.contactCtrlObj.customerContacts?.contactDataList[index].name} ${widget.contactCtrlObj.customerContacts?.contactDataList[index].contactId}';
-                customerNameCtrlObj.nameCtrl.text = widget.contactCtrlObj
+                customerCtrlObj.nameCtrl.text = widget.contactCtrlObj
                         .customerContacts?.contactDataList[index].name ??
                     '';
-                customerNameCtrlObj.mobileNumberCtrl.text = widget
-                        .contactCtrlObj
-                        .customerContacts
-                        ?.contactDataList[index]
-                        .mobile ??
+                customerCtrlObj.mobileNumberCtrl.text = widget.contactCtrlObj
+                        .customerContacts?.contactDataList[index].mobile ??
                     '';
                 bookingCtrl.contactIdCtrl.text =
                     '${widget.contactCtrlObj.customerContacts?.contactDataList[index].id}';

@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '/Config/app_format.dart';
 import '/Config/utils.dart';
+import '/Controllers/DashboardController/dashboardController.dart';
+import '/Controllers/FundsController/fundsController.dart';
+import '/Controllers/ProductController/all_products_controller.dart';
 import '/Theme/colors.dart';
-import '../../Config/DateTimeFormat.dart';
-import '../../Controllers/DashboardController/dashboardController.dart';
-import '../../Controllers/FundsController/fundsController.dart';
-import '../../Controllers/ProductController/all_products_controller.dart';
-import '../../const/CurvedContainer.dart';
+import '/const/CurvedContainer.dart';
 import '../CustomesVisit/newCustomerVisits.dart';
 import '../FundsTransfer/fundsTransfer.dart';
 import '../Orders/View/OrdersTabPage.dart';
 import '../ProductsPage/ItemsPage.dart';
-import '../Receipts/receipts.dart';
 import '../SalesView/SalesViewDetails/SalesView.dart';
 import '../Upload/upload.dart';
 import '../order_type/search_customer_page.dart';
@@ -85,51 +84,43 @@ class _HomePageRetailState extends State<HomePageRetail> {
                             // handle icon tap
                             if (index == 0) {
                               //Get.to(AddItem());
-                              Get.to(ItemsPage());
+                              Get.to(() => ItemsPage());
                             }
                             if (index == 1) {
-                              Get.to(CustomerSearch(
-                                dashBoardId: 1,
-                              ));
+                              Get.to(() => CustomerSearch(dashBoardId: 1));
                             }
                             if (index == 2) {
-                              Get.to(CustomerSearch(
-                                dashBoardId: 2,
-                              ));
+                              Get.to(() => CustomerSearch(dashBoardId: 2));
                               //Get.to(CreateOrderPage());
                             }
                             if (index == 3) {
                               // Get.to(CustomerSearch(
                               //   dashBoardId: 3,
                               // ));
-                              Get.to(CustomerSearch(
-                                dashBoardId: 3,
-                              ));
+                              Get.to(() => CustomerSearch(dashBoardId: 3));
                               // Get.to(Return());
                             }
                             if (index == 4) {
-                              Get.to(CustomerSearch(
-                                dashBoardId: 4,
-                              ));
+                              Get.to(() => CustomerSearch(dashBoardId: 4));
                               // Get.to(Receipts());
                             }
                             if (index == 5) {
                               // Get.to(SalesTabPage());
 
-                              Get.to(SalesView());
+                              Get.to(() => SalesView());
                             }
                             if (index == 6) {
-                              Get.to(OrdersTabPage());
+                              Get.to(() => OrdersTabPage());
                             }
                             if (index == 7) {
                               //Get.to(CustomerVisits());
-                              Get.to(NewCustomerVisit());
+                              Get.to(() => NewCustomerVisit());
                             }
                             if (index == 8) {
-                              Get.to(Upload());
+                              Get.to(() => Upload());
                             }
                             if (index == 9) {
-                              Get.to(FundsTransfer());
+                              Get.to(() => FundsTransfer());
                             }
                           },
                         ),
@@ -147,9 +138,7 @@ class _HomePageRetailState extends State<HomePageRetail> {
                 },
               ),
             ),
-            SizedBox(
-              height: 15,
-            ),
+            SizedBox(height: 15),
             GetBuilder<DashboardController>(
                 builder: (DashboardController dashboardCtrlObj) {
               if (dashboardCtrlObj.homeTabModel == null) {

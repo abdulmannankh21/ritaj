@@ -4,11 +4,11 @@ import 'package:get/get.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 
 import '/Components/textfield.dart';
+import '/Config/app_format.dart';
 import '/Controllers/AllSalesController/allSalesController.dart';
 import '/Models/PaymentMethodModel/paymentMethodModel.dart';
 import '/Theme/colors.dart';
-import '../../Config/DateTimeFormat.dart';
-import '../../Theme/style.dart';
+import '/Theme/style.dart';
 
 class PaymentFields extends StatefulWidget {
   final bool isFirst;

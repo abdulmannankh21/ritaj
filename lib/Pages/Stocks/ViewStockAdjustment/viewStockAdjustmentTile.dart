@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Config/DateTimeFormat.dart';
-import '../../../Config/const.dart';
-import '../../../Controllers/StockTransferController/stockTransferController.dart';
-import '../../../Theme/colors.dart';
+import '/Config/app_format.dart';
+import '/Config/const.dart';
+import '/Controllers/StockTransferController/stockTransferController.dart';
 
 class ViwStockAdjustmentTile extends StatefulWidget {
   StockTransferController stockAdjustmentCtrlObj;

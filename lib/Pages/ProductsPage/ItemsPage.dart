@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/Components/p5Headings.dart';
-import '/Config/DateTimeFormat.dart';
+import '/Config/app_format.dart';
 import '/Config/utils.dart';
 import '/Controllers/ProductController/all_products_controller.dart';
 import '/Services/storage_services.dart';
@@ -17,7 +17,7 @@ class ItemsPage extends StatefulWidget {
 
 class _ItemsPageState extends State<ItemsPage> {
   // final PageController _pageController = PageController();
-  TextEditingController searchController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   AllProductsController allProdCtrlObj = Get.find<AllProductsController>();
   // ScrollController? _scrollController;
@@ -115,64 +115,57 @@ class _ItemsPageState extends State<ItemsPage> {
                   txt5: 'Pieces'.tr,
                 ),
               ),
-              SizedBox(
-                height: 5,
-              ),
-              Divider(
-                height: 0,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              SizedBox(height: 5),
+              Divider(height: 0, color: Theme.of(context).colorScheme.primary),
             ],
           ),
         ),
       ),
-      body: Material(
-        child: Stack(
-          children: [
-            // SizedBox(
-            //   height: 30,
-            // ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: GetBuilder(
-                builder: (AllProductsController allProdCtrlObj) {
-                  return RefreshIndicator(
-                    onRefresh: () async {
-                      await allProdCtrlObj.fetchAllProducts();
-                    },
-                    child: (allProdCtrlObj.listProductsModel == null)
-                        ? progressIndicator()
-                        : ListView.builder(
-                            physics: AlwaysScrollableScrollPhysics(),
-                            padding: const EdgeInsets.only(bottom: 100),
-                            itemCount: allProdCtrlObj.searchedProducts.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Get.to(ViewProductsPage(
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: GetBuilder(
+              builder: (AllProductsController allProdCtrlObj) {
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    await allProdCtrlObj.fetchAllProducts();
+                  },
+                  child: (allProdCtrlObj.listProductsModel == null)
+                      ? progressIndicator()
+                      : ListView.builder(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          padding: const EdgeInsets.only(bottom: 100),
+                          itemCount: allProdCtrlObj.searchedProducts.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Get.to(
+                                  () => ViewProductsPage(
                                     isView: true,
                                     productModelObjs:
                                         allProdCtrlObj.searchedProducts[index],
-                                  ));
-                                },
-                                child: Container(
-                                  color:
-                                      Theme.of(context).colorScheme.background,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(height: 2),
-                                      Row(
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                color: Theme.of(context).colorScheme.background,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          ///SKU
+                                          // SKU
                                           Expanded(
                                             flex: 1,
                                             child: Text(
                                               '${allProdCtrlObj.searchedProducts[index].sku}',
-                                              textAlign: TextAlign.center,
+                                              textAlign: TextAlign.start,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .titleSmall!
@@ -183,7 +176,7 @@ class _ItemsPageState extends State<ItemsPage> {
                                             ),
                                           ),
 
-                                          ///Product name
+                                          // Product Name
                                           Expanded(
                                             flex: 2,
                                             child: Text(
@@ -197,7 +190,7 @@ class _ItemsPageState extends State<ItemsPage> {
                                             ),
                                           ),
 
-                                          ///Price
+                                          // Price
                                           Expanded(
                                             flex: 1,
                                             child: Text(
@@ -216,65 +209,63 @@ class _ItemsPageState extends State<ItemsPage> {
                                             ),
                                           ),
 
+                                          // Stock
                                           Expanded(
-                                              flex: 1,
-                                              child: Center(
-                                                child: Text(
-                                                  AppFormat.doubleToStringUpTo2(
-                                                        '${double.parse(allProdCtrlObj.checkProductStockLocationBased(locationId: AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id, index: index) ?? '0.00') / double.parse(allProdCtrlObj.checkUnitsActualBaseMultiplier(unitName: allProdCtrlObj.unitListStatus[index]))}',
-                                                      ) ??
-                                                      '0.00',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleMedium!
-                                                      .copyWith(
-                                                        fontSize: 10,
-                                                      ),
-                                                ),
-                                              )),
+                                            flex: 1,
+                                            child: Center(
+                                              child: Text(
+                                                AppFormat.doubleToStringUpTo2(
+                                                      '${double.parse(allProdCtrlObj.checkProductStockLocationBased(locationId: AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id, index: index) ?? '0.00') / double.parse(allProdCtrlObj.checkUnitsActualBaseMultiplier(unitName: allProdCtrlObj.unitListStatus[index]))}',
+                                                    ) ??
+                                                    '0.00',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium!
+                                                    .copyWith(
+                                                      fontSize: 10,
+                                                    ),
+                                              ),
+                                            ),
+                                          ),
 
+                                          // Unit
                                           Expanded(
-                                              flex: 1,
-                                              child: Center(
-                                                child: Text(
-                                                  '${allProdCtrlObj.checkUnitsShortName(unitId: allProdCtrlObj.searchedProducts[index].unitId) ?? ''}',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleMedium!
-                                                      .copyWith(
-                                                        fontSize: 10,
-                                                      ),
-                                                ),
-                                              )),
+                                            flex: 1,
+                                            child: Center(
+                                              child: Text(
+                                                '${allProdCtrlObj.checkUnitsShortName(unitId: allProdCtrlObj.searchedProducts[index].unitId) ?? ''}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium!
+                                                    .copyWith(
+                                                      fontSize: 10,
+                                                    ),
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                      Divider(
-                                        thickness: 2,
-                                        height: 10,
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                    Divider(thickness: 2, height: 10),
+                                  ],
                                 ),
-                              );
-                            },
-                          ),
-                  );
-                },
-              ),
+                              ),
+                            );
+                          },
+                        ),
+                );
+              },
             ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: GetX(builder: (AllProductsController allProductCtrll) {
-                // contactCtrlObj.callFirstOrderPage(page: 2);
-                return allProductCtrll.isLoadMoreRunning.isTrue
-                    ? progressIndicator()
-                    : SizedBox();
-              }),
-            ),
-          ],
-        ),
+          ),
+          Center(
+            child: Obx(() {
+              // contactCtrlObj.callFirstOrderPage(page: 2);
+              return allProdCtrlObj.isLoadMoreRunning.isTrue
+                  ? progressIndicator()
+                  : SizedBox();
+            }),
+          ),
+        ],
       ),
       // GetBuilder<AllProductsController>(
       //     builder: (AllProductsController allProdCtrlObj) {

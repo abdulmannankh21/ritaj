@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../Config/DateTimeFormat.dart';
+import '/Config/app_format.dart';
 
 class AmountInfo extends StatelessWidget {
   final String? amount;

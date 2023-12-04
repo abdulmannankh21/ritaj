@@ -4,18 +4,18 @@ import 'package:get/get.dart';
 import 'package:pdf/src/pdf/page_format.dart';
 import 'package:pdf/widgets.dart' as pw;
 
+import '/Components/amount_tile.dart';
+import '/Components/custom_circular_button.dart';
 import '/Components/textfield.dart';
+import '/Config/app_format.dart';
 import '/Config/utils.dart';
+import '/Controllers/ProductController/PaymentController.dart';
+import '/Controllers/ProductController/all_products_controller.dart';
 import '/Controllers/ProductController/product_cart_controller.dart';
 import '/Controllers/ReceiptsController/receiptsController.dart';
 import '/Pages/Tabs/View/TabsPage.dart';
 import '/Theme/style.dart';
-import '../../Components/amount_tile.dart';
-import '../../Components/custom_circular_button.dart';
-import '../../Config/DateTimeFormat.dart';
-import '../../Controllers/ProductController/PaymentController.dart';
-import '../../Controllers/ProductController/all_products_controller.dart';
-import '../../const/dimensions.dart';
+import '/const/dimensions.dart';
 import '../CreateOrder/selectionDialogue.dart';
 
 class CheckOutPage extends StatefulWidget {

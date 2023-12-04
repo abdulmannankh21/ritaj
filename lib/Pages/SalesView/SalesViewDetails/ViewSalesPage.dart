@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../Components/custom_circular_button.dart';
-import '../../../Controllers/AllSalesController/allSalesController.dart';
-import '../../../Controllers/ContactController/ContactController.dart';
-import '../../../Controllers/ProductController/all_products_controller.dart';
-import '../../../const/dimensions.dart';
-import '../../CreateOrder/createOrderPage.dart';
-import '../../PrintDesign/invoice_print_screen.dart';
-import '../../PrintDesign/pdfGenerate.dart';
-import '/Config/DateTimeFormat.dart';
+
+import '/Components/custom_circular_button.dart';
+import '/Config/app_format.dart';
 import '/Config/const.dart';
+import '/Controllers/AllSalesController/allSalesController.dart';
+import '/Controllers/ContactController/ContactController.dart';
+import '/Controllers/ProductController/all_products_controller.dart';
 import '/Models/order_type_model/SaleOrderModel.dart';
 import '/Models/order_type_model/SellLineModel.dart';
 import '/Pages/Orders/Components/CustomerInfo.dart';
 import '/Pages/Orders/Controller/OrderController.dart';
 import '/Theme/colors.dart';
 import '/Theme/style.dart';
+import '/const/dimensions.dart';
+import '../../CreateOrder/createOrderPage.dart';
+import '../../PrintDesign/invoice_print_screen.dart';
+import '../../PrintDesign/pdfGenerate.dart';
 
 class SalesViewDetailsPage extends StatefulWidget {
   final SaleOrderDataModel? salesOrderData;

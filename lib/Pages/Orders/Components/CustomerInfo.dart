@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/Config/DateTimeFormat.dart';
+import '/Config/app_format.dart';
 import '/Config/const.dart';
 
 class CustomerInfo extends StatelessWidget {
   final String? customerName;
   final DateTime? bookingDate;
-  const CustomerInfo(this.customerName, this.bookingDate, {Key? key}) : super(key: key);
+  const CustomerInfo(this.customerName, this.bookingDate, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,10 @@ class CustomerInfo extends StatelessWidget {
         Icon(Icons.person, size: 15),
         Text(
           customerName?.capitalize ?? '-',
-          style: Theme.of(context).textTheme.headline6!.copyWith(fontSize: 12, color: Colors.black),
+          style: Theme.of(context)
+              .textTheme
+              .headline6!
+              .copyWith(fontSize: 12, color: Colors.black),
         ),
         AppConst.dividerLine(height: 12, width: 1),
         Text(

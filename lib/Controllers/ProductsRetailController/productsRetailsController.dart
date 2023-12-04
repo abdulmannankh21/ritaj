@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '/Config/app_format.dart';
+import '/Config/utils.dart';
 import '/Controllers/Tax%20Controller/TaxController.dart';
-import '../../Config/DateTimeFormat.dart';
-import '../../Config/utils.dart';
-import '../../Models/ProductsModel/ProductModel.dart';
-import '../../Models/ProductsModel/ShowProductListModel.dart';
-import '../../Services/api_services.dart';
-import '../../Services/api_urls.dart';
-import '../../Services/storage_services.dart';
+import '/Models/ProductsModel/ProductModel.dart';
+import '/Models/ProductsModel/ShowProductListModel.dart';
+import '/Services/api_services.dart';
+import '/Services/api_urls.dart';
+import '/Services/storage_services.dart';
 import '../exception_controller.dart';
 
 class ProductsRetailController extends GetxController {

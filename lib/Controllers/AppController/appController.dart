@@ -1,7 +1,19 @@
 import 'package:get/get.dart';
 
-import '../../Pages/Orders/Controller/OrderController.dart';
-import '../../Pages/Tabs/Controllers/BottomNavBarController.dart';
+import '/Controllers/AllPrinterController/AllPrinterController.dart';
+import '/Controllers/Booking%20Controller/BookingController.dart';
+import '/Controllers/FundsController/fundsController.dart';
+import '/Controllers/ListUserController/ListUserController.dart';
+import '/Controllers/Notifications/NotificationsController.dart';
+import '/Controllers/ProductController/PaymentController.dart';
+import '/Controllers/ProductController/all_products_controller.dart';
+import '/Controllers/ProductController/product_cart_controller.dart';
+import '/Controllers/ServiceStaffController/ServiceStaffController.dart';
+import '/Controllers/Tax%20Controller/TaxController.dart';
+import '/Controllers/exception_controller.dart';
+import '/Controllers/register/RegisterController.dart';
+import '/Pages/Orders/Controller/OrderController.dart';
+import '/Pages/Tabs/Controllers/BottomNavBarController.dart';
 import '../AllKitchenController/allKitchenController.dart';
 import '../AllSalesController/allSalesController.dart';
 import '../AllSalesController/quotationController.dart';
@@ -16,18 +28,6 @@ import '../SalesReturnController/saleReturnController.dart';
 import '../StockTransferController/stockTransferController.dart';
 import '../ThemeController/themeController.dart';
 import '../Upload Controller/uploadController.dart';
-import '/Controllers/AllPrinterController/AllPrinterController.dart';
-import '/Controllers/Booking%20Controller/BookingController.dart';
-import '/Controllers/FundsController/fundsController.dart';
-import '/Controllers/ListUserController/ListUserController.dart';
-import '/Controllers/Notifications/NotificationsController.dart';
-import '/Controllers/ProductController/PaymentController.dart';
-import '/Controllers/ProductController/all_products_controller.dart';
-import '/Controllers/ProductController/product_cart_controller.dart';
-import '/Controllers/ServiceStaffController/ServiceStaffController.dart';
-import '/Controllers/Tax%20Controller/TaxController.dart';
-import '/Controllers/exception_controller.dart';
-import '/Controllers/register/RegisterController.dart';
 
 class AppController {
   Future syncApplication() async {
@@ -37,7 +37,9 @@ class AppController {
     // Get.find<AllPrinterController>().fetchAllPrinters();
     Get.find<TaxController>().fetchListTax();
     Get.find<OrderController>().fetchSaleOrders(1);
-    Get.find<ContactController>().fetchCustomerInfo('');
+    Get.find<ContactController>()
+      ..customerSearchCtrl.clear()
+      ..fetchCustomerInfo(1);
     await Get.find<OrderTypeSelectionController>().fetchOrderTypes();
     await Get.find<AllProductsController>().fetchAllProducts();
   }

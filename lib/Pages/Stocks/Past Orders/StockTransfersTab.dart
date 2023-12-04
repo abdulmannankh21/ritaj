@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Config/DateTimeFormat.dart';
-import '../../../Controllers/StockTransferController/stockTransferController.dart';
+import '/Config/app_format.dart';
+import '/Controllers/StockTransferController/stockTransferController.dart';
 
 class StockTransfer extends StatefulWidget {
   @override

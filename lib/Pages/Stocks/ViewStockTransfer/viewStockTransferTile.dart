@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '/Config/app_format.dart';
+import '/Controllers/StockTransferController/stockTransferController.dart';
+import '/Models/ViewStockTransferModel/viewStockTransferModel.dart';
+import '/Services/storage_services.dart';
 import '/Theme/colors.dart';
-import '../../../Config/DateTimeFormat.dart';
-import '../../../Controllers/StockTransferController/stockTransferController.dart';
-import '../../../Models/ViewStockTransferModel/viewStockTransferModel.dart';
-import '../../../Services/storage_services.dart';
 import 'changeStockTransferStatus.dart';
 
 class ViwStockTile extends StatefulWidget {

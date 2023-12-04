@@ -204,7 +204,6 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '/Config/utils.dart';
@@ -215,24 +214,25 @@ import '../../Theme/colors.dart';
 import '../CreateNewCustomer/createNewCustomer.dart';
 import '../CreateOrder/createOrderPage.dart';
 import '../Receipts/receipts.dart';
-import '../Return/return.dart';
 import '../SalesView/SalesViewDetails/AddSalesAndQuotation.dart';
 import '../SalesView/SalesViewDetails/SalesView.dart';
 
 class CustomerSearch extends StatefulWidget {
-  int? dashBoardId;
+  final int? dashBoardId;
   CustomerSearch({Key? key, this.dashBoardId}) : super(key: key);
+
   @override
   State<CustomerSearch> createState() => _CustomerSearchState();
 }
 
 class _CustomerSearchState extends State<CustomerSearch> {
   ScrollController? _scrollController;
-  String? query;
-  ContactController contactCtrlObjj = Get.find<ContactController>();
+  ContactController contactCtrlObj = Get.find<ContactController>();
 
   void initState() {
-    contactCtrlObjj.callFirstOrderPage();
+    contactCtrlObj
+      ..customerSearchCtrl.clear()
+      ..callFirstOrderPage();
     scrollControllerLis();
     super.initState();
   }
@@ -240,7 +240,7 @@ class _CustomerSearchState extends State<CustomerSearch> {
   @override
   void dispose() {
     _scrollController?.removeListener(scrollControllerLis);
-    contactCtrlObjj.clearAllContactCtrl();
+    contactCtrlObj.clearAllContactCtrl();
     super.dispose();
   }
 
@@ -251,29 +251,27 @@ class _CustomerSearchState extends State<CustomerSearch> {
         if (_scrollController?.position.pixels ==
             _scrollController?.position.maxScrollExtent) {
           //contactCtrlObjj.isLoadMoreRunning.isTrue;
-          Get.find<ContactController>().loadMoreSaleOrders();
+          contactCtrlObj.loadMoreSaleOrders();
           //Get.find<ContactController>().callFirstOrderPage();
         }
       });
     }
   }
 
-  TextEditingController searchCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         title: TextFormField(
-          //controller: searchCtrl,
+          controller: contactCtrlObj.customerSearchCtrl,
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: 'enter_some_text'.tr,
             hintStyle: TextStyle(color: Colors.grey),
           ),
-          onChanged: (value) {
-            query = value;
-            contactCtrlObjj.fetchCustomerInfo(query);
+          onChanged: (_) {
+            contactCtrlObj.callFirstOrderPage();
           },
         ),
         bottom: PreferredSize(
@@ -301,7 +299,7 @@ class _CustomerSearchState extends State<CustomerSearch> {
               backgroundColor:
                   Theme.of(context).colorScheme.primary.withOpacity(0.5),
               onPressed: () {
-                Get.to(CreateNewCustomer());
+                Get.to(() => CreateNewCustomer());
                 // showDialog(
                 //   context: context,
                 //   builder: (context) => AlertDialog(
@@ -310,13 +308,14 @@ class _CustomerSearchState extends State<CustomerSearch> {
                 //     content: CreateNewCustomer(),
                 //   ),
                 // );
-              })
+              },
+            )
           : null,
       body: Material(
         child: Stack(
           children: [
-            GetBuilder(
-              builder: (ContactController contactCtrlObj) {
+            GetBuilder<ContactController>(
+              builder: (contactCtrlObj) {
                 return RefreshIndicator(
                   onRefresh: () async {
                     await contactCtrlObj.callFirstOrderPage();
@@ -414,7 +413,7 @@ class _CustomerSearchState extends State<CustomerSearch> {
               bottom: 0,
               left: 0,
               right: 0,
-              child: GetX(builder: (ContactController contactCtrlObj) {
+              child: GetX<ContactController>(builder: (contactCtrlObj) {
                 // contactCtrlObj.callFirstOrderPage(page: 2);
                 return contactCtrlObj.isLoadMoreRunning.isTrue
                     ? progressIndicator()
@@ -427,22 +426,22 @@ class _CustomerSearchState extends State<CustomerSearch> {
     );
   }
 
-  Future<ContactModel?> searchCustomer() async {
-    try {
-      //debugPrint('Search Query' + query);
-      ContactController contactCtrlObj = Get.find<ContactController>();
-      return contactCtrlObj.fetchCustomerInfo(query);
-    } on PlatformException catch (e) {
-      if (e.code == 'not_available') {
-        return throw ('Please enter more info!');
-      }
-      print('Error in PlatformException => ${e.code}');
-      return throw ('${e.code}');
-    } catch (e) {
-      print('Error => $e');
-      return throw ('Something bad happen!');
-    }
-  }
+  // Future<ContactModel?> searchCustomer() async {
+  //   try {
+  //     //debugPrint('Search Query' + query);
+  //     ContactController contactCtrlObj = Get.find<ContactController>();
+  //     return contactCtrlObj.fetchCustomerInfo(query);
+  //   } on PlatformException catch (e) {
+  //     if (e.code == 'not_available') {
+  //       return throw ('Please enter more info!');
+  //     }
+  //     print('Error in PlatformException => ${e.code}');
+  //     return throw ('${e.code}');
+  //   } catch (e) {
+  //     print('Error => $e');
+  //     return throw ('Something bad happen!');
+  //   }
+  // }
 
   createNewCustomTile(BuildContext context) {
     return ListTile(
@@ -458,9 +457,9 @@ class _CustomerSearchState extends State<CustomerSearch> {
           type: 'Customer',
           name: 'Create New Customer',
         );
-        contactCtrlObjj.nameCtrl.clear();
-        contactCtrlObjj.mobileNumberCtrl.clear();
-        contactCtrlObjj.searchCustomerCtrl.text = 'create_new_customer'.tr;
+        contactCtrlObj.nameCtrl.clear();
+        contactCtrlObj.mobileNumberCtrl.clear();
+        contactCtrlObj.searchCustomerCtrl.text = 'create_new_customer'.tr;
         Get.close(1);
         // close(
         //   context,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Config/DateTimeFormat.dart';
-import '../../../Models/ViewStockTransferModel/viewStockTransferModel.dart';
+import '/Config/app_format.dart';
+import '/Models/ViewStockTransferModel/viewStockTransferModel.dart';
 
 class StockTransfersInfoTile extends StatelessWidget {
   StockTransferData? viewStocksModel;

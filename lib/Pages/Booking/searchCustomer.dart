@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../Components/textfield.dart';
-import '../../Controllers/ContactController/ContactController.dart';
+import '/Components/textfield.dart';
+import '/Controllers/ContactController/ContactController.dart';
 import 'CustomerListView/CustomerListView.dart';
 
 class SearchCustomerBooking extends StatefulWidget {
@@ -16,8 +16,9 @@ class _SearchCustomerBookingState extends State<SearchCustomerBooking> {
   final ContactController contactCtrlObj = Get.find<ContactController>();
   @override
   void initState() {
-    // TODO: implement initState
-    contactCtrlObj.fetchCustomerInfo('');
+    contactCtrlObj
+      ..customerSearchCtrl.clear()
+      ..fetchCustomerInfo(1);
     super.initState();
   }
 

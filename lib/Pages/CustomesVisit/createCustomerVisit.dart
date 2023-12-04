@@ -4,14 +4,14 @@ import 'package:get/get.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 
 import '/Components/custom_circular_button.dart';
+import '/Components/textfield.dart';
+import '/Config/app_format.dart';
 import '/Config/utils.dart';
 import '/Controllers/ContactController/ContactController.dart';
 import '/Controllers/CustomerVisits/CustomerVisitsController.dart';
 import '/Controllers/ListUserController/ListUserController.dart';
-import '../../../Components/textfield.dart';
-import '../../../Config/DateTimeFormat.dart';
-import '../../../Theme/colors.dart';
-import '../../../Theme/style.dart';
+import '/Theme/colors.dart';
+import '/Theme/style.dart';
 
 class CreateCustomerVisits extends StatefulWidget {
   CustomerVisitsController? custVisitCtrl;

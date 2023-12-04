@@ -8,13 +8,13 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
+import '/Config/app_format.dart';
+import '/Controllers/ProductController/all_products_controller.dart';
 import '/Controllers/ProductController/product_cart_controller.dart';
 import '/Controllers/Tax%20Controller/TaxController.dart';
-import '../../Config/DateTimeFormat.dart';
-import '../../Controllers/ProductController/all_products_controller.dart';
-import '../../Models/ProductsModel/ProductModel.dart';
-import '../../Models/order_type_model/SaleOrderModel.dart';
-import '../../Services/storage_services.dart';
+import '/Models/ProductsModel/ProductModel.dart';
+import '/Models/order_type_model/SaleOrderModel.dart';
+import '/Services/storage_services.dart';
 
 class PrintData extends StatelessWidget {
   final SaleOrderDataModel? saleOrderDataModel;

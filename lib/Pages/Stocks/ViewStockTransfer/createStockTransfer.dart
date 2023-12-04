@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 
-import '../../../Components/custom_circular_button.dart';
-import '../../../Components/textfield.dart';
-import '../../../Config/DateTimeFormat.dart';
-import '../../../Config/utils.dart';
-import '../../../Controllers/StockTransferController/stockTransferController.dart';
-import '../../../Services/storage_services.dart';
-import '../../../Theme/colors.dart';
-import '../../../Theme/style.dart';
+import '/Components/custom_circular_button.dart';
+import '/Components/textfield.dart';
+import '/Config/app_format.dart';
+import '/Config/utils.dart';
+import '/Controllers/StockTransferController/stockTransferController.dart';
+import '/Services/storage_services.dart';
+import '/Theme/colors.dart';
+import '/Theme/style.dart';
 
 class CreateStockTransfer extends StatefulWidget {
   const CreateStockTransfer({Key? key}) : super(key: key);

@@ -29,14 +29,12 @@ class Product5Headings extends StatelessWidget {
         if (txt2 != null)
           Expanded(
             flex: 2,
-            child: Center(
-              child: Text(
-                '${txt2}',
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
+            child: Text(
+              '${txt2}',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
           ),
         if (txt3 != null)

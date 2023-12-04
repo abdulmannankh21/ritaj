@@ -86,29 +86,8 @@ class ContactController extends GetxController {
   ///Ending
 
   // Customer Search
+  final TextEditingController customerSearchCtrl = TextEditingController();
   ContactModel? customerContacts;
-  Future<ContactModel?> fetchCustomerInfo(
-    String? searchFieldCtrlValue,
-  ) async {
-    return await ApiServices.getMethod(
-      feedUrl:
-          '${ApiUrls.contactApi}?type=customer&name=$searchFieldCtrlValue&mobile_num=$searchFieldCtrlValue&biz_name=$searchFieldCtrlValue&created_by=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}',
-    ).then((_res) {
-      if (_res == null) return null;
-      customerContacts = contactModelFromJson(_res);
-      update();
-      return customerContacts;
-    }).onError((error, stackTrace) async {
-      debugPrint('Error => $error');
-      debugPrint('StackTrace => $stackTrace');
-      await ExceptionController().exceptionAlert(
-        errorMsg: '$error',
-        exceptionFormat: ApiServices.methodExceptionFormat(
-            'POST', ApiUrls.contactApi, error, stackTrace),
-      );
-      throw '$error';
-    });
-  }
 
   Future<ContactModel?> fetchCustomerList(int? per_page) async {
     return await ApiServices.getMethod(
@@ -131,14 +110,18 @@ class ContactController extends GetxController {
   }
 
   // fetch all sale orders list
-  Future<bool?> fetchCustomerName(int _page) async {
+  Future<bool?> fetchCustomerInfo(int _page) async {
     print('========================================');
-    print('Function calling');
+    print('fetchCustomerInfo function calling');
     return await ApiServices.getMethod(
       feedUrl: '${ApiUrls.contactApi}'
           '?type=customer'
           '&page=$_page'
-          '&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id ?? AppStorage.getLoggedUserData()?.staffUser.locationId}',
+          '&name=${customerSearchCtrl.text}'
+          '&mobile_num=${customerSearchCtrl.text}'
+          '&biz_name=${customerSearchCtrl.text}'
+          '&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id ?? AppStorage.getLoggedUserData()?.staffUser.locationId}'
+          '&created_by=${AppStorage.getLoggedUserData()?.staffUser.id}',
     ).then((_res) {
       if (_res == null) return null;
       final _data = contactModelFromJson(_res);
@@ -176,7 +159,7 @@ class ContactController extends GetxController {
 
     allSaleOrdersPage += 1;
 
-    await fetchCustomerName(allSaleOrdersPage).then((bool? _isFinished) {
+    await fetchCustomerInfo(allSaleOrdersPage).then((bool? _isFinished) {
       if (_isFinished == null) {
         allSaleOrdersPage -= 1;
       } else if (_isFinished) {
@@ -419,7 +402,7 @@ class ContactController extends GetxController {
     isFirstLoadRunning = true;
     hasNextPage = true;
     isLoadMoreRunning.value = false;
-    await fetchCustomerName(1);
+    await fetchCustomerInfo(1);
     isFirstLoadRunning = false;
   }
 

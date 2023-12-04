@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '/Components/custom_circular_button.dart';
 import '/Config/utils.dart';
+import '/Controllers/ContactController/ContactController.dart';
+import '/Controllers/CustomerVisits/CustomerVisitsController.dart';
 import '/Pages/CreateNewCustomer/showCustomerDetails.dart';
-import '../../Components/custom_circular_button.dart';
-import '../../Controllers/ContactController/ContactController.dart';
-import '../../Controllers/CustomerVisits/CustomerVisitsController.dart';
-import '../../Theme/colors.dart';
+import '/Theme/colors.dart';
 import '../CreateOrder/createOrderPage.dart';
 import '../Return/return.dart';
 
@@ -19,12 +19,11 @@ class NewCustomerVisit extends StatefulWidget {
 
 class _NewCustomerVisitState extends State<NewCustomerVisit> {
   ScrollController? _scrollController;
-  String? query;
-  ContactController contactCtrlObjj = Get.find<ContactController>();
-  CustomerVisitsController customerVisitsCtrlObj =
-      Get.find<CustomerVisitsController>();
+  final ContactController contactCtrlObj = Get.find<ContactController>();
   void initState() {
-    contactCtrlObjj.callFirstOrderPage();
+    contactCtrlObj
+      ..customerSearchCtrl.clear()
+      ..callFirstOrderPage();
     scrollControllerLis();
     super.initState();
   }
@@ -32,7 +31,7 @@ class _NewCustomerVisitState extends State<NewCustomerVisit> {
   @override
   void dispose() {
     _scrollController?.removeListener(scrollControllerLis);
-    contactCtrlObjj.clearAllContactCtrl();
+    contactCtrlObj.clearAllContactCtrl();
     super.dispose();
   }
 
@@ -50,7 +49,6 @@ class _NewCustomerVisitState extends State<NewCustomerVisit> {
     }
   }
 
-  TextEditingController searchCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,15 +65,14 @@ class _NewCustomerVisitState extends State<NewCustomerVisit> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 TextFormField(
-                  //controller: searchCtrl,
+                  controller: contactCtrlObj.customerSearchCtrl,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: 'search_customer'.tr,
                     hintStyle: TextStyle(color: Colors.grey),
                   ),
-                  onChanged: (value) {
-                    query = value;
-                    contactCtrlObjj.fetchCustomerInfo(query);
+                  onChanged: (_) {
+                    contactCtrlObj.callFirstOrderPage();
                   },
                 ),
                 //createNewCustomTile(context),
@@ -203,6 +200,10 @@ class _NewCustomerVisitState extends State<NewCustomerVisit> {
                                               contactCtrlObj.isDisable == true)
                                           ? null
                                           : () {
+                                              CustomerVisitsController
+                                                  customerVisitsCtrlObj =
+                                                  Get.find<
+                                                      CustomerVisitsController>();
                                               contactCtrlObj.id = contactCtrlObj
                                                   .customerContacts!
                                                   .contactDataList[index]

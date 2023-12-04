@@ -1,25 +1,23 @@
-import '../../Components/custom_circular_button.dart';
-import '../../Config/utils.dart';
-import '../../Controllers/Tax Controller/TaxController.dart';
-import '../../Pages/CreateOrder/selectionDialogue.dart';
-import '../../Pages/checkout/check_out.dart';
-import '../../Theme/style.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../Components/p4Headings.dart';
-import '../../Components/textfield.dart';
-import '../../Config/DateTimeFormat.dart';
-import '../../Controllers/ContactController/ContactController.dart';
-import '../../Controllers/ProductController/all_products_controller.dart';
-import '../../Models/order_type_model/SaleOrderModel.dart';
-import '../../Services/storage_services.dart';
-import '../../Theme/colors.dart';
-import '../../const/dimensions.dart';
+import '/Components/custom_circular_button.dart';
+import '/Components/p4Headings.dart';
+import '/Components/textfield.dart';
+import '/Config/utils.dart';
+import '/Controllers/ContactController/ContactController.dart';
+import '/Controllers/ProductController/all_products_controller.dart';
+import '/Controllers/Tax Controller/TaxController.dart';
+import '/Models/order_type_model/SaleOrderModel.dart';
+import '/Pages/CreateOrder/selectionDialogue.dart';
+import '/Pages/checkout/check_out.dart';
+import '/Services/storage_services.dart';
+import '/Theme/colors.dart';
+import '/Theme/style.dart';
+import '/const/dimensions.dart';
 import '../SalesView/discount.dart';
 import '../Tabs/View/TabsPage.dart';
-import '../checkout/check_out.dart';
 
 class CreateOrderPage extends StatefulWidget {
   final SaleOrderDataModel? salesOrderData;

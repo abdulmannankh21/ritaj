@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import '../../Config/DateTimeFormat.dart';
-import '../../Config/utils.dart';
-import '../../Models/SaleReturn/editSaleReturnModel.dart';
-import '../../Models/SaleReturn/saleReturn.dart';
-import '../../Services/api_services.dart';
-import '../../Services/api_urls.dart';
+import '/Config/app_format.dart';
+import '/Config/utils.dart';
+import '/Models/SaleReturn/editSaleReturnModel.dart';
+import '/Models/SaleReturn/saleReturn.dart';
+import '/Services/api_services.dart';
+import '/Services/api_urls.dart';
 import '../ProductController/product_cart_controller.dart';
 import '../exception_controller.dart';
 
