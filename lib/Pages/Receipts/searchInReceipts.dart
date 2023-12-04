@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Components/custom_circular_button.dart';
-import '../../../Components/textfield.dart';
-import '../../Config/utils.dart';
-import '../../Controllers/AllSalesController/allSalesController.dart';
+import '/Components/custom_circular_button.dart';
+import '/Components/textfield.dart';
+import '/Config/utils.dart';
+import '/Controllers/AllSalesController/allSalesController.dart';
 
 class SearchInReceipts extends StatefulWidget {
   SearchInReceipts({

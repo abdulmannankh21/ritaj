@@ -1,7 +1,7 @@
 import 'package:get_storage/get_storage.dart';
 
-import '../Config/utils.dart';
-import '../Models/AllPrinterModel/AllPrinterModels.dart';
+import '/Config/utils.dart';
+import '/Models/AllPrinterModel/AllPrinterModels.dart';
 import '/Models/AuthModels/loggged_in_user_detail.dart';
 import '/Models/AuthModels/o_auth_model.dart';
 import '/Models/ProductsModel/all_products_model.dart';

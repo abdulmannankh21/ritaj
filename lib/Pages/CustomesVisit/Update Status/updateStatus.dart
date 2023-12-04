@@ -1,19 +1,16 @@
 import 'dart:io';
-import 'package:royal_prime/Components/custom_circular_button.dart';
-
-import 'package:royal_prime/Controllers/CustomerVisits/CustomerVisitsController.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../Components/textfield.dart';
-
-import '../../../Config/utils.dart';
-
-import '../../../Theme/colors.dart';
-import '../../../Theme/style.dart';
+import '/Components/custom_circular_button.dart';
+import '/Components/textfield.dart';
+import '/Config/utils.dart';
+import '/Controllers/CustomerVisits/CustomerVisitsController.dart';
+import '/Theme/colors.dart';
+import '/Theme/style.dart';
 import 'meetDetailsView.dart';
 
 class UpdateStatus extends StatefulWidget {

@@ -30,12 +30,12 @@ class AppConfig {
   // Client Access Token & ID
   static String clientId = "8";
   static String clientSecret = "vq0BFIMp8w2aQAZsrhtLm9Wnl7TXxde9Va3W9uWj";
-  // // API base url
+  // API base url
   static String baseUrl = "https://manage.bizmodo.ae/";
   static String socketBaseUrl = "https://manage.bizmodo.ae:8008";
 
   /// For IO
-  // Client Access Token & IDz
+  // // Client Access Token & ID
   // static String clientId = "12";
   // static String clientSecret = "GA4KPGEzIAl2C5yndKldgB0paAzGC2f3t2vp5Qg2";
   // // API base url

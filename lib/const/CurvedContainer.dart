@@ -1,10 +1,11 @@
-import 'package:royal_prime/Config/DateTimeFormat.dart';
-import 'package:royal_prime/Config/utils.dart';
-import 'package:royal_prime/Pages/Profile_View/profile_view.dart';
-import 'package:royal_prime/Theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
+
+import '/Config/DateTimeFormat.dart';
+import '/Config/utils.dart';
+import '/Pages/Profile_View/profile_view.dart';
+import '/Theme/colors.dart';
 import '../Controllers/DashboardController/dashboardController.dart';
 import '../Pages/Notifications/notifications.dart';
 import '../Services/storage_services.dart';

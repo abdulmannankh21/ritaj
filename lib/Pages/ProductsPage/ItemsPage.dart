@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../Components/p5Headings.dart';
-import '../../Config/DateTimeFormat.dart';
-import '../../Config/utils.dart';
-import '../../Controllers/StockTransferController/stockTransferController.dart';
-import '../../Services/storage_services.dart';
+
+import '/Components/p5Headings.dart';
+import '/Config/DateTimeFormat.dart';
+import '/Config/utils.dart';
 import '/Controllers/ProductController/all_products_controller.dart';
+import '/Services/storage_services.dart';
 import 'ViewProductsPage.dart';
 
 class ItemsPage extends StatefulWidget {

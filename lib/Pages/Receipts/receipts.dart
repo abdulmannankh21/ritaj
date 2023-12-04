@@ -1,21 +1,19 @@
-import 'package:royal_prime/Components/custom_circular_button.dart';
-import 'package:royal_prime/Config/DateTimeFormat.dart';
-import 'package:royal_prime/Config/enums.dart';
-
-import 'package:royal_prime/Pages/Receipts/receiptsTile.dart';
-import 'package:royal_prime/Pages/Receipts/searchInReceipts.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Controllers/StockTransferController/stockTransferController.dart';
-import '../../../Theme/colors.dart';
-import '../../Config/utils.dart';
-import '../../Controllers/AllSalesController/allSalesController.dart';
-import '../../Controllers/ContactController/ContactController.dart';
-import '../../Controllers/ProductController/all_products_controller.dart';
-import '../../Controllers/ReceiptsController/receiptsController.dart';
-import '../../Theme/style.dart';
+import '/Components/custom_circular_button.dart';
+import '/Config/DateTimeFormat.dart';
+import '/Config/enums.dart';
+import '/Config/utils.dart';
+import '/Controllers/AllSalesController/allSalesController.dart';
+import '/Controllers/ContactController/ContactController.dart';
+import '/Controllers/ProductController/all_products_controller.dart';
+import '/Controllers/ReceiptsController/receiptsController.dart';
+import '/Controllers/StockTransferController/stockTransferController.dart';
+import '/Pages/Receipts/receiptsTile.dart';
+import '/Pages/Receipts/searchInReceipts.dart';
+import '/Theme/colors.dart';
+import '/Theme/style.dart';
 import '../checkout/check_out.dart';
 import '../order_type/search_customer_page.dart';
 

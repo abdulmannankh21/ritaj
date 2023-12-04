@@ -1,7 +1,8 @@
-import 'package:royal_prime/Config/utils.dart';
-import 'package:royal_prime/Controllers/AllSalesController/allSalesController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '/Config/utils.dart';
+import '/Controllers/AllSalesController/allSalesController.dart';
 import '../../../Controllers/ProductController/all_products_controller.dart';
 import '../../Return/saleReturn.dart';
 import '../../order_type/search_customer_page.dart';

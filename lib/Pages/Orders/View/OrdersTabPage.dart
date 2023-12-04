@@ -1,9 +1,9 @@
-import 'package:royal_prime/Theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Controllers/StockTransferController/stockTransferController.dart';
 import '/Pages/Orders/Controller/OrderController.dart';
+import '/Theme/colors.dart';
+import '../../../Controllers/StockTransferController/stockTransferController.dart';
 
 class OrdersTabPage extends StatefulWidget {
   const OrdersTabPage({Key? key}) : super(key: key);

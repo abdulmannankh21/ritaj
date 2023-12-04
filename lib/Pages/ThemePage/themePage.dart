@@ -1,12 +1,11 @@
-import 'package:royal_prime/Components/custom_circular_button.dart';
-import 'package:royal_prime/Config/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../Controllers/ThemeController/themeController.dart';
-import '../../Theme/colors.dart';
+import '/Components/custom_circular_button.dart';
+import '/Config/utils.dart';
+import '/Controllers/ThemeController/themeController.dart';
+import '/Theme/colors.dart';
 
 class ThemePage extends StatefulWidget {
   const ThemePage({Key? key}) : super(key: key);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../Config/const.dart';
+import '/Config/const.dart';
 import '/Theme/colors.dart';
 
 class RegisterPage extends StatefulWidget {

@@ -2,19 +2,19 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:royal_prime/Components/custom_circular_button.dart';
-import 'package:royal_prime/Config/utils.dart';
-import 'package:royal_prime/Controllers/ProductController/all_products_controller.dart';
-import 'package:royal_prime/Pages/PrintDesign/pos_print_layout.dart';
-import 'package:royal_prime/Pages/PrintDesign/pos_receipt_print_layout.dart';
-import 'package:royal_prime/Pages/Tabs/View/TabsPage.dart';
-import 'package:royal_prime/Theme/colors.dart';
-import 'package:royal_prime/Theme/style.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 import 'package:get/get.dart';
 
+import '/Components/custom_circular_button.dart';
+import '/Config/utils.dart';
+import '/Controllers/ProductController/all_products_controller.dart';
+import '/Pages/PrintDesign/pos_print_layout.dart';
+import '/Pages/PrintDesign/pos_receipt_print_layout.dart';
+import '/Pages/Tabs/View/TabsPage.dart';
+import '/Theme/colors.dart';
+import '/Theme/style.dart';
 import '../../Controllers/AllPrinterController/allPrinterController.dart';
 import '../../const/dimensions.dart';
 

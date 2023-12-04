@@ -1,7 +1,7 @@
-import 'package:royal_prime/Models/AllKitchenModel/AllKitchenModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '/Models/AllKitchenModel/AllKitchenModel.dart';
 import '../../Config/utils.dart';
 import '../../Models/ProductsModel/ProductModel.dart';
 import '../../Services/api_services.dart';

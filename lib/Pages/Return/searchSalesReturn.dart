@@ -1,11 +1,10 @@
-import 'package:royal_prime/Controllers/SalesReturnController/saleReturnController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Components/custom_circular_button.dart';
-import '../../../Components/textfield.dart';
-import '../../../Theme/colors.dart';
-import '../../Config/utils.dart';
+import '/Components/custom_circular_button.dart';
+import '/Components/textfield.dart';
+import '/Config/utils.dart';
+import '/Controllers/SalesReturnController/saleReturnController.dart';
 
 class SearchSalesReturn extends StatefulWidget {
   SearchSalesReturn({

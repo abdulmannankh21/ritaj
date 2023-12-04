@@ -2,11 +2,11 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Components/custom_circular_button.dart';
-import '../../../Components/textfield.dart';
-import '../../../Controllers/ContactController/ContactController.dart';
-import '../../../Controllers/ProductController/product_cart_controller.dart';
-import '../../../Theme/colors.dart';
+import '/Components/custom_circular_button.dart';
+import '/Components/textfield.dart';
+import '/Controllers/ContactController/ContactController.dart';
+import '/Controllers/ProductController/product_cart_controller.dart';
+import '/Theme/colors.dart';
 
 class ShippingCharge extends StatefulWidget {
   const ShippingCharge({Key? key}) : super(key: key);

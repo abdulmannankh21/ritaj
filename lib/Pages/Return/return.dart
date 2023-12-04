@@ -1,14 +1,12 @@
-import 'package:royal_prime/Pages/Return/returnTile.dart';
-import 'package:royal_prime/Pages/Return/saleReturn.dart';
-import 'package:royal_prime/Pages/Return/searchSalesReturn.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Config/utils.dart';
-
-import '../../Controllers/ContactController/ContactController.dart';
-import '../../Controllers/SalesReturnController/saleReturnController.dart';
+import '/Config/utils.dart';
+import '/Controllers/ContactController/ContactController.dart';
+import '/Controllers/SalesReturnController/saleReturnController.dart';
+import '/Pages/Return/returnTile.dart';
+import '/Pages/Return/saleReturn.dart';
+import '/Pages/Return/searchSalesReturn.dart';
 
 class Return extends StatefulWidget {
   const Return({Key? key}) : super(key: key);

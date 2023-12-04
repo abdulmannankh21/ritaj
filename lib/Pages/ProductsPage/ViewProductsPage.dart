@@ -1,15 +1,15 @@
-import 'package:royal_prime/Config/DateTimeFormat.dart';
-import 'package:royal_prime/Controllers/AllKitchenController/allKitchenController.dart';
-import 'package:royal_prime/Controllers/ProductController/all_products_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../Theme/colors.dart';
-import '../../../Theme/style.dart';
-import '../../Config/utils.dart';
-import '../../Controllers/ProductsRetailController/productsRetailsController.dart';
-import '../../Controllers/Tax Controller/TaxController.dart';
-import '../../Models/ProductsModel/ProductShowListModel.dart';
-import '../../Models/ProductsModel/product.dart';
+
+import '/Config/DateTimeFormat.dart';
+import '/Config/utils.dart';
+import '/Controllers/AllKitchenController/allKitchenController.dart';
+import '/Controllers/ProductController/all_products_controller.dart';
+import '/Controllers/ProductsRetailController/productsRetailsController.dart';
+import '/Controllers/Tax Controller/TaxController.dart';
+import '/Models/ProductsModel/product.dart';
+import '/Theme/colors.dart';
+import '/Theme/style.dart';
 
 class ViewProductsPage extends StatefulWidget {
   final bool isView;

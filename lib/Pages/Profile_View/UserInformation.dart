@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/Components/textfield.dart';
+import '/Controllers/ListUserController/ListUserController.dart';
 import '/Theme/colors.dart';
 import '/Theme/style.dart';
-import '../../Controllers/ListUserController/ListUserController.dart';
 
 class UserInformation extends StatefulWidget {
   const UserInformation({Key? key}) : super(key: key);

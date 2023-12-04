@@ -1,9 +1,9 @@
-import 'package:royal_prime/Controllers/ProductController/all_products_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
+import '/Controllers/ProductController/all_products_controller.dart';
 import '../../Config/utils.dart';
 import '../../Models/order_type_model/SaleOrderModel.dart';
 import '../../Services/api_services.dart';

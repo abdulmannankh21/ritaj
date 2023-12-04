@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../Services/storage_services.dart';
 import '/Controllers/register/RegisterController.dart';
 import '/Models/business_n_register/BusinessModel.dart';
+import '/Services/storage_services.dart';
 
 class BusinessLocationSelection extends StatelessWidget {
   BusinessLocationSelection({Key? key}) : super(key: key);

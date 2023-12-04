@@ -3,18 +3,18 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
-import 'package:royal_prime/Controllers/Tax%20Controller/TaxController.dart';
 
+import '/Controllers/ProductController/product_cart_controller.dart';
+import '/Controllers/Tax%20Controller/TaxController.dart';
 import '../../Config/DateTimeFormat.dart';
 import '../../Controllers/ProductController/all_products_controller.dart';
 import '../../Models/ProductsModel/ProductModel.dart';
 import '../../Models/order_type_model/SaleOrderModel.dart';
 import '../../Services/storage_services.dart';
-import '/Controllers/ProductController/product_cart_controller.dart';
-import 'package:http/http.dart' as http;
 
 class PrintData extends StatelessWidget {
   final SaleOrderDataModel? saleOrderDataModel;

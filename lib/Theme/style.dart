@@ -1,11 +1,9 @@
-import 'package:royal_prime/Controllers/AuthController/auth_controller.dart';
-import 'package:royal_prime/Services/storage_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../Services/storage_services.dart';
+import '/Controllers/AuthController/auth_controller.dart';
 import '/Theme/colors.dart';
 
 /// TODO: button bg colors

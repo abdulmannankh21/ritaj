@@ -1,20 +1,21 @@
 import 'dart:io';
-import 'package:royal_prime/Controllers/AllKitchenController/allKitchenController.dart';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../Components/custom_circular_button.dart';
-import '../../../Components/textfield.dart';
-import '../../../Theme/colors.dart';
-import '../../../Theme/style.dart';
-import '../../Config/utils.dart';
-import '../../Controllers/ProductsRetailController/productsRetailsController.dart';
-import '../../Controllers/Tax Controller/TaxController.dart';
-import '../../Models/ProductsModel/ProductModel.dart';
-import '../../Services/storage_services.dart';
+import '/Components/custom_circular_button.dart';
+import '/Components/textfield.dart';
+import '/Config/utils.dart';
+import '/Controllers/AllKitchenController/allKitchenController.dart';
+import '/Controllers/ProductsRetailController/productsRetailsController.dart';
+import '/Controllers/Tax Controller/TaxController.dart';
+import '/Models/ProductsModel/ProductModel.dart';
+import '/Services/storage_services.dart';
+import '/Theme/colors.dart';
+import '/Theme/style.dart';
 
 class AddProductsPage extends StatefulWidget {
   bool isView;

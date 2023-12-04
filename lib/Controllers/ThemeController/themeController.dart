@@ -1,8 +1,8 @@
-import 'package:royal_prime/Services/storage_services.dart';
-import 'package:royal_prime/Theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '/Services/storage_services.dart';
+import '/Theme/colors.dart';
 import '../../Config/utils.dart';
 import '../../Models/StoreSettingsModel/storeSettingsModel.dart';
 import '../../Services/api_services.dart';

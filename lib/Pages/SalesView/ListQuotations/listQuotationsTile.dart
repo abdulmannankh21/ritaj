@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../Models/QuotationModel/listQuotationModel.dart';
 import '/Config/const.dart';
+import '/Models/QuotationModel/listQuotationModel.dart';
 import '/Pages/Orders/Components/CustomerInfo.dart';
 
 class ListQuotationTile extends StatelessWidget {

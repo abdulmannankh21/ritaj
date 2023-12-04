@@ -1,4 +1,4 @@
-import '../Config/app_config.dart';
+import '/Config/app_config.dart';
 
 class ApiUrls {
   //Endpoints

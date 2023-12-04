@@ -1,17 +1,18 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../Models/ContactsModel/getSpecifiedContactModel.dart';
-import '../../Services/storage_services.dart';
-import '../ListUserController/ListUserController.dart';
-import '../exception_controller.dart';
 import '/Config/const.dart';
 import '/Models/order_type_model/customer_contact_model.dart';
 import '/Services/api_services.dart';
 import '/Services/api_urls.dart';
 import '../../Config/utils.dart';
+import '../../Models/ContactsModel/getSpecifiedContactModel.dart';
+import '../../Services/storage_services.dart';
+import '../ListUserController/ListUserController.dart';
 import '../OrderController/order_type_controller.dart';
+import '../exception_controller.dart';
 
 class ContactController extends GetxController {
   final OrderTypeSelectionController orderTypeSelectionCtrlObj =
@@ -134,8 +135,11 @@ class ContactController extends GetxController {
     print('========================================');
     print('Function calling');
     return await ApiServices.getMethod(
-            feedUrl: '${ApiUrls.contactApi}?type=customer&page=$_page')
-        .then((_res) {
+      feedUrl: '${ApiUrls.contactApi}'
+          '?type=customer'
+          '&page=$_page'
+          '&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id ?? AppStorage.getLoggedUserData()?.staffUser.locationId}',
+    ).then((_res) {
       if (_res == null) return null;
       final _data = contactModelFromJson(_res);
       if (_page > 1 && customerContacts != null) {

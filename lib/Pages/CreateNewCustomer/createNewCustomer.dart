@@ -1,16 +1,17 @@
 import 'dart:io';
-import 'package:royal_prime/Config/utils.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../Components/custom_circular_button.dart';
-import '../../Components/textfield.dart';
-import '../../Controllers/ContactController/ContactController.dart';
-import '../../Controllers/ListUserController/ListUserController.dart';
-import '../../Theme/colors.dart';
-import '../../Theme/style.dart';
+import '/Components/custom_circular_button.dart';
+import '/Components/textfield.dart';
+import '/Config/utils.dart';
+import '/Controllers/ContactController/ContactController.dart';
+import '/Controllers/ListUserController/ListUserController.dart';
+import '/Theme/colors.dart';
+import '/Theme/style.dart';
 
 class CreateNewCustomer extends StatefulWidget {
   const CreateNewCustomer({Key? key}) : super(key: key);

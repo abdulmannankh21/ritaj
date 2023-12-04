@@ -65,10 +65,16 @@ class SaleReturnController extends GetxController {
       update();
       if (_res == null) return null;
       editSaleReturnModelDart = editSaleReturnModelDartFromJson(_res);
-      var length = editSaleReturnModelDart?.sellLines?.length ?? 0;
-      for (int i = 0; i < length; i++) {
-        returnQtyCtrl.add(TextEditingController());
-        subtotal.add('0.00');
+      if (editSaleReturnModelDart?.sellLines != null &&
+          editSaleReturnModelDart!.sellLines!.isNotEmpty) {
+        for (var sellLine in editSaleReturnModelDart!.sellLines!) {
+          returnQtyCtrl.add(
+            TextEditingController(text: sellLine.quantityReturned),
+          );
+          subtotal.add(
+            '${double.parse('${sellLine.quantityReturned ?? 0}') * double.parse('${sellLine.unitPriceIncTax ?? 0}')}',
+          );
+        }
       }
       stopProgress();
       update();

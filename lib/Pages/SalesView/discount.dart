@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:royal_prime/Controllers/ProductController/all_products_controller.dart';
 
+import '/Controllers/ProductController/all_products_controller.dart';
 import '../../Components/custom_circular_button.dart';
 import '../../Components/discountTypeDropDown.dart';
 import '../../Components/textfield.dart';

@@ -1,12 +1,11 @@
-import 'package:royal_prime/Controllers/CustomerVisits/CustomerVisitsController.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Components/textfield.dart';
-import '../../../Theme/colors.dart';
-import '../../../Theme/style.dart';
-import '../../Controllers/ProductsRetailController/productsRetailsController.dart';
+import '/Components/textfield.dart';
+import '/Controllers/ProductsRetailController/productsRetailsController.dart';
+import '/Theme/colors.dart';
+import '/Theme/style.dart';
 
 class RowRackPosition extends StatefulWidget {
   RowRackPosition({

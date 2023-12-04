@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+import '/Controllers/OrderController/order_type_controller.dart';
 import '/Pages/Tabs/Controllers/BottomNavBarController.dart';
-import '../../../Controllers/OrderController/order_type_controller.dart';
 
 class TabsPage extends StatefulWidget {
   const TabsPage({Key? key}) : super(key: key);

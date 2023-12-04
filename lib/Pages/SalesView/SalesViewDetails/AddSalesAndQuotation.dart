@@ -1,14 +1,14 @@
-import 'package:royal_prime/Controllers/AllSalesController/allSalesController.dart';
-import 'package:royal_prime/Pages/PrintDesign/pdfGenerate.dart';
-import 'package:royal_prime/Pages/PrintDesign/pos_print_layout.dart';
-import 'package:royal_prime/Pages/SalesView/paymentDetails.dart';
-import 'package:royal_prime/Pages/SalesView/shippingCharge.dart';
-import 'package:royal_prime/Pages/print_page.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 
+import '/Controllers/AllSalesController/allSalesController.dart';
+import '/Pages/PrintDesign/pdfGenerate.dart';
+import '/Pages/PrintDesign/pos_print_layout.dart';
+import '/Pages/SalesView/paymentDetails.dart';
+import '/Pages/SalesView/shippingCharge.dart';
+import '/Pages/print_page.dart';
 import '../../../Components/custom_circular_button.dart';
 import '../../../Components/p4Headings.dart';
 import '../../../Components/textfield.dart';
@@ -18,7 +18,6 @@ import '../../../Controllers/ProductController/PaymentController.dart';
 import '../../../Controllers/ProductController/all_products_controller.dart';
 import '../../../Theme/colors.dart';
 import '../../../Theme/style.dart';
-
 import '../../../const/dimensions.dart';
 import '../../CreateOrder/selectionDialogue.dart';
 import '../../checkout/check_out.dart';

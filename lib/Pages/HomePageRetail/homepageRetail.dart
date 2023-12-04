@@ -1,8 +1,8 @@
-import 'package:royal_prime/Config/utils.dart';
-import 'package:royal_prime/Theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '/Config/utils.dart';
+import '/Theme/colors.dart';
 import '../../Config/DateTimeFormat.dart';
 import '../../Controllers/DashboardController/dashboardController.dart';
 import '../../Controllers/FundsController/fundsController.dart';
@@ -11,10 +11,10 @@ import '../../const/CurvedContainer.dart';
 import '../CustomesVisit/newCustomerVisits.dart';
 import '../FundsTransfer/fundsTransfer.dart';
 import '../Orders/View/OrdersTabPage.dart';
+import '../ProductsPage/ItemsPage.dart';
 import '../Receipts/receipts.dart';
 import '../SalesView/SalesViewDetails/SalesView.dart';
 import '../Upload/upload.dart';
-import '../ProductsPage/ItemsPage.dart';
 import '../order_type/search_customer_page.dart';
 
 class HomePageRetail extends StatefulWidget {

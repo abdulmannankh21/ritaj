@@ -4,7 +4,7 @@
 
 // import 'dart:convert';
 
-import 'package:royal_prime/Config/const.dart';
+import '/Config/const.dart';
 
 // PaymentMethodModel paymentMethodModelFromJson(String str) =>
 //     PaymentMethodModel.fromJson(json.decode(str));

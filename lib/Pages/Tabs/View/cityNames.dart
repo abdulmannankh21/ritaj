@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Controllers/ContactController/ContactController.dart';
+import '/Controllers/ContactController/ContactController.dart';
 
 class CityNames extends StatefulWidget {
   const CityNames({Key? key}) : super(key: key);

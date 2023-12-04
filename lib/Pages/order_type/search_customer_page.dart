@@ -203,21 +203,21 @@
 //   }
 // }
 
-import 'package:royal_prime/Pages/CreateNewCustomer/showCustomerDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '/Config/utils.dart';
+import '/Pages/CreateNewCustomer/showCustomerDetails.dart';
+import '../../Controllers/ContactController/ContactController.dart';
+import '../../Models/order_type_model/customer_contact_model.dart';
+import '../../Theme/colors.dart';
 import '../CreateNewCustomer/createNewCustomer.dart';
 import '../CreateOrder/createOrderPage.dart';
 import '../Receipts/receipts.dart';
 import '../Return/return.dart';
 import '../SalesView/SalesViewDetails/AddSalesAndQuotation.dart';
 import '../SalesView/SalesViewDetails/SalesView.dart';
-import '/Config/utils.dart';
-import '../../Controllers/ContactController/ContactController.dart';
-import '../../Models/order_type_model/customer_contact_model.dart';
-import '../../Theme/colors.dart';
 
 class CustomerSearch extends StatefulWidget {
   int? dashBoardId;

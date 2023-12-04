@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:royal_prime/Theme/colors.dart';
 
+import '/Theme/colors.dart';
 import '../../../Config/DateTimeFormat.dart';
 import '../../../Controllers/StockTransferController/stockTransferController.dart';
 import '../../../Models/ViewStockTransferModel/viewStockTransferModel.dart';

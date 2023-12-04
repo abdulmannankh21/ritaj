@@ -2,33 +2,31 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:royal_prime/Controllers/ProductController/product_cart_controller.dart';
+import 'package:http/http.dart' as http;
 
-import '../../Config/DateTimeFormat.dart';
-import '../../Config/utils.dart';
-
-import '../../Models/ProductsModel/ListProductsModel.dart';
-import '../../Models/ProductsModel/ProductShowListModel.dart';
-import '../../Models/ProductsModel/product.dart';
-import '../../Models/ReceiptModel.dart';
-import '../../Models/UnitModels/UnitListModel.dart';
-import '../../Models/order_type_model/SaleOrderModel.dart';
-import '../../Pages/Orders/Controller/OrderController.dart';
-import '../../Pages/PrintDesign/invoice_print_screen.dart';
-import '../../Pages/PrintDesign/pdfGenerate.dart';
-import '../../Pages/PrintDesign/receiptPdfGenerate.dart';
-import '../../Pages/Tabs/View/TabsPage.dart';
-import '../../const/dimensions.dart';
+import '/Config/DateTimeFormat.dart';
+import '/Config/utils.dart';
+import '/Controllers/ProductController/product_cart_controller.dart';
+import '/Models/ProductsModel/ListProductsModel.dart';
+import '/Models/ProductsModel/ProductShowListModel.dart';
+import '/Models/ProductsModel/all_products_model.dart';
+import '/Models/ProductsModel/product.dart';
+import '/Models/ReceiptModel.dart';
+import '/Models/UnitModels/UnitListModel.dart';
+import '/Models/order_type_model/SaleOrderModel.dart';
+import '/Pages/Orders/Controller/OrderController.dart';
+import '/Pages/PrintDesign/invoice_print_screen.dart';
+import '/Pages/PrintDesign/pdfGenerate.dart';
+import '/Pages/PrintDesign/receiptPdfGenerate.dart';
+import '/Pages/Tabs/View/TabsPage.dart';
+import '/Services/api_services.dart';
+import '/Services/api_urls.dart';
+import '/Services/storage_services.dart';
+import '/const/dimensions.dart';
 import '../AllSalesController/allSalesController.dart';
 import '../ContactController/ContactController.dart';
 import '../Tax Controller/TaxController.dart';
 import '../exception_controller.dart';
-import '/Models/ProductsModel/all_products_model.dart';
-import '/Services/api_services.dart';
-import '/Services/api_urls.dart';
-import '/Services/storage_services.dart';
-import 'package:http/http.dart' as http;
-
 import 'PaymentController.dart';
 
 class AllProductsController extends GetxController {

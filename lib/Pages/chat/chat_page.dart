@@ -1,4 +1,3 @@
-import 'package:royal_prime/Theme/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,6 +5,7 @@ import 'package:get/get.dart';
 
 import '/Components/entry_field.dart';
 import '/Theme/colors.dart';
+import '/Theme/style.dart';
 
 class ChatPage extends StatelessWidget {
   @override

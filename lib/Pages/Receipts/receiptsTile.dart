@@ -1,10 +1,10 @@
-import 'package:royal_prime/Config/enums.dart';
-import 'package:royal_prime/Controllers/ReceiptsController/receiptsController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../Theme/colors.dart';
 
-import '../../Models/order_type_model/SaleOrderModel.dart';
+import '/Config/enums.dart';
+import '/Controllers/ReceiptsController/receiptsController.dart';
+import '/Models/order_type_model/SaleOrderModel.dart';
+import '/Theme/colors.dart';
 import '../Orders/Components/AmountInfo.dart';
 import '../Orders/Components/CustomerInfo.dart';
 import '../Orders/Controller/OrderController.dart';

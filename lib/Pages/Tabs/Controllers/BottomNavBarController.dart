@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '/Models/NavBarModel.dart';
 import '/Pages/AppMenu/AppMenuPage.dart';
-import '../../HomePageRetail/homepageRetail.dart';
+import '/Pages/HomePageRetail/homepageRetail.dart';
 
 class BottomNavBarController extends GetxController {
   int selectedNavBarIndexs = 0;
