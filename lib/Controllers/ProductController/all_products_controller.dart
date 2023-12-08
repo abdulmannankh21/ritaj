@@ -157,10 +157,15 @@ class AllProductsController extends GetxController {
   checkUnits({
     Product? product,
   }) {
+  try{
     return unitListModel?.data
-            ?.firstWhereOrNull((i) => i.id == product?.unitId)
-            ?.shortName ??
+        ?.firstWhereOrNull((i) => i.id == product?.unitId)
+        ?.shortName ??
         '';
+  }
+  catch(e){
+
+  }
   }
 
   checkUnitsShortName({

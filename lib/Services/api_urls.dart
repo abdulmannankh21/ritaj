@@ -4,6 +4,7 @@ class ApiUrls {
   //Endpoints
   // login / get access token
   static String oauthToken = "oauth/token";
+
   // fetch user profile data
   static String getLoggedInUserDetail = "connector/api/user/loggedin";
   static String businessDetails = "connector/api/business-details";
@@ -19,8 +20,10 @@ class ApiUrls {
 
   // fetch tables information and list
   static String getTables = "connector/api/table";
+
   // table status update
   static String updateTableStatus = "connector/api/table/status/update";
+
   // Products
   static String allProducts = "connector/api/product";
 
@@ -34,6 +37,7 @@ class ApiUrls {
 
   // fetch the order types
   static String getOrderTypes = "connector/api/types-of-service";
+
   // create order
   static String createOrder = "connector/api/orders";
 
@@ -51,6 +55,7 @@ class ApiUrls {
       "connector/api/cash-register/close-register";
   static String openRegister = "connector/api/cash-register";
   static String closeRegister = "connector/api/cash-register/close";
+
   // static String activeOrder = "connector/api/orders/suspended/list";
   static String allOrders = "connector/api/sell";
   static String markOrdersEndpoint = "connector/api/order/marked/cooked";
