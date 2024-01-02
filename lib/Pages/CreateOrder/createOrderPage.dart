@@ -190,7 +190,9 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                                     fontWeight:
                                                         FontWeight.w500),
                                               )),
-                                          items: allProdCtrlObj.nestedist[
+                                          items:
+                                          // allProdCtrlObj.nestedist.isNotEmpty ?
+                                          allProdCtrlObj.nestedist[
                                                   index] //unitStatusList()
                                               .map((String items) {
                                             return DropdownMenuItem(
@@ -207,6 +209,10 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                               ),
                                             );
                                           }).toList(),
+                                          //     :[DropdownMenuItem<String>(
+                                          //   value: '',
+                                          //   child: SizedBox.shrink(), // You can use an empty SizedBox or any other widget
+                                          // )],
                                           value: allProdCtrlObj
                                               .unitListStatus[index],
                                           dropdownWidth: MediaQuery.of(context)
