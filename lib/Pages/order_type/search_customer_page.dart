@@ -205,6 +205,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:royal_prime/Pages/CreateNewCustomer/view_customer.dart';
 
 import '/Config/utils.dart';
 import '/Pages/CreateNewCustomer/showCustomerDetails.dart';
@@ -364,12 +365,17 @@ class _CustomerSearchState extends State<CustomerSearch> {
                                                   .name ??
                                               '';
                                       if (widget.dashBoardId == 1) {
-                                        Get.to(ShowCustomerDetails(
-                                            contactApi: contactCtrlObj
-                                                .customerContacts!
-                                                .contactDataList[index]
-                                                .id
-                                                .toString()));
+                                        // Get.to(ShowCustomerDetails(
+                                        //     contactApi: contactCtrlObj
+                                        //         .customerContacts!
+                                        //         .contactDataList[index]
+                                        //         .id
+                                        //         .toString()));
+                                        Get.to(() => ViewCustomer(id:contactCtrlObj
+                                                    .customerContacts!
+                                                    .contactDataList[index]
+                                                    .id
+                                                    .toString()));
                                       } else if (widget.dashBoardId == 2) {
                                         Get.to(CreateOrderPage());
                                       } else if (widget.dashBoardId == 3) {

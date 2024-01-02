@@ -32,9 +32,15 @@ class PrintData extends StatelessWidget {
     final pdf = pw.Document();
     final url = AppStorage.getBusinessDetailsData()?.businessData?.logo;
     final response = await http.get(Uri.parse(url ?? ''));
-    final Uint8List imageBytes = response.bodyBytes;
-    final pdfImage = pw.MemoryImage(imageBytes);
-
+    final Uint8List imageBytes;
+    pw.MemoryImage? pdfImage;
+   try{
+     imageBytes = response.bodyBytes;
+     pdfImage = pw.MemoryImage(imageBytes);
+   }
+   catch (e){
+    print("Image Not Valid");
+   }
     pdf.addPage(invoicePrintPage(
       format,
       itemList: Get.find<ProductCartController>().itemCartList,
@@ -62,10 +68,10 @@ class PrintData extends StatelessWidget {
       build: (context) => pw.Column(
         crossAxisAlignment: pw.CrossAxisAlignment.center,
         children: [
-          // Slip Title
+          if(image != null)
           pw.Image(
               pw.MemoryImage(
-                  image!.bytes), // Convert MemoryImage to ImageProvider
+                  image.bytes), // Convert MemoryImage to ImageProvider
               fit: pw.BoxFit.contain,
               width: 200,
               height: 100),

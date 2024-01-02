@@ -24,6 +24,7 @@ class AppMenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -153,6 +154,13 @@ class AppMenuPage extends StatelessWidget {
                       title: 'logout'.tr,
                       iconData: Icons.logout_outlined,
                       context: context),
+                  listTile(
+                      onTap: () async {
+                      },
+                      title: "Version : ${authCtrlObj.version}",
+                      iconData: Icons.info,
+                      context: context),
+
                 ],
               ),
             )
