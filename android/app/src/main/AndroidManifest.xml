@@ -7,7 +7,7 @@
 
     <application
         android:name="${applicationName}"
-        android:label="Royal Prime"
+        android:label="Foodies"
         android:usesCleartextTraffic="true"
         android:allowBackup="false"
         android:fullBackupContent="false"

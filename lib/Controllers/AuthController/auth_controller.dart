@@ -17,7 +17,7 @@ class AuthController extends GetxController {
   final TextEditingController userNameCtrl = TextEditingController();
   final TextEditingController passwordCtrl = TextEditingController();
   String token = '';
-  String currentColor = 'FFdaab18';
+  String currentColor = 'FF15431f';
   String version = "";
 
   initialDataCheck() async {
