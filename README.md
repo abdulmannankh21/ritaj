@@ -1,4 +1,4 @@
-# royal_prime
+# foodies
 
 A new Flutter application.
 

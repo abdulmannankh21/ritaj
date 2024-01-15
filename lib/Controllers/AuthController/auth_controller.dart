@@ -17,7 +17,7 @@ class AuthController extends GetxController {
   final TextEditingController userNameCtrl = TextEditingController();
   final TextEditingController passwordCtrl = TextEditingController();
   String token = '';
-  String currentColor = 'FF15431f';
+  String currentColor = 'FF008000';
   String version = "";
 
   initialDataCheck() async {
@@ -141,7 +141,7 @@ version = packageInfo.version;
     Get.offAll(() => LoginPage());
   }
 
-  Future<bool?> sendTokenToServer() async {
+  Future<bool?> sendTokenToServer() async   {
     Map<String, String> _field = {
       "device_token": '${token}',
     };

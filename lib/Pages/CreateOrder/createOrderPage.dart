@@ -118,9 +118,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                     // ),
                   ],
                 ),
-                SizedBox(
-                  height: 10,
-                ),
+                SizedBox(height: 10),
                 Product4Headings(
                     txt1: 'product_name'.tr,
                     txt2: 'unit'.tr,
@@ -131,248 +129,252 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                   height: MediaQuery.of(context).size.height * 0.67,
                   child: GetBuilder<AllProductsController>(
                       builder: (AllProductsController allProdCtrlObj) {
-                    if (allProdCtrlObj.listProductsModel == null) {
-                      return progressIndicator();
-                    }
-                    return ListView.builder(
-                        padding: EdgeInsetsDirectional.only(
-                            top: 5, bottom: 5, start: 10, end: 10),
-                        physics: BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        itemCount: allProdCtrlObj.productModelObjs.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.only(
-                              bottom: 5,
-                            ),
-                            padding: EdgeInsets.symmetric(horizontal: 5),
-                            color: index.isEven
-                                ? kWhiteColor
-                                : Theme.of(context)
+                        if (allProdCtrlObj.listProductsModel == null) {
+                          return progressIndicator();
+                        }
+                        return ListView.builder(
+                            padding: EdgeInsetsDirectional.only(
+                                top: 5, bottom: 5, start: 10, end: 10),
+                            physics: BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            itemCount: allProdCtrlObj.productModelObjs.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                margin: EdgeInsets.only(
+                                  bottom: 5,
+                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                color: index.isEven
+                                    ? kWhiteColor
+                                    : Theme.of(context)
                                     .colorScheme
                                     .primary
                                     .withOpacity(0.1),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                child: Column(
                                   children: [
-                                    //name
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        '${allProdCtrlObj.productModelObjs[index].name} ',
-                                        overflow: TextOverflow.ellipsis,
-                                        softWrap: true,
-                                        style: TextStyle(fontSize: 10),
-                                      ),
-                                    ),
-
-                                    // Unit
-                                    Container(
-                                      // height:
-                                      //     MediaQuery.of(context).size.height *
-                                      //         0.06,
-                                      //width: MediaQuery.of(context).size.width,
-                                      child: DropdownButtonHideUnderline(
-                                        child: DropdownButton2(
-                                          isExpanded: true,
-                                          hint: Align(
-                                              alignment: AlignmentDirectional
-                                                  .centerStart,
-                                              child: Text(
-                                                'Select',
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 10,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              )),
-                                          items:
-                                          // allProdCtrlObj.nestedist.isNotEmpty ?
-                                          allProdCtrlObj.nestedist[
-                                                  index] //unitStatusList()
-                                              .map((String items) {
-                                            return DropdownMenuItem(
-                                              value: items,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10.0),
-                                                child: Text(
-                                                  items,
-                                                  style:
-                                                      TextStyle(fontSize: 10),
-                                                ),
-                                              ),
-                                            );
-                                          }).toList(),
-                                          //     :[DropdownMenuItem<String>(
-                                          //   value: '',
-                                          //   child: SizedBox.shrink(), // You can use an empty SizedBox or any other widget
-                                          // )],
-                                          value: allProdCtrlObj
-                                              .unitListStatus[index],
-                                          dropdownWidth: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.2,
-                                          dropdownDecoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          dropdownMaxHeight:
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.7,
-                                          dropdownPadding:
-                                              EdgeInsets.only(left: 5),
-                                          buttonPadding: EdgeInsets.only(
-                                              left: 10, right: 10),
-                                          onChanged: (String? value) {
-                                            setState(() {
-                                              allProdCtrlObj
-                                                      .unitListStatus[index] =
-                                                  value!;
-
-                                              allProdCtrlObj.unitListStatusIds[
-                                                      index] =
-                                                  allProdCtrlObj
-                                                      .checkSelectedUnitsIds(
-                                                          unitName: value);
-
-                                              allProdCtrlObj
-                                                      .totalAmount[index] =
-                                                  allProdCtrlObj
-                                                      .calculatingProductAmountForUnit(
-                                                          index: index);
-                                              // debugPrint(allProdCtrlObj
-                                              //     .totalAmount[index]);
-                                              // debugPrint(allProdCtrlObj
-                                              //     .unitListStatus[index]);
-
-                                              allProdCtrlObj
-                                                  .calculateFinalAmount();
-                                              allProdCtrlObj.update();
-                                            });
-                                          },
-                                          // buttonHeight: 40,
-                                          buttonWidth: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.27,
-                                          // buttonDecoration: BoxDecoration(
-                                          //     color: kWhiteColor,
-                                          //     border: Border.all(
-                                          //         width: 1,
-                                          //         color: Theme.of(context)
-                                          //             .colorScheme
-                                          //             .primary),
-                                          //     borderRadius:
-                                          //         BorderRadius.circular(15)),
-                                          // itemHeight: 40,
-                                          //icon: SizedBox(),
-                                          itemPadding: EdgeInsets.zero,
-                                          itemHighlightColor: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        //name
+                                        Expanded(
+                                          flex: 2,
+                                          child: Text(
+                                            '${allProdCtrlObj.productModelObjs[index].name} ',
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: true,
+                                            style: TextStyle(fontSize: 10),
+                                          ),
                                         ),
-                                      ),
-                                    ),
 
-                                    // Stock
-                                    Expanded(
-                                      flex: 1,
-                                      child: Center(
-                                        child: Text(
-                                          allProdCtrlObj.calculatingStock(
-                                              index: index),
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(fontSize: 10),
-                                        ),
-                                      ),
-                                    ),
-
-                                    //Quantity
-                                    Expanded(
-                                      flex: 1,
-                                      child: AppFormField(
-                                          controller: allProdCtrlObj
-                                              .productQuantityCtrl[index],
-                                          padding: EdgeInsets.all(0),
-                                          isOutlineBorder: false,
-                                          isColor: index.isEven
-                                              ? kWhiteColor
-                                              : Colors.transparent,
-                                          // onEditingComp: (){
-                                          //
-                                          // },
-                                          onChanged: (value) {
-                                            if (double.parse(allProdCtrlObj
-                                                        .productModelObjs[index]
-                                                        .productVariationsDetails
-                                                        ?.qtyAvailable ??
-                                                    '0.00') <=
-                                                0.00) {
-                                              if (AppStorage
-                                                          .getBusinessDetailsData()
-                                                      ?.businessData
-                                                      ?.posSettings
-                                                      ?.allowOverselling ==
-                                                  1) {
-                                                print('in 1st allow if');
-                                                allProdCtrlObj.finalTotal =
-                                                    0.00;
-                                                allProdCtrlObj
-                                                        .totalAmount[index] =
+                                        // Unit
+                                        if (allProdCtrlObj.nestedist.isNotEmpty)
+                                          Container(
+                                            // height:
+                                            //     MediaQuery.of(context).size.height *
+                                            //         0.06,
+                                            //width: MediaQuery.of(context).size.width,
+                                            child: DropdownButtonHideUnderline(
+                                              child: DropdownButton2(
+                                                isExpanded: true,
+                                                hint: Align(
+                                                    alignment: AlignmentDirectional
+                                                        .centerStart,
+                                                    child: Text(
+                                                      'Select',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                          FontWeight.w500),
+                                                    )),
+                                                items: allProdCtrlObj.nestedist[
+                                                index] //unitStatusList()
+                                                    .map((String items) {
+                                                  return DropdownMenuItem(
+                                                    value: items,
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 10.0),
+                                                      child: Text(
+                                                        items,
+                                                        style:
+                                                        TextStyle(fontSize: 10),
+                                                      ),
+                                                    ),
+                                                  );
+                                                }).toList(),
+                                                value: allProdCtrlObj
+                                                    .unitListStatus[index],
+                                                dropdownWidth:
+                                                MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                    0.2,
+                                                dropdownDecoration: BoxDecoration(
+                                                    borderRadius:
+                                                    BorderRadius.circular(5)),
+                                                dropdownMaxHeight:
+                                                MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                    0.7,
+                                                dropdownPadding:
+                                                EdgeInsets.only(left: 5),
+                                                buttonPadding: EdgeInsets.only(
+                                                    left: 10, right: 10),
+                                                onChanged: (String? value) {
+                                                  setState(() {
                                                     allProdCtrlObj
-                                                        .calculatingProductAmountForUnit(
-                                                            index:
-                                                                index); // created function to calculate the value Qty * (price * unit)
-                                                allProdCtrlObj
-                                                    .calculateFinalAmount();
-                                                debugPrint(
-                                                    'Product Amount After all Calculation --->> ${allProdCtrlObj.totalAmount[index]}');
-                                              } else {
-                                                allProdCtrlObj
-                                                    .productQuantityCtrl[index]
-                                                    .text = '';
+                                                        .unitListStatus[index] =
+                                                    value!;
 
-                                                showToast(
-                                                    'Stock not available');
-                                              }
-                                            } else if (double.parse(allProdCtrlObj
-                                                        .productModelObjs[index]
-                                                        .productVariationsDetails
-                                                        ?.qtyAvailable ??
-                                                    '0.00') >
-                                                0.00) {
-                                              print('in third if');
-                                              allProdCtrlObj.finalTotal = 0.00;
-                                              allProdCtrlObj
-                                                      .totalAmount[index] =
-                                                  allProdCtrlObj
-                                                      .calculatingProductAmountForUnit(
-                                                          index:
+                                                    allProdCtrlObj
+                                                        .unitListStatusIds[
+                                                    index] =
+                                                        allProdCtrlObj
+                                                            .checkSelectedUnitsIds(
+                                                            unitName: value);
+
+                                                    allProdCtrlObj
+                                                        .totalAmount[index] =
+                                                        allProdCtrlObj
+                                                            .calculatingProductAmountForUnit(
+                                                            index: index);
+                                                    // debugPrint(allProdCtrlObj
+                                                    //     .totalAmount[index]);
+                                                    // debugPrint(allProdCtrlObj
+                                                    //     .unitListStatus[index]);
+
+                                                    allProdCtrlObj
+                                                        .calculateFinalAmount();
+                                                    allProdCtrlObj.update();
+                                                  });
+                                                },
+                                                // buttonHeight: 40,
+                                                buttonWidth: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                    0.27,
+                                                // buttonDecoration: BoxDecoration(
+                                                //     color: kWhiteColor,
+                                                //     border: Border.all(
+                                                //         width: 1,
+                                                //         color: Theme.of(context)
+                                                //             .colorScheme
+                                                //             .primary),
+                                                //     borderRadius:
+                                                //         BorderRadius.circular(15)),
+                                                // itemHeight: 40,
+                                                //icon: SizedBox(),
+                                                itemPadding: EdgeInsets.zero,
+                                                itemHighlightColor:
+                                                Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                              ),
+                                            ),
+                                          ),
+
+                                        // Stock
+                                        Expanded(
+                                          flex: 1,
+                                          child: Center(
+                                            child: Text(
+                                              allProdCtrlObj.calculatingStock(
+                                                  index: index),
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(fontSize: 10),
+                                            ),
+                                          ),
+                                        ),
+
+                                        //Quantity
+                                        if (allProdCtrlObj
+                                            .productQuantityCtrl.isNotEmpty)
+                                          Expanded(
+                                            flex: 1,
+                                            child: AppFormField(
+                                                controller: allProdCtrlObj
+                                                    .productQuantityCtrl[index],
+                                                padding: EdgeInsets.all(0),
+                                                isOutlineBorder: false,
+                                                isColor: index.isEven
+                                                    ? kWhiteColor
+                                                    : Colors.transparent,
+                                                // onEditingComp: (){
+                                                //
+                                                // },
+                                                onChanged: (value) {
+                                                  if (double.parse(allProdCtrlObj
+                                                      .productModelObjs[
+                                                  index]
+                                                      .productVariationsDetails
+                                                      ?.qtyAvailable ??
+                                                      '0.00') <=
+                                                      0.00) {
+                                                    if (AppStorage
+                                                        .getBusinessDetailsData()
+                                                        ?.businessData
+                                                        ?.posSettings
+                                                        ?.allowOverselling ==
+                                                        1) {
+                                                      print('in 1st allow if');
+                                                      allProdCtrlObj.finalTotal =
+                                                      0.00;
+                                                      allProdCtrlObj
+                                                          .totalAmount[index] =
+                                                          allProdCtrlObj
+                                                              .calculatingProductAmountForUnit(
+                                                              index:
                                                               index); // created function to calculate the value Qty * (price * unit)
+                                                      allProdCtrlObj
+                                                          .calculateFinalAmount();
+                                                      debugPrint(
+                                                          'Product Amount After all Calculation --->> ${allProdCtrlObj.totalAmount[index]}');
+                                                    } else {
+                                                      allProdCtrlObj
+                                                          .productQuantityCtrl[
+                                                      index]
+                                                          .text = '';
 
-                                              debugPrint(
-                                                  'Product Amount After all Calculation --->> ${allProdCtrlObj.totalAmount[index]}');
-                                              allProdCtrlObj
-                                                  .calculateFinalAmount();
-                                            }
-                                            allProdCtrlObj.update();
-                                          }),
+                                                      showToast(
+                                                          'Stock not available');
+                                                    }
+                                                  } else if (double.parse(allProdCtrlObj
+                                                      .productModelObjs[
+                                                  index]
+                                                      .productVariationsDetails
+                                                      ?.qtyAvailable ??
+                                                      '0.00') >
+                                                      0.00) {
+                                                    print('in third if');
+                                                    allProdCtrlObj.finalTotal =
+                                                    0.00;
+                                                    allProdCtrlObj
+                                                        .totalAmount[index] =
+                                                        allProdCtrlObj
+                                                            .calculatingProductAmountForUnit(
+                                                            index:
+                                                            index); // created function to calculate the value Qty * (price * unit)
+
+                                                    debugPrint(
+                                                        'Product Amount After all Calculation --->> ${allProdCtrlObj.totalAmount[index]}');
+                                                    allProdCtrlObj
+                                                        .calculateFinalAmount();
+                                                  }
+                                                  allProdCtrlObj.update();
+                                                }),
+                                          ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
-                          );
-                        });
-                  }),
+                              );
+                            });
+                      }),
                 ),
 
                 Center(
@@ -404,22 +406,22 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                     ),
                     CustomButton(
                         onTap:
-                            (allProdCtrlObj.productQuantityCtrl.any((element) {
+                        (allProdCtrlObj.productQuantityCtrl.any((element) {
                           return element.text != '' && element.text != '0';
                         }))
-                                ? () {
-                                    allProdCtrlObj.isDirectCheckout = true;
-                                    allProdCtrlObj.update();
-                                    Get.dialog(Dialog(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              Dimensions.radiusSmall)),
-                                      insetPadding: EdgeInsets.all(
-                                          Dimensions.paddingSizeSmall),
-                                      child: SelectionDialogue(),
-                                    ));
-                                  }
-                                : null,
+                            ? () {
+                          allProdCtrlObj.isDirectCheckout = true;
+                          allProdCtrlObj.update();
+                          Get.dialog(Dialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    Dimensions.radiusSmall)),
+                            insetPadding: EdgeInsets.all(
+                                Dimensions.paddingSizeSmall),
+                            child: SelectionDialogue(),
+                          ));
+                        }
+                            : null,
                         title: Text(
                           'credit'.tr,
                           style: TextStyle(color: kWhiteColor),
@@ -427,29 +429,29 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                         bgColor: Theme.of(context).colorScheme.primary),
                     CustomButton(
                         onTap:
-                            (allProdCtrlObj.productQuantityCtrl.any((element) {
+                        (allProdCtrlObj.productQuantityCtrl.any((element) {
                           return element.text != '' && element.text != '0';
                         }))
-                                ? () {
-                                    //showProgress();
-                                    allProdCtrlObj.isDirectCheckout = false;
-                                    allProdCtrlObj.update();
-                                    // Get.find<PaymentController>()
-                                    //     .paymentWidgetList[0]
-                                    //     .amountCtrl
-                                    //     .clear();
-                                    // Get.find<PaymentController>()
-                                    //         .paymentWidgetList[0]
-                                    //         .amountCtrl
-                                    //         .text =
-                                    //     '${AppFormat.doubleToStringUpTo2('${allProdCtrlObj.finalTotal}')}';
-                                    // Get.find<PaymentController>().update();
-                                    Get.to(CheckOutPage(
-                                      isReceipt: false,
-                                    ));
-                                    // allProdCtrlObj.orderCreate();
-                                  }
-                                : null,
+                            ? () {
+                          //showProgress();
+                          allProdCtrlObj.isDirectCheckout = false;
+                          allProdCtrlObj.update();
+                          // Get.find<PaymentController>()
+                          //     .paymentWidgetList[0]
+                          //     .amountCtrl
+                          //     .clear();
+                          // Get.find<PaymentController>()
+                          //         .paymentWidgetList[0]
+                          //         .amountCtrl
+                          //         .text =
+                          //     '${AppFormat.doubleToStringUpTo2('${allProdCtrlObj.finalTotal}')}';
+                          // Get.find<PaymentController>().update();
+                          Get.to(CheckOutPage(
+                            isReceipt: false,
+                          ));
+                          // allProdCtrlObj.orderCreate();
+                        }
+                            : null,
                         title: Text(
                           'pay'.tr,
                           style: TextStyle(color: kWhiteColor),

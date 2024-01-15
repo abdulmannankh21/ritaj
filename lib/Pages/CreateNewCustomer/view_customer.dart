@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodies/Pages/CreateNewCustomer/showCustomerDetails.dart';
 import 'package:get/get.dart';
-import 'package:royal_prime/Pages/CreateNewCustomer/showCustomerDetails.dart';
 
 import '../../Components/custom_circular_button.dart';
 import '../../Config/utils.dart';
@@ -44,7 +44,6 @@ class _ViewCustomerState extends State<ViewCustomer> {
     contactCtrlObj.clearAllContactCtrl();
     contactCtrlObj.getSpecificContactModel = null;
     _pastOrdersScrollCtrl?.removeListener(scrollControllerLis);
-
     super.dispose();
   }
 

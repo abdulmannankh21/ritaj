@@ -201,12 +201,13 @@
 //       },
 //     );
 //   }
-// }
+//
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:royal_prime/Pages/CreateNewCustomer/view_customer.dart';
 
+
+import '../CreateNewCustomer/view_customer.dart';
 import '/Config/utils.dart';
 import '/Pages/CreateNewCustomer/showCustomerDetails.dart';
 import '../../Controllers/ContactController/ContactController.dart';
@@ -439,7 +440,7 @@ class _CustomerSearchState extends State<CustomerSearch> {
   //     return contactCtrlObj.fetchCustomerInfo(query);
   //   } on PlatformException catch (e) {
   //     if (e.code == 'not_available') {
-  //       return throw ('Please enter more info!');
+    //       return throw ('Please enter more info!');
   //     }
   //     print('Error in PlatformException => ${e.code}');
   //     return throw ('${e.code}');
