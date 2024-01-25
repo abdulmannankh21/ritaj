@@ -335,12 +335,12 @@ class PrintData extends StatelessWidget {
               finalDetails(
                   txt1: 'Total paid:',
                   txt2:
-                      '${AppFormat.doubleToStringUpTo2(saleOrderDataModel.totalPaid ?? '0.00')}'),
+                      '${AppFormat.doubleToStringUpTo2(saleOrderDataModel.paymentLines.first.amount ?? '0.00')}'),
               pw.SizedBox(height: 5),
               finalDetails(
                   txt1: 'Due Amount:',
                   txt2:
-                      '${double.parse('${saleOrderDataModel?.finalTotal ?? 0.00}') - double.parse('${saleOrderDataModel?.totalPaid ?? 0.00}')}'),
+                      '${double.parse('${saleOrderDataModel?.finalTotal ?? 0.00}') - double.parse('${saleOrderDataModel.paymentLines.first.amount ?? 0.00}')}'),
               pw.SizedBox(height: 5),
             ],
           ),
