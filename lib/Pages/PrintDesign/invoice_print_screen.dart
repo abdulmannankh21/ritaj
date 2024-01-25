@@ -152,30 +152,45 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
               Expanded(
                   child: RadioListTile(
                 title: Text('80 mm'),
-                groupValue: allPrinterCtrlObj.paper80MM,
+                groupValue: allPrinterCtrlObj.selectedPaperSize,
                 dense: true,
                 contentPadding: EdgeInsets.zero,
-                value: true,
-                onChanged: (bool? value) {
-                  allPrinterCtrlObj.paper80MM = true;
+                value: PaperSize.mm80 ,
+                onChanged: (value) {
+                  allPrinterCtrlObj.selectedPaperSize = PaperSize.mm80;
                   allPrinterCtrlObj.update();
                   setState(() {});
                 },
               )),
               Expanded(
                   child: RadioListTile(
+                    title: Text('113 mm'),
+                    groupValue: allPrinterCtrlObj.selectedPaperSize,
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                    value: PaperSize.mm113 ,
+                    onChanged: (value) {
+                      allPrinterCtrlObj.selectedPaperSize = PaperSize.mm113;
+                      allPrinterCtrlObj.update();
+                      setState(() {});
+                    },
+                  )),
+              Expanded(
+                  child: RadioListTile(
                 title: Text('58 mm'),
-                groupValue: allPrinterCtrlObj.paper80MM,
-                contentPadding: EdgeInsets.zero,
-                dense: true,
-                value: false,
-                onChanged: (bool? value) {
-                  allPrinterCtrlObj.paper80MM = false;
+                    groupValue: allPrinterCtrlObj.selectedPaperSize,
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                    value: PaperSize.mm58 ,
+                    onChanged: (value) {
+                      allPrinterCtrlObj.selectedPaperSize = PaperSize.mm58;
                   allPrinterCtrlObj.update();
                   setState(() {});
                 },
               )),
+
             ]),
+            // Text("${allPrinterCtrlObj.selectedPaperSize.width}"),
             const SizedBox(height: Dimensions.paddingSizeSmall),
             ListView.builder(
               itemCount: allPrinterCtrlObj.bluetoothDevices.length,
@@ -194,9 +209,7 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                       CapabilityProfile profile =
                           await CapabilityProfile.load();
                       Generator generator = Generator(
-                          allPrinterCtrlObj.paper80MM
-                              ? PaperSize.mm80
-                              : PaperSize.mm58,
+                          allPrinterCtrlObj.selectedPaperSize ,
                           profile);
                       // bytes += generator.text('Retail App Print');
                       print(Get.find<AllProductsController>().receiptPayment);
