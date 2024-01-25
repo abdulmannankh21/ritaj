@@ -185,12 +185,25 @@ class _BizModoEMenuState extends State<BizModoEMenu> {
 
 /// This class extends / subclasses Upgrader.
 class MyUpgrader extends Upgrader {
-  MyUpgrader() : super(debugLogging: true);
+  MyUpgrader()
+      : super(
+    debugLogging: true,
+    canDismissDialog: false,
+    showIgnore: false,
+    showLater: false,
+    onLater: () => false,
+    onIgnore: () => false,
+    // debugDisplayAlways: true,
+    shouldPopScope: () {
+      exit(0);
+    },
+    durationUntilAlertAgain: const Duration(seconds: 20),
+  );
 
   /// This method overrides super class method.
   @override
   void popNavigator(BuildContext context) {
-    print('this method overrides popNavigator');
+    debugPrint('this method overrides popNavigator');
     super.popNavigator(context);
   }
 }
