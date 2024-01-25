@@ -271,7 +271,8 @@ class AllPrinterController extends GetxController {
   StreamSubscription<PrinterDevice>? subscription;
   final PrinterManager printerManagerNew = PrinterManager.instance;
   BluetoothPrinter? selectedPrinters;
-  bool paper80MM = true;
+  // bool paper80MM = true;
+  PaperSize selectedPaperSize = PaperSize.mm80;
   BTStatus currentStatus = BTStatus.none;
   void scan() {
     bluetoothDevices.clear();
@@ -292,10 +293,10 @@ class AllPrinterController extends GetxController {
   }
 
   Future printReceipt(i.Image image) async {
-    i.Image resized = i.copyResize(image, width: paper80MM ? 500 : 365);
+    i.Image resized = i.copyResize(image, width: selectedPaperSize.width - 50);
     CapabilityProfile profile = await CapabilityProfile.load();
     Generator generator =
-        Generator(paper80MM ? PaperSize.mm80 : PaperSize.mm58, profile);
+        Generator(selectedPaperSize, profile);
     List<int> bytes = [];
     bytes += generator.image(resized);
     printEscPos(bytes, generator);

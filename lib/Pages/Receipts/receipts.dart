@@ -211,7 +211,12 @@ class _ReceiptsState extends State<Receipts> {
                                                 .allSaleOrders
                                                 ?.saleOrdersData[index]
                                                 .paymentStatus] ==
-                                        'Due')
+                                        'Due'|| paymentStatusValues.reverse?[
+                                allSalesCtrlObj
+                                    .allSaleOrders
+                                    ?.saleOrdersData[index]
+                                    .paymentStatus] ==
+                                    'Partial')
                                     ? ReceiptsTile(
                                         pastOrder: allSalesCtrlObj
                                             .allSaleOrders!
