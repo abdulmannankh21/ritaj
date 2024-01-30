@@ -24,23 +24,22 @@ class PrintData extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: PdfPreview(build: (format) => _generatePdf(format)),
+      body: PdfPreview(build: (format) => generatePdf(format)),
     );
   }
 
-  Future<Uint8List> _generatePdf(PdfPageFormat format) async {
+  Future<Uint8List> generatePdf(PdfPageFormat format) async {
     final pdf = pw.Document();
     final url = AppStorage.getBusinessDetailsData()?.businessData?.logo;
     final response = await http.get(Uri.parse(url ?? ''));
     final Uint8List imageBytes;
     pw.MemoryImage? pdfImage;
-   try{
-     imageBytes = response.bodyBytes;
-     pdfImage = pw.MemoryImage(imageBytes);
-   }
-   catch (e){
-    print("Image Not Valid");
-   }
+    try {
+      imageBytes = response.bodyBytes;
+      pdfImage = pw.MemoryImage(imageBytes);
+    } catch (e) {
+      print("Image Not Valid");
+    }
     pdf.addPage(invoicePrintPage(
       format,
       itemList: Get.find<ProductCartController>().itemCartList,
@@ -63,54 +62,53 @@ class PrintData extends StatelessWidget {
     SaleOrderDataModel? saleOrderDataModel,
     pw.MemoryImage? image,
   }) {
+    final bdd = AppStorage.getBusinessDetailsData();
     return pw.Page(
       pageFormat: format,
       build: (context) => pw.Column(
         crossAxisAlignment: pw.CrossAxisAlignment.center,
         children: [
-          if(image != null)
-          pw.Image(
-              pw.MemoryImage(
-                  image.bytes), // Convert MemoryImage to ImageProvider
-              fit: pw.BoxFit.contain,
-              width: 200,
-              height: 100),
-          pw.Center(
-              child: pw.Text(
-                  AppStorage.getBusinessDetailsData()?.businessData?.name ?? '',
-                  style: pw.TextStyle(
-                      fontSize: 16, fontWeight: pw.FontWeight.bold))),
+          if (image != null)
+            pw.Image(
+                pw.MemoryImage(
+                    image.bytes), // Convert MemoryImage to ImageProvider
+                fit: pw.BoxFit.contain,
+                width: 200,
+                height: 100),
           pw.Center(
             child: pw.Text(
-                '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.name ?? ''}, '
-                '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.landmark ?? ''}, '
-                '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.city ?? ''}, '
-                '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.country ?? ''}'),
+              bdd?.businessData?.name ?? '',
+              style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold),
+            ),
+          ),
+          pw.Center(
+            child: pw.Text('${bdd?.businessData?.locations.first.name ?? ''}, '
+                '${bdd?.businessData?.locations.first.landmark ?? ''}, '
+                '${bdd?.businessData?.locations.first.city ?? ''}, '
+                '${bdd?.businessData?.locations.first.country ?? ''}'),
           ),
           pw.Center(
             child: pw.Text(
-                'Mobile: ${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.mobile ?? ''}, ${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.alternateNumber ?? ''}, '
-                'Email: ${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.email ?? ''}'),
+              'Mobile: ${bdd?.businessData?.locations.first.mobile ?? ''}, ${bdd?.businessData?.locations.first.alternateNumber ?? ''}, '
+              'Email: ${bdd?.businessData?.locations.first.email ?? ''}',
+            ),
           ),
           pw.Center(
             child: pw.Text(
-              AppStorage.getBusinessDetailsData()
-                      ?.businessData
-                      ?.locations
-                      .first
-                      .name ??
-                  '',
+              bdd?.businessData?.locations.first.name ?? '',
               // style:
               //     pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold),
             ),
           ),
           pw.Center(
-              child: pw.Text('Tax Invoice',
-                  style: pw.TextStyle(
-                      fontSize: 18, fontWeight: pw.FontWeight.bold))),
+            child: pw.Text(
+              'Tax Invoice',
+              style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold),
+            ),
+          ),
           pw.Center(
             child: pw.Text(
-              '${AppStorage.getBusinessDetailsData()?.businessData?.taxLabel1 ?? ''}:${AppStorage.getBusinessDetailsData()?.businessData?.taxNumber1 ?? ''}',
+              '${bdd?.businessData?.taxLabel1 ?? ''}:${bdd?.businessData?.taxNumber1 ?? ''}',
             ),
           ),
           // pw.Center(
@@ -120,50 +118,60 @@ class PrintData extends StatelessWidget {
           pw.Divider(),
 
           pw.Row(
-              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-              children: [
-                printBasicInfoWidget(
-                    title: 'Invoice No: ',
-                    titleVal: '${saleOrderDataModel?.invoiceNo}'),
-                printBasicInfoWidget(
-                    title: 'Date: ',
-                    titleVal:
-                        '${AppFormat.dateYYYYMMDDHHMM24(saleOrderDataModel?.transactionDate)}'),
-              ]),
+            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+            children: [
+              printBasicInfoWidget(
+                  title: 'Invoice No: ',
+                  titleVal: '${saleOrderDataModel?.invoiceNo}'),
+              printBasicInfoWidget(
+                title: 'Date: ',
+                titleVal:
+                    '${AppFormat.dateYYYYMMDDHHMM24(saleOrderDataModel?.transactionDate)}',
+              ),
+            ],
+          ),
 
           pw.Row(
-              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-              children: [
-                printBasicInfoWidget(
-                    title: 'Date: ',
-                    titleVal:
-                        '${AppFormat.dateOnly(saleOrderDataModel!.transactionDate!)}'),
-                printBasicInfoWidget(
-                    title: 'Time: ',
-                    titleVal:
-                        '${AppFormat.timeOnly(saleOrderDataModel.transactionDate!)}'),
-              ]),
+            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+            children: [
+              printBasicInfoWidget(
+                title: 'Date: ',
+                titleVal:
+                    '${AppFormat.dateOnly(saleOrderDataModel!.transactionDate!)}',
+              ),
+              printBasicInfoWidget(
+                title: 'Time: ',
+                titleVal:
+                    '${AppFormat.timeOnly(saleOrderDataModel.transactionDate!)}',
+              ),
+            ],
+          ),
 
           printBasicInfoWidget(
-              title: 'Customer Name: ',
-              titleVal: '${saleOrderDataModel.contact?.name}'),
+            title: 'Customer Name: ',
+            titleVal: '${saleOrderDataModel.contact?.name}',
+          ),
 
           pw.Row(
-              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-              children: [
-                if (saleOrderDataModel.contact?.mobile != null)
-                  printBasicInfoWidget(
-                      title: 'Contact No: ',
-                      titleVal: '${saleOrderDataModel.contact?.mobile}'),
-                if (saleOrderDataModel.contact?.email != null)
-                  printBasicInfoWidget(
-                      title: 'Email: ',
-                      titleVal: '${saleOrderDataModel.contact?.email ?? ''}'),
-              ]),
+            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+            children: [
+              if (saleOrderDataModel.contact?.mobile != null)
+                printBasicInfoWidget(
+                  title: 'Contact No: ',
+                  titleVal: '${saleOrderDataModel.contact?.mobile}',
+                ),
+              if (saleOrderDataModel.contact?.email != null)
+                printBasicInfoWidget(
+                  title: 'Email: ',
+                  titleVal: '${saleOrderDataModel.contact?.email ?? ''}',
+                ),
+            ],
+          ),
 
           printBasicInfoWidget(
-              title: 'Customer Tax No: ',
-              titleVal: '${saleOrderDataModel.contact?.taxNumber ?? ''}'),
+            title: 'Customer Tax No: ',
+            titleVal: '${saleOrderDataModel.contact?.taxNumber ?? ''}',
+          ),
           // pw.Divider(),
 
           pw.SizedBox(height: 5),
