@@ -59,6 +59,7 @@ dependencies:
   esc_pos_printer: ^4.1.0
   esc_pos_utils: ^1.1.0
   package_info_plus: ^3.0.3
+  zsdk: ^3.2.0+3
 
 dependency_overrides:
   intl: ^0.18.0
