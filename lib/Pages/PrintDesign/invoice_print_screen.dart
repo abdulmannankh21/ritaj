@@ -247,9 +247,12 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                         print(status);
                         if (printerResponse.errorCode == ErrorCode.SUCCESS) {
                           //Do something
+                          Get.back();
                         } else {
                           Cause cause = printerResponse.statusInfo.cause;
                           print(cause);
+                          Get.back();
+
                         }
                       } else
 
