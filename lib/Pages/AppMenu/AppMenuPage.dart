@@ -1,6 +1,7 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:whatsapp/whatsapp.dart';
 
@@ -15,16 +16,24 @@ import '/Services/storage_services.dart';
 import '../Profile_View/profile_view.dart';
 import '../ThemePage/themePage.dart';
 
-class AppMenuPage extends StatelessWidget {
+class AppMenuPage extends StatefulWidget {
   AppMenuPage({Key? key}) : super(key: key);
 
+  @override
+  State<AppMenuPage> createState() => _AppMenuPageState();
+}
+
+class _AppMenuPageState extends State<AppMenuPage> {
+  bool isSwitched = AppStorage.getZebraPrinter();
+
   final String supportNumber = "+971504059006";
+
   final WhatsApp whatsApp = WhatsApp();
+
   final AuthController authCtrlObj = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -132,6 +141,39 @@ class AppMenuPage extends StatelessWidget {
                     context: context,
                     iconData: Icons.color_lens_outlined,
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.print,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            SizedBox(
+                              width: 40,
+                            ),
+                            Text(
+                              'Zebra Printer Enable',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        Switch(
+                          inactiveTrackColor: Colors.grey.shade400,
+                          value: isSwitched,
+                          onChanged: (value) async {
+                            setState(() {
+                              isSwitched = value;
+                            });
+                            AppStorage.setZebraPrinter(isSwitched);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                   listTile(
                     onTap: () async {
                       await launchWhatsApp(number: supportNumber, text: '');
@@ -155,12 +197,10 @@ class AppMenuPage extends StatelessWidget {
                       iconData: Icons.logout_outlined,
                       context: context),
                   listTile(
-                      onTap: () async {
-                      },
+                      onTap: () async {},
                       title: "Version : ${authCtrlObj.version}",
                       iconData: Icons.info,
                       context: context),
-
                 ],
               ),
             )
