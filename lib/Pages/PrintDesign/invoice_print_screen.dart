@@ -12,6 +12,7 @@ import 'package:pdf/pdf.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zsdk/zsdk.dart';
 
+import '../../Services/storage_services.dart';
 import '/Components/custom_circular_button.dart';
 import '/Config/utils.dart';
 import '/Controllers/ProductController/all_products_controller.dart';
@@ -71,8 +72,10 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
     });
   }
   zebraPrintCheck() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    isZebra = prefs.getBool('zebraPrinter')!;
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // isZebra = prefs.getBool('zebraPrinter')!;
+    isZebra = AppStorage.getZebraPrinter();
+
   }
 
   @override

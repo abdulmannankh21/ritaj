@@ -23,6 +23,20 @@ class AppStorage {
   static String printerDataStorageKey = "printers";
   static String printInvoiceTitleStorageKey = "printInvoiceTitle";
   static String printedInvoiceOrderIDsStorageKey = "printedInvoiceOrderIDs";
+  static String zebraPrinterCheck = "zebraPrinter";
+
+  static setZebraPrinter(bool value) async {
+    await box.write(AppStorage.zebraPrinterCheck, value);
+  }
+
+  static bool getZebraPrinter() {
+    try {
+      return box.read(AppStorage.zebraPrinterCheck) ?? false;
+    } catch (e) {
+      logger.e('Error => $e');
+      return false;
+    }
+  }
 
   static Future<void> _write(String key, dynamic value) async {
     await box.write(key, value);

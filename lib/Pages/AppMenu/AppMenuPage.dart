@@ -24,7 +24,7 @@ class AppMenuPage extends StatefulWidget {
 }
 
 class _AppMenuPageState extends State<AppMenuPage> {
-  bool isSwitched = false;
+  bool isSwitched = AppStorage.getZebraPrinter();
 
   final String supportNumber = "+971504059006";
 
@@ -152,9 +152,10 @@ class _AppMenuPageState extends State<AppMenuPage> {
                             Icon(Icons.print,        color: Theme.of(context).colorScheme.primary,
                             ),
                             SizedBox(
-                              width: 20,
+                              width: 40,
                             ),
-                            Text('Zebra Printer Enable'),
+                            Text('Zebra Printer Enable',        style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ],
                         ),
                         Switch(
@@ -164,8 +165,7 @@ class _AppMenuPageState extends State<AppMenuPage> {
                             setState(() {
                               isSwitched = value;
                             });
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            prefs.setBool('zebraPrinter', isSwitched);
+                            AppStorage.setZebraPrinter(isSwitched);
                           },
                         ),
                       ],
