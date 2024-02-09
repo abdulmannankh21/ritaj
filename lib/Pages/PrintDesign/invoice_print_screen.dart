@@ -25,6 +25,23 @@ import '../../Controllers/AllPrinterController/allPrinterController.dart';
 import '../../const/dimensions.dart';
 import 'pdfGenerate.dart';
 
+class CustomPrintPaperSize {
+  const CustomPrintPaperSize._internal(this.value);
+  final int value;
+  static const mm58 = CustomPrintPaperSize._internal(1);
+  static const mm80 = CustomPrintPaperSize._internal(2);
+  static const mm113 = CustomPrintPaperSize._internal(3);
+
+  int get width {
+    if (value == CustomPrintPaperSize.mm113.value)
+      return 836;
+    else if (value == CustomPrintPaperSize.mm58.value)
+      return 372;
+    else
+      return 558;
+  }
+}
+
 class InVoicePrintScreen extends StatefulWidget {
   final bool isPrintReceipt;
   InVoicePrintScreen({
