@@ -196,6 +196,9 @@ class _ReceiptsState extends State<Receipts> {
                                 .allSaleOrders
                                 ?.saleOrdersData[index]
                                 .paymentStatus]);
+                            final saleOrder = allSalesCtrlObj
+                                .allSaleOrders!.saleOrdersData[index];
+                            String name = contactCtrlObjj.nameCtrl.text;
                             return IntrinsicHeight(
                               child: GestureDetector(
                                 // onTap: () {
@@ -206,7 +209,12 @@ class _ReceiptsState extends State<Receipts> {
                                 //             ?.saleOrdersData[index]
                                 //             .paymentStatus !=
                                 //         PaymentStatus.PAID)
-                                child: (paymentStatusValues.reverse?[
+                                child:
+
+
+                              saleOrder.contact!.name == name
+                                ?
+                                (paymentStatusValues.reverse?[
                                             allSalesCtrlObj
                                                 .allSaleOrders
                                                 ?.saleOrdersData[index]
@@ -223,7 +231,7 @@ class _ReceiptsState extends State<Receipts> {
                                             .saleOrdersData[index],
                                         index: index,
                                       )
-                                    : SizedBox(),
+                                    : SizedBox(): SizedBox(),
 
                                 //     SalesViewTile(
                                 //   allSalesCtrlObj: allSalesCtrlObj,

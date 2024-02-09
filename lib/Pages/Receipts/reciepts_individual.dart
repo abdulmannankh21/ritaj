@@ -211,7 +211,10 @@ class _individualReceiptsState extends State<individualReceipts> {
                           //             ?.saleOrdersData[index]
                           //             .paymentStatus !=
                           //         PaymentStatus.PAID)
-                          child: (paymentStatusValues.reverse?[
+                          child:
+                          saleOrder.contact!.name == name
+                              ?
+                          (paymentStatusValues.reverse?[
                           allSalesCtrlObj
                               .allSaleOrders
                               ?.saleOrdersData[index]
@@ -228,7 +231,7 @@ class _individualReceiptsState extends State<individualReceipts> {
                                 .saleOrdersData[index],
                             index: index,
                           )
-                              : SizedBox(),
+                              : SizedBox(): SizedBox(),
 
                           //     SalesViewTile(
                           //   allSalesCtrlObj: allSalesCtrlObj,
