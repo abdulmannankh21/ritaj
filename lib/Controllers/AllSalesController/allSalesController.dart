@@ -193,7 +193,7 @@ class AllSalesController extends GetxController {
       final _data = saleReturnListModelFromJson(_res);
       if (page > 1 && allSaleReturnOrders != null && _data.data != null) {
         allSaleReturnOrders!.data?.addAll(_data.data!);
-      }else {
+      } else {
         allSaleReturnOrders = _data;
       }
       stopProgress();
@@ -233,6 +233,7 @@ class AllSalesController extends GetxController {
     isLoadMoreRunning.value = false;
     await fetchAllSalesReturnList(page: 1);
     isFirstLoadRunning = false;
+    update();
   }
 
   SpecifiedSellModel? salesOrderModel;
