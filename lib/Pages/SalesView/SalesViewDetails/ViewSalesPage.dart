@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../Return/saleReturn.dart';
 import '/Components/custom_circular_button.dart';
 import '/Config/app_format.dart';
 import '/Config/const.dart';
@@ -353,6 +354,39 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
                   ));
                 },
               ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomButton(
+                leading: Icon(
+                  Icons.keyboard_return,
+                  color: kWhiteColor,
+                ),
+                title: Text(
+                  'return'.tr,
+                  style: TextStyle(color: kWhiteColor),
+                ),
+                onTap: () {
+                  print('Past Order Data');
+                  // Get.dialog(Dialog(
+                  //   shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(
+                  //           Dimensions.radiusSmall)),
+                  //   insetPadding:
+                  //   EdgeInsets.all(Dimensions.paddingSizeSmall),
+                  //   child: InVoicePrintScreen(),
+                  // ));
+                  Get.to(SalesReturn(
+                    id: '${widget.salesOrderData!.id}',
+                  ));
+                  // Get.to(PrintData(
+                  //   saleOrderDataModel: widget.salesOrderData,
+                  // ));
+                },
+              ),
+
             ],
           )
         ],

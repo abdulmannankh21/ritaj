@@ -12,8 +12,11 @@ import '../CreateOrder/createOrderPage.dart';
 import '../Receipts/receipts.dart';
 import '../Receipts/reciepts_individual.dart';
 import '../Return/saleReturn.dart';
+import '../SalesView/SalesViewDetails/SalesView.dart';
 import '../SalesView/SalesViewDetails/SalesViewTile.dart';
 import '../SalesView/SalesViewDetails/ViewSalesPage.dart';
+import '../SalesView/SalesViewDetails/individual_sale_view.dart';
+import '../order_type/search_customer_page.dart';
 
 class ViewCustomer extends StatefulWidget {
   final String id;
@@ -133,6 +136,21 @@ class _ViewCustomerState extends State<ViewCustomer> {
                   ),
                 );
               }),
+              GetBuilder<ContactController>(
+                  builder: (ContactController contactCtrl) {
+                    return CustomButton(
+                      onTap: () {
+                        Get.to(IndividualSalesView(
+                          isSalesReturn: true,
+                        ));
+                        // Get.to(ShowCustomerDetails(contactApi: widget.id));
+                      },
+                      title: Text(
+                        'return'.tr,
+                        style: TextStyle(color: kWhiteColor),
+                      ),
+                    );
+                  }),
             ],
           ),
           Expanded(
