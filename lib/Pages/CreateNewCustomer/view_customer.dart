@@ -107,7 +107,7 @@ class _ViewCustomerState extends State<ViewCustomer> {
                     contactCtrlObj.update();
                   },
                   title: Text(
-                    'Reciept',
+                    'Receipt',
                     style: TextStyle(color: kWhiteColor),
                   ),
                 );
@@ -138,19 +138,17 @@ class _ViewCustomerState extends State<ViewCustomer> {
               }),
               GetBuilder<ContactController>(
                   builder: (ContactController contactCtrl) {
-                    return CustomButton(
-                      onTap: () {
-                        Get.to(IndividualSalesView(
-                          isSalesReturn: true,
-                        ));
-                        // Get.to(ShowCustomerDetails(contactApi: widget.id));
-                      },
-                      title: Text(
-                        'return'.tr,
-                        style: TextStyle(color: kWhiteColor),
-                      ),
-                    );
-                  }),
+                return CustomButton(
+                  onTap: () {
+                    Get.to(() => IndividualSalesView(isSalesReturn: true));
+                    // Get.to(ShowCustomerDetails(contactApi: widget.id));
+                  },
+                  title: Text(
+                    'return'.tr,
+                    style: TextStyle(color: kWhiteColor),
+                  ),
+                );
+              }),
             ],
           ),
           Expanded(

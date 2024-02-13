@@ -12,7 +12,7 @@ String saleReturnListModelToJson(SaleReturnListModel data) =>
 
 class SaleReturnListModel {
   int? currentPage;
-  List<Datum>? data;
+  List<SaleReturnDataModel>? data;
   String? firstPageUrl;
   int? from;
   int? lastPage;
@@ -44,7 +44,8 @@ class SaleReturnListModel {
   factory SaleReturnListModel.fromJson(Map<String, dynamic> json) =>
       SaleReturnListModel(
         currentPage: json["current_page"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: List<SaleReturnDataModel>.from(
+            json["data"].map((x) => SaleReturnDataModel.fromJson(x))),
         firstPageUrl: json["first_page_url"],
         from: int.tryParse('${json["from"]}'),
         lastPage: int.tryParse('${json["last_page"]}'),
@@ -79,7 +80,7 @@ class SaleReturnListModel {
       };
 }
 
-class Datum {
+class SaleReturnDataModel {
   int id;
   DateTime transactionDate;
   String invoiceNo;
@@ -93,7 +94,7 @@ class Datum {
   dynamic amountPaid;
   double due;
 
-  Datum({
+  SaleReturnDataModel({
     required this.id,
     required this.transactionDate,
     required this.invoiceNo,
@@ -108,7 +109,8 @@ class Datum {
     required this.due,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory SaleReturnDataModel.fromJson(Map<String, dynamic> json) =>
+      SaleReturnDataModel(
         id: json["id"],
         transactionDate: DateTime.parse(json["transaction_date"]),
         invoiceNo: json["invoice_no"],

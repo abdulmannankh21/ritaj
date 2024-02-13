@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodies/Models/SaleReturn/saleReturn.dart';
 import 'package:get/get.dart';
 
 import '../../../Controllers/ContactController/ContactController.dart';
@@ -65,11 +66,11 @@ class _IndividualSalesViewState extends State<IndividualSalesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   centerTitle: true,
-      //   title: Text('return'.tr),
-      // ),
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        title: Text('return'.tr),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: (widget.isSalesReturn)
           ? null
@@ -78,9 +79,7 @@ class _IndividualSalesViewState extends State<IndividualSalesView> {
               backgroundColor:
                   Theme.of(context).colorScheme.primary.withOpacity(0.5),
               onPressed: () {
-                Get.to(CustomerSearch(
-                  dashBoardId: 5,
-                ));
+                Get.to(() => CustomerSearch(dashBoardId: 5));
                 // Get.to(
                 //   AddSalesAndQuotation(
                 //     isSale: false,
@@ -97,49 +96,49 @@ class _IndividualSalesViewState extends State<IndividualSalesView> {
                 },
                 child: (allSalesCtrlObj.allSaleReturnOrders == null)
                     ? progressIndicator()
-                    // : Text('${allSalesCtrlObj.allSaleReturnOrders?.data![0]}')
-                    : ListView.builder(
-                      controller: _pastOrdersScrollCtrl,
-                      shrinkWrap: true,
-                      physics: AlwaysScrollableScrollPhysics(),
-                      padding: const EdgeInsets.only(bottom: 100),
-                      itemCount: allSalesCtrlObj.allSaleReturnOrders?.data!.length ??
-                          0,
-                      itemBuilder: (context, index) {
-                        final saleOrder = allSalesCtrlObj
-                            .allSaleReturnOrders!.data![index];
-                        String name = contactCtrlObj.nameCtrl.text;
-                        if (saleOrder.name == name) {
-                          GestureDetector(
-                              onTap: () {
-                                if (widget.isSalesReturn) {
-                                  Get.to(SalesReturn(
-                                    id: '${allSalesCtrlObj.allSaleReturnOrders!.data![index].id}',
-                                  ));
-                                } else {
-                                  // Get.to(SalesViewDetailsPage(
-                                  //   salesOrderData: allSalesCtrlObj
-                                  //       .allSaleReturnOrders!
-                                  //       .data![index],
-                                  // ));
-                                }
-                              },
-                              child: SalesReturnViewTile(
-                                pastOrder: allSalesCtrlObj
-                                    .allSaleReturnOrders!.data![index],
-                              
-                          ),
-                        );
-                        //   !allSalesCtrlObj.allSaleReturnOrders!
-                        //     .saleOrdersData[index].isSuspend
-                        //     ? PastOrderInfoTile(
-                        //   allSalesCtrlObj
-                        //       .allSaleReturnOrders!.saleOrdersData[index],
-                        // )
-                        //     : SizedBox();
-                      }
-                      },
-                    ),
+                    : Scrollbar(
+                        controller: _pastOrdersScrollCtrl,
+                        child: ListView.builder(
+                          controller: _pastOrdersScrollCtrl,
+                          physics: AlwaysScrollableScrollPhysics(),
+                          padding: const EdgeInsets.only(bottom: 100),
+                          itemCount: allSalesCtrlObj
+                                  .allSaleReturnOrders?.data!.length ??
+                              0,
+                          itemBuilder: (context, index) {
+                            SaleReturnDataModel saleOrder = allSalesCtrlObj
+                                .allSaleReturnOrders!.data![index];
+                            String name = contactCtrlObj.nameCtrl.text;
+                            return (saleOrder.name == name)
+                                ? GestureDetector(
+                                    onTap: () {
+                                      if (widget.isSalesReturn) {
+                                        Get.to(SalesReturn(
+                                          id: '${allSalesCtrlObj.allSaleReturnOrders!.data![index].id}',
+                                        ));
+                                      } else {
+                                        // Get.to(SalesViewDetailsPage(
+                                        //   salesOrderData: allSalesCtrlObj
+                                        //       .allSaleReturnOrders!
+                                        //       .data![index],
+                                        // ));
+                                      }
+                                    },
+                                    child: SalesReturnViewTile(
+                                      pastOrder: allSalesCtrlObj
+                                          .allSaleReturnOrders!.data![index],
+                                    ),
+                                  )
+                                //   !allSalesCtrlObj.allSaleReturnOrders!
+                                //     .saleOrdersData[index].isSuspend
+                                //     ? PastOrderInfoTile(
+                                //   allSalesCtrlObj
+                                //       .allSaleReturnOrders!.saleOrdersData[index],
+                                // )
+                                : SizedBox();
+                          },
+                        ),
+                      ),
               );
             },
           ),

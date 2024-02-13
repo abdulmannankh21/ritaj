@@ -7,7 +7,7 @@ import '/Pages/Orders/Components/AmountInfo.dart';
 import '/Pages/Orders/Components/CustomerInfo.dart';
 
 class SalesReturnViewTile extends StatelessWidget {
-  final Datum pastOrder;
+  final SaleReturnDataModel pastOrder;
   SalesReturnViewTile({Key? key, required this.pastOrder}) : super(key: key);
 
   @override
@@ -88,8 +88,7 @@ class SalesReturnViewTile extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CustomerInfo(
-                  '${pastOrder.name}', pastOrder.transactionDate),
+              CustomerInfo('${pastOrder.name}', pastOrder.transactionDate),
               //if (pastOrder.totalAmountRecovered != null)
               // AmountInfo(
               //   amount: '${pastOrder.t ?? '0.00'}',
@@ -133,8 +132,8 @@ class SalesReturnViewTile extends StatelessWidget {
               // if (pastOrder.finalTotal != null)
               // - double.parse('${pastOrder.totalPaid ?? '0.00'}
               AmountInfo(
-                amount: (double.parse(
-                    '${double.parse('${pastOrder.finalTotal ?? '0.00'}) ')}'))
+                amount: (double.tryParse(
+                        '${double.tryParse('${pastOrder.finalTotal ?? '0.00'}) ')}'))
                     .toString(),
                 status: 'due'.tr,
               ),

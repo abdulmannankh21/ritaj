@@ -180,17 +180,21 @@ class AllSalesController extends GetxController {
       return null;
     });
   }
+
   SaleReturnListModel? allSaleReturnOrders;
   Future<bool?> fetchAllSalesReturnList(
       {int page = 0, String global_search = ''}) async {
     print('========================================');
     print('Function calling');
     return await ApiServices.getMethod(
-        feedUrl:
-        'connector/api/list-sell-return?pagination=$page&per_page=20&global_search=${global_search}&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}')
-        .then((_res) {
+      feedUrl: 'connector/api/list-sell-return'
+          '?pagination=$page'
+          '&per_page=20'
+          '&global_search=${global_search}'
+          '&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}',
+    ).then((_res) {
       if (_res == null) return null;
-      final _data = saleReturnListModelFromJson(_res);
+      SaleReturnListModel _data = saleReturnListModelFromJson(_res);
       if (page > 1 && allSaleReturnOrders != null && _data.data != null) {
         allSaleReturnOrders!.data?.addAll(_data.data!);
       } else {
@@ -217,6 +221,7 @@ class AllSalesController extends GetxController {
       return null;
     });
   }
+
   // initial order page load function
   callFirstOrderPage() async {
     allSaleOrdersPage = 1;
@@ -225,7 +230,9 @@ class AllSalesController extends GetxController {
     isLoadMoreRunning.value = false;
     await fetchAllSalesList(page: 1);
     isFirstLoadRunning = false;
+    update();
   }
+
   callReturnSalePage() async {
     allSaleOrdersPage = 1;
     isFirstLoadRunning = true;
