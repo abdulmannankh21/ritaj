@@ -187,18 +187,18 @@ class _BizModoEMenuState extends State<BizModoEMenu> {
 class MyUpgrader extends Upgrader {
   MyUpgrader()
       : super(
-    debugLogging: true,
-    canDismissDialog: false,
-    showIgnore: false,
-    showLater: false,
-    onLater: () => false,
-    onIgnore: () => false,
-    // debugDisplayAlways: true,
-    shouldPopScope: () {
-      exit(0);
-    },
-    durationUntilAlertAgain: const Duration(seconds: 20),
-  );
+          debugLogging: true,
+          canDismissDialog: false,
+          showIgnore: false,
+          showLater: false,
+          onLater: () => false,
+          onIgnore: () => false,
+          // debugDisplayAlways: true,
+          shouldPopScope: () {
+            exit(0);
+          },
+          durationUntilAlertAgain: const Duration(seconds: 20),
+        );
 
   /// This method overrides super class method.
   @override
