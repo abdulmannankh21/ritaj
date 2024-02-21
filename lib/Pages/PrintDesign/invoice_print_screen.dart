@@ -329,7 +329,8 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                                       : allPrinterCtrlObj
                                                   .bluetoothDevices[index]
                                                   .vendorId !=
-                                              null &&
+                                              null
+                                  &&
                                           allPrinterCtrl
                                                   .selectedPrinters!.vendorId ==
                                               allPrinterCtrlObj
