@@ -118,7 +118,7 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
     if (allPrinterCtrl.selectedPrinters != null) {
       if ((device.address != allPrinterCtrl.selectedPrinters!.address) ||
           (device.typePrinter == PrinterType.usb &&
-              allPrinterCtrl.selectedPrinters!.vendorId != device.vendorId)) {
+              allPrinterCtrl.selectedPrinters!.vendorId != device.vendorId)) { 
         await PrinterManager.instance
             .disconnect(type: allPrinterCtrl.selectedPrinters!.typePrinter);
       }
