@@ -30,13 +30,18 @@ class PrintData extends StatelessWidget {
 
   Future<Uint8List> generatePdf(PdfPageFormat format) async {
     final pdf = pw.Document();
-    final url = AppStorage.getBusinessDetailsData()?.businessData?.logo;
-    final response = await http.get(Uri.parse(url ?? ''));
-    final Uint8List imageBytes;
     pw.MemoryImage? pdfImage;
+
     try {
+      final url = AppStorage.getBusinessDetailsData()?.businessData?.logo;
+      if(url != null){
+      final response =
+      await http.get(Uri.parse(url ?? ''));
+      final Uint8List imageBytes;
       imageBytes = response.bodyBytes;
       pdfImage = pw.MemoryImage(imageBytes);
+      // imageBytes = response.bodyBytes;
+      pdfImage = pw.MemoryImage(imageBytes);}
     } catch (e) {
       print("Image Not Valid");
     }
