@@ -27,6 +27,7 @@ import 'pdfGenerate.dart';
 
 class InVoicePrintScreen extends StatefulWidget {
   final bool isPrintReceipt;
+
   InVoicePrintScreen({
     Key? key,
     this.isPrintReceipt = false,
@@ -71,11 +72,11 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
       }
     });
   }
+
   zebraPrintCheck() async {
     // SharedPreferences prefs = await SharedPreferences.getInstance();
     // isZebra = prefs.getBool('zebraPrinter')!;
     isZebra = AppStorage.getZebraPrinter();
-
   }
 
   @override
@@ -118,7 +119,7 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
     if (allPrinterCtrl.selectedPrinters != null) {
       if ((device.address != allPrinterCtrl.selectedPrinters!.address) ||
           (device.typePrinter == PrinterType.usb &&
-              allPrinterCtrl.selectedPrinters!.vendorId != device.vendorId)) { 
+              allPrinterCtrl.selectedPrinters!.vendorId != device.vendorId)) {
         await PrinterManager.instance
             .disconnect(type: allPrinterCtrl.selectedPrinters!.typePrinter);
       }
@@ -176,32 +177,36 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                   setState(() {});
                 },
               )),
+              // Expanded(
+              //     child: RadioListTile(
+              //   title: Text('113 mm'),
+              //   groupValue: allPrinterCtrlObj.selectedPaperSize,
+              //   dense: true,
+              //   contentPadding: EdgeInsets.zero,
+              //   value: PaperSize.mm113,
+              //   onChanged: (value) {
+              //     allPrinterCtrlObj.selectedPaperSize = PaperSize.mm113;
+              //     allPrinterCtrlObj.update();
+              //     setState(() {});
+              //   },
+              // )),
               Expanded(
-                  child: RadioListTile(
-                title: Text('113 mm'),
-                groupValue: allPrinterCtrlObj.selectedPaperSize,
-                dense: true,
-                contentPadding: EdgeInsets.zero,
-                value: PaperSize.mm113,
-                onChanged: (value) {
-                  allPrinterCtrlObj.selectedPaperSize = PaperSize.mm113;
-                  allPrinterCtrlObj.update();
-                  setState(() {});
+                  child:
+                  RadioListTile(
+                    title: Text('58 mm'),
+                    groupValue: allPrinterCtrlObj.selectedPaperSize,
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                    value: PaperSize.mm58,
+                    onChanged: (value) {
+                    allPrinterCtrlObj.selectedPaperSize = PaperSize.mm58;
+                    allPrinterCtrlObj.update();
+                    setState(() {
+
+                    });
                 },
-              )),
-              Expanded(
-                  child: RadioListTile(
-                title: Text('58 mm'),
-                groupValue: allPrinterCtrlObj.selectedPaperSize,
-                dense: true,
-                contentPadding: EdgeInsets.zero,
-                value: PaperSize.mm58,
-                onChanged: (value) {
-                  allPrinterCtrlObj.selectedPaperSize = PaperSize.mm58;
-                  allPrinterCtrlObj.update();
-                  setState(() {});
-                },
-              )),
+              ),
+              ),
             ]),
             // Text("${allPrinterCtrlObj.selectedPaperSize.width}"),
             const SizedBox(height: Dimensions.paddingSizeSmall),
@@ -219,73 +224,72 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                       allPrinterCtrl.selectedPrinters =
                           allPrinterCtrlObj.bluetoothDevices[index];
 
-                      Uint8List printPDF = await PrintData(
-                              saleOrderDataModel:
-                                  Get.find<AllProductsController>()
-                                      .salesOrderModel)
-                          .generatePdf(PdfPageFormat.roll113);
-
-                      final tempDir = await getTemporaryDirectory();
-                      File printPDFFile =
-                          await File('${tempDir.path}/generated_print.pdf')
-                              .create();
-                      await printPDFFile.writeAsBytes(printPDF);
+                      // Uint8List printPDF = await PrintData(
+                      //         saleOrderDataModel:
+                      //             Get.find<AllProductsController>()
+                      //                 .salesOrderModel)
+                      //     .generatePdf(PdfPageFormat.roll113);
+                      //
+                      // final tempDir = await getTemporaryDirectory();
+                      // File printPDFFile =
+                      //     await File('${tempDir.path}/generated_print.pdf')
+                      //         .create();
+                      // await printPDFFile.writeAsBytes(printPDF);
 
                       // String pdfPrintFilePath = File(printPDF).path;
                       // debugPrint('PDF Print File Path => ${printPDFFile.path}');
 
                       // Zebra Printer
-                      if(isZebra == true){
-                        final value = await zsdk.printPdfFileOverTCPIP(
-                          filePath: printPDFFile.path,
-                          address:
-                          '${allPrinterCtrlObj.bluetoothDevices[index].address}',
-                          port: int.tryParse(
-                              '${allPrinterCtrlObj.bluetoothDevices[index].port}') ??
-                              9100,
-                        );
-
-                        final printerResponse = PrinterResponse.fromMap(value);
-                        Status status = printerResponse.statusInfo.status;
-                        print(status);
-                        if (printerResponse.errorCode == ErrorCode.SUCCESS) {
-                          //Do something
-                          Get.back();
-                        } else {
-                          Cause cause = printerResponse.statusInfo.cause;
-                          print(cause);
-                          Get.back();
-
-                        }
-                      } else
-
-                        {
-                          // Other Printers
-                          List<int> bytes = [];
-                          CapabilityProfile profile =
+                      // if(isZebra == true){
+                      //   final value = await zsdk.printPdfFileOverTCPIP(
+                      //     filePath: printPDFFile.path,
+                      //     address:
+                      //     '${allPrinterCtrlObj.bluetoothDevices[index].address}',
+                      //     port: int.tryParse(
+                      //         '${allPrinterCtrlObj.bluetoothDevices[index].port}') ??
+                      //         9100,
+                      //   );
+                      //
+                      //   final printerResponse = PrinterResponse.fromMap(value);
+                      //   Status status = printerResponse.statusInfo.status;
+                      //   print(status);
+                      //   if (printerResponse.errorCode == ErrorCode.SUCCESS) {
+                      //     //Do something
+                      //     Get.back();
+                      //   } else {
+                      //     Cause cause = printerResponse.statusInfo.cause;
+                      //     print(cause);
+                      //     Get.back();
+                      //
+                      //   }
+                      // } else
+                      //
+                      //   {
+                      // Other Printers
+                      List<int> bytes = [];
+                      CapabilityProfile profile =
                           await CapabilityProfile.load();
-                          Generator generator = Generator(
-                              allPrinterCtrlObj.selectedPaperSize, profile);
-                          // bytes += generator.text('Retail App Print');
-                          print(Get.find<AllProductsController>().receiptPayment);
-                          if (widget.isPrintReceipt == true) {
-                            print('Inside receipt print screen');
-                            bytes = await posReceiptLayout(
-                              generator,
-                              singleReceiptModel: Get.find<AllProductsController>()
-                                  .receiptData
-                                  ?.data,
-                            );
-                            allPrinterCtrlObj.printEscPos(bytes, generator);
-                          } else {
-                            bytes = await posInvoiceAndKotPrintLayout(
-                              generator,
-                              selectedSaleOrderData:
+                      Generator generator = Generator(
+                          allPrinterCtrlObj.selectedPaperSize, profile);
+                      // bytes += generator.text('Retail App Print');
+                      print(Get.find<AllProductsController>().receiptPayment);
+                      if (widget.isPrintReceipt == true) {
+                        print('Inside receipt print screen');
+                        bytes = await posReceiptLayout(
+                          generator,
+                          singleReceiptModel: Get.find<AllProductsController>()
+                              .receiptData
+                              ?.data,
+                        );
+                        allPrinterCtrlObj.printEscPos(bytes, generator);
+                      } else {
+                        bytes = await posInvoiceAndKotPrintLayout(
+                          generator,
+                          selectedSaleOrderData:
                               Get.find<AllProductsController>().salesOrderModel,
-                            );
-                            allPrinterCtrlObj.printEscPos(bytes, generator);
-                          }
-                        }
+                        );
+                        allPrinterCtrlObj.printEscPos(bytes, generator);
+                      }
 
                       print(allPrinterCtrlObj.bluetoothDevices[index].address);
                       print(allPrinterCtrlObj.bluetoothDevices[index].port);
@@ -329,8 +333,7 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                                       : allPrinterCtrlObj
                                                   .bluetoothDevices[index]
                                                   .vendorId !=
-                                              null
-                                  &&
+                                              null &&
                                           allPrinterCtrl
                                                   .selectedPrinters!.vendorId ==
                                               allPrinterCtrlObj

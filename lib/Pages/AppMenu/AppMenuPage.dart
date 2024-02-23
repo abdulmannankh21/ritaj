@@ -142,35 +142,35 @@ class _AppMenuPageState extends State<AppMenuPage> {
                     iconData: Icons.color_lens_outlined,
 
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.print,        color: Theme.of(context).colorScheme.primary,
-                            ),
-                            SizedBox(
-                              width: 40,
-                            ),
-                            Text('Zebra Printer Enable',        style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        Switch(
-                          inactiveTrackColor: Colors.grey.shade400,
-                          value: isSwitched,
-                          onChanged: (value) async {
-                            setState(() {
-                              isSwitched = value;
-                            });
-                            AppStorage.setZebraPrinter(isSwitched);
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(12.0),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       Row(
+                  //         children: [
+                  //           Icon(Icons.print,        color: Theme.of(context).colorScheme.primary,
+                  //           ),
+                  //           SizedBox(
+                  //             width: 40,
+                  //           ),
+                  //           Text('Zebra Printer Enable',        style: TextStyle(fontWeight: FontWeight.bold),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //       Switch(
+                  //         inactiveTrackColor: Colors.grey.shade400,
+                  //         value: isSwitched,
+                  //         onChanged: (value) async {
+                  //           setState(() {
+                  //             isSwitched = value;
+                  //           });
+                  //           AppStorage.setZebraPrinter(isSwitched);
+                  //         },
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   listTile(
                     onTap: () async {
                       await launchWhatsApp(number: supportNumber, text: '');
