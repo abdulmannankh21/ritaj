@@ -387,7 +387,11 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
         ? 'Customer Tax No: ${selectedSaleOrderData?.contact?.taxNumber ?? ''}'
         : null,
   );
-
+  bytes += cl2(
+    cTxt1: (selectedSaleOrderData?.contact?.supplierBusinessName! != null)
+        ? 'Company: ${selectedSaleOrderData?.contact?.supplierBusinessName ?? ''}'
+        : null,
+  );
   // Table Name & Service Staff
   // if (isKOT)
   //   bytes += cl2(
