@@ -156,11 +156,11 @@ class PrintData extends StatelessWidget {
             title: 'Customer Name: ',
             titleVal: '${saleOrderDataModel.contact?.name}',
           ),
-          saleOrderDataModel.contact?.supplierBusinessName! != null ?
+          if(saleOrderDataModel.contact?.supplierBusinessName != null)
           printBasicInfoWidget(
             title: 'Company: ',
             titleVal: '${saleOrderDataModel.contact?.supplierBusinessName}',
-          ):SizedBox(),
+          ),
           pw.Row(
             mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
             children: [
