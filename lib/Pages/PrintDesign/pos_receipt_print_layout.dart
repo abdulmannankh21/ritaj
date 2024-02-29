@@ -312,7 +312,7 @@ Future<List<int>> posReceiptLayout(
 
         // Item Quantity
         cTxt3:
-            '${AppFormat.doubleToStringUpTo2(singleReceiptModel?[index].finalTotal)}',
+            '${ double.parse('${singleReceiptModel?[index].finalTotal ?? 0.00}')- double.parse('${singleReceiptModel?[index].paymentLines!.first.amount ?? 0.00}')} ',
         // cTxt4:
         // '${AppFormat.doubleToStringUpTo2(singleReceiptModel?[index].)}',
       );
@@ -326,7 +326,7 @@ Future<List<int>> posReceiptLayout(
   // bytes += cl2(cTxt1: 'Currency: AED', cTxt2: '${totalPayedAmount()}');
   bytes += cl2(
     cTxt1:
-        'Payment Moethod: ${singleReceiptModel?.first.paymentLines?.first.method}',
+        'Payment Method: ${singleReceiptModel?.first.paymentLines?.first.method}',
   );
 
   bytes += cl2(

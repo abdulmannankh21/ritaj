@@ -37,6 +37,8 @@ class _ReceiptsTileState extends State<ReceiptsTile> {
 
   @override
   Widget build(BuildContext context) {
+    String remaining = '${ double.parse('${widget.pastOrder.finalTotal!}') - double.parse('${widget.pastOrder.paymentLines.first.amount}')}';
+
     return Container(
       //  height: 100,
       decoration: BoxDecoration(
@@ -153,6 +155,7 @@ class _ReceiptsTileState extends State<ReceiptsTile> {
                       ),
                     ],
                   ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -177,8 +180,8 @@ class _ReceiptsTileState extends State<ReceiptsTile> {
                       //   ),
                       //AppConst.dividerLine(height: 12, width: 1),
                       AmountInfo(
-                        amount: '${widget.pastOrder.finalTotal ?? '- -'}',
-                        status: 'Amount',
+                        amount: '${double.tryParse(remaining)} ',
+                        status: ' Due Amount',
                       ),
                     ],
                   ),

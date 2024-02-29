@@ -14,6 +14,7 @@ import '../AllSalesController/allSalesController.dart';
 class ReceiptsController extends GetxController {
   String totalAmount = '0';
   SaleOrderModel? order;
+
   void markUnMarkOrder(SaleOrderDataModel orderSellLine, {int? index}) {
     // --------------------- is item cooked or not condition with popup
     // if (!isItCooked(index: index)) {
@@ -23,8 +24,11 @@ class ReceiptsController extends GetxController {
 
     orderSellLine.isSelected = !orderSellLine.isSelected;
     if (orderSellLine.isSelected == true) {
+      String remaining =
+          '${double.parse('${orderSellLine.finalTotal!}') - double.parse('${orderSellLine.paymentLines.first.amount}')}';
+
       totalAmount =
-          '${double.parse(totalAmount) + double.parse(orderSellLine.finalTotal!)}';
+          '${double.parse(totalAmount) + double.parse(orderSellLine.finalTotal!)- double.parse('${orderSellLine.paymentLines.first.amount}')}';
       listSaleOrderDataModel?.add(orderSellLine);
       print(listSaleOrderDataModel);
     } else if (orderSellLine.isSelected == false) {
@@ -39,6 +43,7 @@ class ReceiptsController extends GetxController {
 
   SaleOrderDataModel? singleOrderData;
   List<SaleOrderDataModel>? listSaleOrderDataModel;
+
   markUnMarkAllOrder() {
     // listSaleOrderDataModel
     //     ?.forEach((element) => element.isSelected = !element.isSelected);

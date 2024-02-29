@@ -42,7 +42,7 @@ class AppConfig {
   // API base url
   static String baseUrl = "https://manage.bizmodo.io/";
   static String socketBaseUrl = "https://manage.bizmodo.io:8006";
-  //
+
   // static final bool isDemoMode = true;
   // static final bool isDemoMode = false;
 
