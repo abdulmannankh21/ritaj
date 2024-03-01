@@ -179,7 +179,7 @@ class _NewCustomerVisitState extends State<NewCustomerVisit> {
                                             }
                                           },
                                           child: Text(
-                                            '${contactCtrlObj.customerContacts!.contactDataList[index].name} (${contactCtrlObj.customerContacts!.contactDataList[index].contactId})',
+                                            '${contactCtrlObj.customerContacts!.contactDataList[index].name} (${contactCtrlObj.customerContacts!.contactDataList[index].supplierBusinessName})',
                                           ),
                                         ),
                                         Divider(

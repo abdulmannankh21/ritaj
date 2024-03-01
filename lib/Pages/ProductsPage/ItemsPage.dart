@@ -16,11 +16,8 @@ class ItemsPage extends StatefulWidget {
 }
 
 class _ItemsPageState extends State<ItemsPage> {
-  // final PageController _pageController = PageController();
-  final TextEditingController searchController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   AllProductsController allProdCtrlObj = Get.find<AllProductsController>();
-  // ScrollController? _scrollController;
 
   @override
   void initState() {

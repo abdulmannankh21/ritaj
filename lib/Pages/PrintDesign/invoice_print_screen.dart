@@ -1,18 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:pdf/pdf.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zsdk/zsdk.dart';
 
-import '../../Services/storage_services.dart';
 import '/Components/custom_circular_button.dart';
 import '/Config/utils.dart';
 import '/Controllers/ProductController/all_products_controller.dart';
@@ -22,28 +16,29 @@ import '/Pages/Tabs/View/TabsPage.dart';
 import '/Theme/colors.dart';
 import '/Theme/style.dart';
 import '../../Controllers/AllPrinterController/allPrinterController.dart';
+import '../../Services/storage_services.dart';
 import '../../const/dimensions.dart';
-import 'pdfGenerate.dart';
 
-class CustomPrintPaperSize {
-  const CustomPrintPaperSize._internal(this.value);
-  final int value;
-  static const mm58 = CustomPrintPaperSize._internal(1);
-  static const mm80 = CustomPrintPaperSize._internal(2);
-  static const mm113 = CustomPrintPaperSize._internal(3);
-
-  int get width {
-    if (value == CustomPrintPaperSize.mm113.value)
-      return 836;
-    else if (value == CustomPrintPaperSize.mm58.value)
-      return 372;
-    else
-      return 558;
-  }
-}
+// class CustomPrintPaperSize {
+//   const CustomPrintPaperSize._internal(this.value);
+//   final int value;
+//   static const mm58 = CustomPrintPaperSize._internal(1);
+//   static const mm80 = CustomPrintPaperSize._internal(2);
+//   static const mm113 = CustomPrintPaperSize._internal(3);
+//
+//   int get width {
+//     if (value == CustomPrintPaperSize.mm113.value)
+//       return 836;
+//     else if (value == CustomPrintPaperSize.mm58.value)
+//       return 372;
+//     else
+//       return 558;
+//   }
+// }
 
 class InVoicePrintScreen extends StatefulWidget {
   final bool isPrintReceipt;
+
   InVoicePrintScreen({
     Key? key,
     this.isPrintReceipt = false,
@@ -193,32 +188,33 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                   setState(() {});
                 },
               )),
+              // Expanded(
+              //     child: RadioListTile(
+              //   title: Text('113 mm'),
+              //   groupValue: allPrinterCtrlObj.selectedPaperSize,
+              //   dense: true,
+              //   contentPadding: EdgeInsets.zero,
+              //   value: PaperSize.mm113,
+              //   onChanged: (value) {
+              //     allPrinterCtrlObj.selectedPaperSize = PaperSize.mm113;
+              //     allPrinterCtrlObj.update();
+              //     setState(() {});
+              //   },
+              // )),
               Expanded(
-                  child: RadioListTile(
-                title: Text('113 mm'),
-                groupValue: allPrinterCtrlObj.selectedPaperSize,
-                dense: true,
-                contentPadding: EdgeInsets.zero,
-                value: PaperSize.mm113,
-                onChanged: (value) {
-                  allPrinterCtrlObj.selectedPaperSize = PaperSize.mm113;
-                  allPrinterCtrlObj.update();
-                  setState(() {});
-                },
-              )),
-              Expanded(
-                  child: RadioListTile(
-                title: Text('58 mm'),
-                groupValue: allPrinterCtrlObj.selectedPaperSize,
-                dense: true,
-                contentPadding: EdgeInsets.zero,
-                value: PaperSize.mm58,
-                onChanged: (value) {
-                  allPrinterCtrlObj.selectedPaperSize = PaperSize.mm58;
-                  allPrinterCtrlObj.update();
-                  setState(() {});
-                },
-              )),
+                child: RadioListTile(
+                  title: Text('58 mm'),
+                  groupValue: allPrinterCtrlObj.selectedPaperSize,
+                  dense: true,
+                  contentPadding: EdgeInsets.zero,
+                  value: PaperSize.mm58,
+                  onChanged: (value) {
+                    allPrinterCtrlObj.selectedPaperSize = PaperSize.mm58;
+                    allPrinterCtrlObj.update();
+                    setState(() {});
+                  },
+                ),
+              ),
             ]),
             // Text("${allPrinterCtrlObj.selectedPaperSize.width}"),
             const SizedBox(height: Dimensions.paddingSizeSmall),
@@ -236,71 +232,69 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                       allPrinterCtrl.selectedPrinters =
                           allPrinterCtrlObj.bluetoothDevices[index];
 
-                      Uint8List printPDF = await PrintData(
-                              saleOrderDataModel:
-                                  Get.find<AllProductsController>()
-                                      .salesOrderModel)
-                          .generatePdf(PdfPageFormat.roll113);
-
-                      final tempDir = await getTemporaryDirectory();
-                      File printPDFFile =
-                          await File('${tempDir.path}/generated_print.pdf')
-                              .create();
-                      await printPDFFile.writeAsBytes(printPDF);
-
-                      // String pdfPrintFilePath = File(printPDF).path;
-                      // debugPrint('PDF Print File Path => ${printPDFFile.path}');
-
-                      // Zebra Printer
-                      if (isZebra == true) {
-                        final value = await zsdk.printPdfFileOverTCPIP(
-                          filePath: printPDFFile.path,
-                          address:
-                              '${allPrinterCtrlObj.bluetoothDevices[index].address}',
-                          port: int.tryParse(
-                                  '${allPrinterCtrlObj.bluetoothDevices[index].port}') ??
-                              9100,
+                      // Uint8List printPDF = await PrintData(
+                      //         saleOrderDataModel:
+                      //             Get.find<AllProductsController>()
+                      //                 .salesOrderModel)
+                      //     .generatePdf(PdfPageFormat.roll113);
+                      //
+                      // final tempDir = await getTemporaryDirectory();
+                      // File printPDFFile =
+                      //     await File('${tempDir.path}/generated_print.pdf')
+                      //         .create();
+                      // await printPDFFile.writeAsBytes(printPDF);
+                      //
+                      // // String pdfPrintFilePath = File(printPDF).path;
+                      // // debugPrint('PDF Print File Path => ${printPDFFile.path}');
+                      //
+                      // // Zebra Printer
+                      // if (isZebra == true) {
+                      //   final value = await zsdk.printPdfFileOverTCPIP(
+                      //     filePath: printPDFFile.path,
+                      //     address:
+                      //         '${allPrinterCtrlObj.bluetoothDevices[index].address}',
+                      //     port: int.tryParse(
+                      //             '${allPrinterCtrlObj.bluetoothDevices[index].port}') ??
+                      //         9100,
+                      //   );
+                      //
+                      //   final printerResponse = PrinterResponse.fromMap(value);
+                      //   Status status = printerResponse.statusInfo.status;
+                      //   print(status);
+                      //   if (printerResponse.errorCode == ErrorCode.SUCCESS) {
+                      //     //Do something
+                      //     Get.back();
+                      //   } else {
+                      //     Cause cause = printerResponse.statusInfo.cause;
+                      //     print(cause);
+                      //     Get.back();
+                      //
+                      //   }
+                      // } else {
+                      // Other Printers
+                      List<int> bytes = [];
+                      CapabilityProfile profile =
+                          await CapabilityProfile.load();
+                      Generator generator = Generator(
+                          allPrinterCtrlObj.selectedPaperSize, profile);
+                      // bytes += generator.text('Retail App Print');
+                      print(Get.find<AllProductsController>().receiptPayment);
+                      if (widget.isPrintReceipt == true) {
+                        print('Inside receipt print screen');
+                        bytes = await posReceiptLayout(
+                          generator,
+                          singleReceiptModel: Get.find<AllProductsController>()
+                              .receiptData
+                              ?.data,
                         );
-
-                        final printerResponse = PrinterResponse.fromMap(value);
-                        Status status = printerResponse.statusInfo.status;
-                        print(status);
-                        if (printerResponse.errorCode == ErrorCode.SUCCESS) {
-                          //Do something
-                          Get.back();
-                        } else {
-                          Cause cause = printerResponse.statusInfo.cause;
-                          print(cause);
-                          Get.back();
-                        }
+                        allPrinterCtrlObj.printEscPos(bytes, generator);
                       } else {
-                        // Other Printers
-                        List<int> bytes = [];
-                        CapabilityProfile profile =
-                            await CapabilityProfile.load();
-                        Generator generator = Generator(
-                            allPrinterCtrlObj.selectedPaperSize, profile);
-                        // bytes += generator.text('Retail App Print');
-                        print(Get.find<AllProductsController>().receiptPayment);
-                        if (widget.isPrintReceipt == true) {
-                          print('Inside receipt print screen');
-                          bytes = await posReceiptLayout(
-                            generator,
-                            singleReceiptModel:
-                                Get.find<AllProductsController>()
-                                    .receiptData
-                                    ?.data,
-                          );
-                          allPrinterCtrlObj.printEscPos(bytes, generator);
-                        } else {
-                          bytes = await posInvoiceAndKotPrintLayout(
-                            generator,
-                            selectedSaleOrderData:
-                                Get.find<AllProductsController>()
-                                    .salesOrderModel,
-                          );
-                          allPrinterCtrlObj.printEscPos(bytes, generator);
-                        }
+                        bytes = await posInvoiceAndKotPrintLayout(
+                          generator,
+                          selectedSaleOrderData:
+                              Get.find<AllProductsController>().salesOrderModel,
+                        );
+                        allPrinterCtrlObj.printEscPos(bytes, generator);
                       }
 
                       print(allPrinterCtrlObj.bluetoothDevices[index].address);

@@ -1,29 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:foodies/Models/SaleReturn/saleReturn.dart';
 import 'package:get/get.dart';
 
+import '../../../Controllers/ContactController/ContactController.dart';
 import '/Config/utils.dart';
 import '/Controllers/AllSalesController/allSalesController.dart';
+import '../../../Controllers/ProductController/all_products_controller.dart';
 import '../../Return/saleReturn.dart';
 import '../../order_type/search_customer_page.dart';
+import 'SaleReturnViewTile.dart';
 import 'SalesViewTile.dart';
 import 'ViewSalesPage.dart';
 
-class SalesView extends StatefulWidget {
+class IndividualSalesView extends StatefulWidget {
   final bool isSalesReturn;
-  SalesView({Key? key, this.isSalesReturn = false}) : super(key: key);
+
+  IndividualSalesView({Key? key, this.isSalesReturn = false}) : super(key: key);
 
   @override
-  State<SalesView> createState() => _SalesViewState();
+  State<IndividualSalesView> createState() => _IndividualSalesViewState();
 }
 
-class _SalesViewState extends State<SalesView> {
+class _IndividualSalesViewState extends State<IndividualSalesView> {
   AllSalesController allSalesCtrl = Get.find<AllSalesController>();
+  ContactController contactCtrlObj = Get.find<ContactController>();
   ScrollController? _pastOrdersScrollCtrl;
 
   @override
   void initState() {
-    // Get.find<AllProductsController>().fetchAllProducts();
-    allSalesCtrl.callFirstOrderPage();
+    // TODO: implement initState
+    Get.find<AllProductsController>().fetchAllProducts();
+    allSalesCtrl.callReturnSalePage();
     // if (widget.isSalesReturn) {
     //   allSalesCtrl.callFirstOrderPageForReceipt();
     // } else {
@@ -62,7 +69,7 @@ class _SalesViewState extends State<SalesView> {
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        title: Text('sale'.tr),
+        title: Text('return'.tr),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: (widget.isSalesReturn)
@@ -78,17 +85,16 @@ class _SalesViewState extends State<SalesView> {
                 //     isSale: false,
                 //   ),
                 // );
-              },
-            ),
+              }),
       body: Stack(
         children: [
           GetBuilder(
             builder: (AllSalesController allSalesCtrlObj) {
               return RefreshIndicator(
                 onRefresh: () async {
-                  await allSalesCtrlObj.callFirstOrderPage();
+                  await allSalesCtrlObj.callReturnSalePage();
                 },
-                child: (allSalesCtrlObj.allSaleOrders == null)
+                child: (allSalesCtrlObj.allSaleReturnOrders == null)
                     ? progressIndicator()
                     : Scrollbar(
                         controller: _pastOrdersScrollCtrl,
@@ -97,54 +103,55 @@ class _SalesViewState extends State<SalesView> {
                           physics: AlwaysScrollableScrollPhysics(),
                           padding: const EdgeInsets.only(bottom: 100),
                           itemCount: allSalesCtrlObj
-                                  .allSaleOrders?.saleOrdersData.length ??
+                                  .allSaleReturnOrders?.data!.length ??
                               0,
                           itemBuilder: (context, index) {
-                            return IntrinsicHeight(
-                              child: GestureDetector(
-                                  onTap: () {
-                                    if (widget.isSalesReturn) {
-                                      Get.to(() => SalesReturn(
-                                            id: '${allSalesCtrlObj.allSaleOrders!.saleOrdersData[index].id}',
-                                          ));
-                                    } else {
-                                      Get.to(
-                                        () => SalesViewDetailsPage(
-                                          salesOrderData: allSalesCtrlObj
-                                              .allSaleOrders!
-                                              .saleOrdersData[index],
-                                        ),
-                                      );
-                                    }
-                                  },
-                                  child: SalesViewTile(
-                                    pastOrder: allSalesCtrlObj
-                                        .allSaleOrders!.saleOrdersData[index],
-                                  )),
-                            );
-                            //   !allSalesCtrlObj.allSaleOrders!
-                            //     .saleOrdersData[index].isSuspend
-                            //     ? PastOrderInfoTile(
-                            //   allSalesCtrlObj
-                            //       .allSaleOrders!.saleOrdersData[index],
-                            // )
-                            //     : SizedBox();
+                            SaleReturnDataModel saleOrder = allSalesCtrlObj
+                                .allSaleReturnOrders!.data![index];
+                            String name = contactCtrlObj.nameCtrl.text;
+                            return (saleOrder.name == name)
+                                ? GestureDetector(
+                                    onTap: () {
+                                      if (widget.isSalesReturn) {
+                                        Get.to(SalesReturn(
+                                          id: '${allSalesCtrlObj.allSaleReturnOrders!.data![index].id}',
+                                        ));
+                                      } else {
+                                        // Get.to(SalesViewDetailsPage(
+                                        //   salesOrderData: allSalesCtrlObj
+                                        //       .allSaleReturnOrders!
+                                        //       .data![index],
+                                        // ));
+                                      }
+                                    },
+                                    child: SalesReturnViewTile(
+                                      pastOrder: allSalesCtrlObj
+                                          .allSaleReturnOrders!.data![index],
+                                    ),
+                                  )
+                                //   !allSalesCtrlObj.allSaleReturnOrders!
+                                //     .saleOrdersData[index].isSuspend
+                                //     ? PastOrderInfoTile(
+                                //   allSalesCtrlObj
+                                //       .allSaleReturnOrders!.saleOrdersData[index],
+                                // )
+                                : SizedBox();
                           },
                         ),
                       ),
               );
             },
           ),
-          Positioned(
-            bottom: 5,
-            left: 0,
-            right: 0,
-            child: GetX(builder: (AllSalesController orderCtrlObj) {
-              return orderCtrlObj.isLoadMoreRunning.isTrue
-                  ? progressIndicator()
-                  : SizedBox();
-            }),
-          ),
+          // Positioned(
+          //   bottom: 5,
+          //   left: 0,
+          //   right: 0,
+          //   child: GetX(builder: (AllSalesController orderCtrlObj) {
+          //     return orderCtrlObj.isLoadMoreRunning.isTrue
+          //         ? progressIndicator()
+          //         : SizedBox();
+          //   }),
+          // ),
         ],
       ),
       // body: GetBuilder<AllSalesController>(

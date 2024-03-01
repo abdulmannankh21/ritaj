@@ -11,11 +11,9 @@ import '/Controllers/ProductController/all_products_controller.dart';
 import '/Controllers/ReceiptsController/receiptsController.dart';
 import '/Controllers/StockTransferController/stockTransferController.dart';
 import '/Pages/Receipts/receiptsTile.dart';
-import '/Pages/Receipts/searchInReceipts.dart';
 import '/Theme/colors.dart';
 import '/Theme/style.dart';
 import '../checkout/check_out.dart';
-import '../order_type/search_customer_page.dart';
 
 class individualReceipts extends StatefulWidget {
   const individualReceipts({Key? key}) : super(key: key);
@@ -28,7 +26,7 @@ class _individualReceiptsState extends State<individualReceipts> {
   ContactController contactCtrlObj = Get.find<ContactController>();
   bool valuefirst = false;
   StockTransferController stockTranCtrlObj =
-  Get.find<StockTransferController>();
+      Get.find<StockTransferController>();
 
   ContactController contactCtrlObjj = Get.find<ContactController>();
 
@@ -135,20 +133,20 @@ class _individualReceiptsState extends State<individualReceipts> {
             padding: const EdgeInsets.all(10.0),
             child: GetBuilder<ContactController>(
                 builder: (ContactController contactCtrl) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('customer_name'.tr + ':'),
-                      Center(
-                        child: Text(
-                          '${contactCtrl.nameCtrl.text} (${contactCtrl.contactId})',
-                          style: appBarHeaderStyle,
-                        ),
-                      ),
-                    ],
-                  );
-                }),
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('customer_name'.tr + ':'),
+                  Center(
+                    child: Text(
+                      '${contactCtrl.nameCtrl.text} (${contactCtrl.contactId})',
+                      style: appBarHeaderStyle,
+                    ),
+                  ),
+                ],
+              );
+            }),
           ),
         ),
       ),
@@ -182,77 +180,81 @@ class _individualReceiptsState extends State<individualReceipts> {
                 child: (allSalesCtrlObj.allSaleOrders == null)
                     ? progressIndicator()
                     : Scrollbar(
-                  controller: _pastOrdersScrollCtrl,
-                  child: ListView.builder(
-                    controller: _pastOrdersScrollCtrl,
-                    physics: AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.only(bottom: 100),
-                    itemCount: allSalesCtrlObj
-                        .allSaleOrders?.saleOrdersData.length ??
-                        0,
-                    itemBuilder: (context, index) {
-                      print(paymentStatusValues.reverse);
+                        controller: _pastOrdersScrollCtrl,
+                        child: ListView.builder(
+                          controller: _pastOrdersScrollCtrl,
+                          physics: AlwaysScrollableScrollPhysics(),
+                          padding: const EdgeInsets.only(bottom: 100),
+                          itemCount: allSalesCtrlObj
+                                  .allSaleOrders?.saleOrdersData.length ??
+                              0,
+                          itemBuilder: (context, index) {
+                            print(paymentStatusValues.reverse);
 
-                      print(paymentStatusValues.reverse?[allSalesCtrlObj
-                          .allSaleOrders
-                          ?.saleOrdersData[index]
-                          .paymentStatus]);
-                      final saleOrder = allSalesCtrlObj
-                          .allSaleOrders!.saleOrdersData[index];
-                      String name = contactCtrlObj.nameCtrl.text;
-                      if (saleOrder.contact!.name == name) {
-                      return IntrinsicHeight(
-                        child: GestureDetector(
-                          // onTap: () {
-                          //   Get.to(SalesViewDetailsPage());
-                          // },
-                          // child: (allSalesCtrlObj
-                          //             .allSaleOrders
-                          //             ?.saleOrdersData[index]
-                          //             .paymentStatus !=
-                          //         PaymentStatus.PAID)
-                          child: (paymentStatusValues.reverse?[
-                          allSalesCtrlObj
-                              .allSaleOrders
-                              ?.saleOrdersData[index]
-                              .paymentStatus] ==
-                              'Due'|| paymentStatusValues.reverse?[
-                          allSalesCtrlObj
-                              .allSaleOrders
-                              ?.saleOrdersData[index]
-                              .paymentStatus] ==
-                              'Partial')
-                              ? ReceiptsTile(
-                            pastOrder: allSalesCtrlObj
-                                .allSaleOrders!
-                                .saleOrdersData[index],
-                            index: index,
-                          )
-                              : SizedBox(),
+                            print(paymentStatusValues.reverse?[allSalesCtrlObj
+                                .allSaleOrders
+                                ?.saleOrdersData[index]
+                                .paymentStatus]);
+                            final saleOrder = allSalesCtrlObj
+                                .allSaleOrders!.saleOrdersData[index];
+                            String name = contactCtrlObj.nameCtrl.text;
+                            print(
+                                'nameCtrl.text => ${contactCtrlObj.nameCtrl.text}');
+                            print(
+                                'saleOrder.contact.name => ${saleOrder.contact!.name}');
 
-                          //     SalesViewTile(
-                          //   allSalesCtrlObj: allSalesCtrlObj,
-                          //   index: index,
-                          //   pastOrder: allSalesCtrlObj
-                          //       .allSaleOrders!.saleOrdersData[index],
-                          // )
+                            if (saleOrder.contact!.name != name) {
+                              return SizedBox();
+                            }
+                            return IntrinsicHeight(
+                              child: GestureDetector(
+                                // onTap: () {
+                                //   Get.to(SalesViewDetailsPage());
+                                // },
+                                // child: (allSalesCtrlObj
+                                //             .allSaleOrders
+                                //             ?.saleOrdersData[index]
+                                //             .paymentStatus !=
+                                //         PaymentStatus.PAID)
+                                child: (paymentStatusValues.reverse?[
+                                                allSalesCtrlObj
+                                                    .allSaleOrders
+                                                    ?.saleOrdersData[index]
+                                                    .paymentStatus] ==
+                                            'Due' ||
+                                        paymentStatusValues.reverse?[
+                                                allSalesCtrlObj
+                                                    .allSaleOrders
+                                                    ?.saleOrdersData[index]
+                                                    .paymentStatus] ==
+                                            'Partial')
+                                    ? ReceiptsTile(
+                                        pastOrder: allSalesCtrlObj
+                                            .allSaleOrders!
+                                            .saleOrdersData[index],
+                                        index: index,
+                                      )
+                                    : SizedBox(),
+
+                                //     SalesViewTile(
+                                //   allSalesCtrlObj: allSalesCtrlObj,
+                                //   index: index,
+                                //   pastOrder: allSalesCtrlObj
+                                //       .allSaleOrders!.saleOrdersData[index],
+                                // )
+                              ),
+                            );
+
+                            //   !allSalesCtrlObj.allSaleOrders!
+                            //     .saleOrdersData[index].isSuspend
+                            //     ? PastOrderInfoTile(
+                            //   allSalesCtrlObj
+                            //       .allSaleOrders!.saleOrdersData[index],
+                            // )
+                            //     : SizedBox();
+                          },
                         ),
-                      );
-                      } else {
-                        print(contactCtrlObj.nameCtrl.text);
-                        print(saleOrder.contact!.name);
-                        return SizedBox();
-                      }
-                      //   !allSalesCtrlObj.allSaleOrders!
-                      //     .saleOrdersData[index].isSuspend
-                      //     ? PastOrderInfoTile(
-                      //   allSalesCtrlObj
-                      //       .allSaleOrders!.saleOrdersData[index],
-                      // )
-                      //     : SizedBox();
-                    },
-                  ),
-                ),
+                      ),
               );
             },
           ),
@@ -272,22 +274,22 @@ class _individualReceiptsState extends State<individualReceipts> {
             children: [
               GetBuilder<ReceiptsController>(
                   builder: (ReceiptsController receiptCtrlObj) {
-                    return Container(
-                      color: kWhiteColor,
-                      height: 25,
-                      width: 150,
-                      child: Center(
-                        child: Text(
-                          'total'.tr +
-                              ' (AED) = ${AppFormat.doubleToStringUpTo2(receiptCtrlObj.totalAmount)}',
-                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                return Container(
+                  color: kWhiteColor,
+                  height: 25,
+                  width: 150,
+                  child: Center(
+                    child: Text(
+                      'total'.tr +
+                          ' (AED) = ${AppFormat.doubleToStringUpTo2(receiptCtrlObj.totalAmount)}',
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                           ),
-                        ),
-                      ),
-                    );
-                  }),
+                    ),
+                  ),
+                );
+              }),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.center,
               //   children: [

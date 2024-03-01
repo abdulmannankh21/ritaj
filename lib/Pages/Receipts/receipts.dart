@@ -25,22 +25,19 @@ class Receipts extends StatefulWidget {
 }
 
 class _ReceiptsState extends State<Receipts> {
-  bool valuefirst = false;
-  StockTransferController stockTranCtrlObj =
-      Get.find<StockTransferController>();
-
-  ContactController contactCtrlObjj = Get.find<ContactController>();
-
   AllSalesController allSalesCtrl = Get.find<AllSalesController>();
-  ScrollController? _pastOrdersScrollCtrl;
   ReceiptsController receiptsCtrl = Get.find<ReceiptsController>();
+  ContactController contactCtrl = Get.find<ContactController>();
+
+  ScrollController? _pastOrdersScrollCtrl;
+
   int selectedMethod = 0;
+  bool valuefirst = false;
 
   @override
   void initState() {
-    // TODO: implement initState
-    allSalesCtrl.callFirstOrderPage();
-    stockTranCtrlObj.fetchStockTransfersList();
+    allSalesCtrl.callFirstOrderPage(globalSearch: contactCtrl.nameCtrl.text);
+    Get.find<StockTransferController>().fetchStockTransfersList();
     receiptsCtrl.totalAmount = '0';
     receiptsCtrl.listSaleOrderDataModel =
         allSalesCtrl.allSaleOrders?.saleOrdersData;
@@ -172,7 +169,8 @@ class _ReceiptsState extends State<Receipts> {
             builder: (AllSalesController allSalesCtrlObj) {
               return RefreshIndicator(
                 onRefresh: () async {
-                  await allSalesCtrlObj.callFirstOrderPage();
+                  await allSalesCtrlObj.callFirstOrderPage(
+                      globalSearch: contactCtrl.nameCtrl.text);
                   // await allSalesCtrlObj.callFirstOrderPageForReceipt();
                   setState(() {
                     receiptsCtrl.totalAmount = '0';
@@ -184,18 +182,31 @@ class _ReceiptsState extends State<Receipts> {
                         controller: _pastOrdersScrollCtrl,
                         child: ListView.builder(
                           controller: _pastOrdersScrollCtrl,
+                          shrinkWrap: true,
                           physics: AlwaysScrollableScrollPhysics(),
                           padding: const EdgeInsets.only(bottom: 100),
                           itemCount: allSalesCtrlObj
                                   .allSaleOrders?.saleOrdersData.length ??
                               0,
                           itemBuilder: (context, index) {
-                            print(paymentStatusValues.reverse);
+                            // print(paymentStatusValues.reverse);
+                            //
+                            // print(paymentStatusValues.reverse?[allSalesCtrlObj
+                            //     .allSaleOrders
+                            //     ?.saleOrdersData[index]
+                            //     .paymentStatus]);
+                            final saleOrder = allSalesCtrlObj
+                                .allSaleOrders!.saleOrdersData[index];
+                            String name = contactCtrl.nameCtrl.text;
 
-                            print(paymentStatusValues.reverse?[allSalesCtrlObj
-                                .allSaleOrders
-                                ?.saleOrdersData[index]
-                                .paymentStatus]);
+                            // print(name);
+                            // print(name == saleOrder.contact!.name);
+                            // print(saleOrder.contact!.name);
+
+                            if (name != saleOrder.contact!.name) {
+                              return SizedBox();
+                            }
+
                             return IntrinsicHeight(
                               child: GestureDetector(
                                 // onTap: () {
@@ -207,16 +218,17 @@ class _ReceiptsState extends State<Receipts> {
                                 //             .paymentStatus !=
                                 //         PaymentStatus.PAID)
                                 child: (paymentStatusValues.reverse?[
-                                            allSalesCtrlObj
-                                                .allSaleOrders
-                                                ?.saleOrdersData[index]
-                                                .paymentStatus] ==
-                                        'Due'|| paymentStatusValues.reverse?[
-                                allSalesCtrlObj
-                                    .allSaleOrders
-                                    ?.saleOrdersData[index]
-                                    .paymentStatus] ==
-                                    'Partial')
+                                                allSalesCtrlObj
+                                                    .allSaleOrders
+                                                    ?.saleOrdersData[index]
+                                                    .paymentStatus] ==
+                                            'Due' ||
+                                        paymentStatusValues.reverse?[
+                                                allSalesCtrlObj
+                                                    .allSaleOrders
+                                                    ?.saleOrdersData[index]
+                                                    .paymentStatus] ==
+                                            'Partial')
                                     ? ReceiptsTile(
                                         pastOrder: allSalesCtrlObj
                                             .allSaleOrders!

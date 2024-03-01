@@ -18,6 +18,7 @@ import '/Services/storage_services.dart';
 
 class PrintData extends StatelessWidget {
   final SaleOrderDataModel? saleOrderDataModel;
+
   PrintData({Key? key, this.saleOrderDataModel}) : super(key: key);
 
   @override
@@ -30,13 +31,18 @@ class PrintData extends StatelessWidget {
 
   Future<Uint8List> generatePdf(PdfPageFormat format) async {
     final pdf = pw.Document();
-    final url = AppStorage.getBusinessDetailsData()?.businessData?.logo;
-    final response = await http.get(Uri.parse(url ?? ''));
-    final Uint8List imageBytes;
     pw.MemoryImage? pdfImage;
+
     try {
-      imageBytes = response.bodyBytes;
-      pdfImage = pw.MemoryImage(imageBytes);
+      final url = AppStorage.getBusinessDetailsData()?.businessData?.logo;
+      if (url != null) {
+        final response = await http.get(Uri.parse(url ?? ''));
+        final Uint8List imageBytes;
+        imageBytes = response.bodyBytes;
+        pdfImage = pw.MemoryImage(imageBytes);
+        // imageBytes = response.bodyBytes;
+        pdfImage = pw.MemoryImage(imageBytes);
+      }
     } catch (e) {
       print("Image Not Valid");
     }
@@ -151,7 +157,11 @@ class PrintData extends StatelessWidget {
             title: 'Customer Name: ',
             titleVal: '${saleOrderDataModel.contact?.name}',
           ),
-
+          if (saleOrderDataModel.contact?.supplierBusinessName != null)
+            printBasicInfoWidget(
+              title: 'Company: ',
+              titleVal: '${saleOrderDataModel.contact?.supplierBusinessName}',
+            ),
           pw.Row(
             mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
             children: [
@@ -356,8 +366,10 @@ class PrintData extends StatelessWidget {
           pw.Divider(),
           pw.SizedBox(height: 10),
           pw.Center(
-              child: pw.Text(
-                  'Digitally generated invoice,\nvalid without signature or stamp')),
+            child: pw.Text(
+              'Digitally generated invoice, valid without signature or stamp',
+            ),
+          ),
         ],
       ),
     );

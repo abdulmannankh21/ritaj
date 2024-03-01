@@ -6,14 +6,13 @@ import '../../Components/custom_circular_button.dart';
 import '../../Config/utils.dart';
 import '../../Controllers/AllSalesController/allSalesController.dart';
 import '../../Controllers/ContactController/ContactController.dart';
-import '../../Controllers/ProductController/all_products_controller.dart';
 import '../../Theme/colors.dart';
 import '../CreateOrder/createOrderPage.dart';
-import '../Receipts/receipts.dart';
 import '../Receipts/reciepts_individual.dart';
 import '../Return/saleReturn.dart';
 import '../SalesView/SalesViewDetails/SalesViewTile.dart';
 import '../SalesView/SalesViewDetails/ViewSalesPage.dart';
+import '../SalesView/SalesViewDetails/individual_sale_view.dart';
 
 class ViewCustomer extends StatefulWidget {
   final String id;
@@ -33,8 +32,7 @@ class _ViewCustomerState extends State<ViewCustomer> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    Get.find<AllProductsController>().fetchAllProducts();
+    // Get.find<AllProductsController>().fetchAllProducts();
     allSalesCtrl.callFirstOrderPage();
     scrollControllerLis();
     super.initState();
@@ -100,11 +98,11 @@ class _ViewCustomerState extends State<ViewCustomer> {
                   builder: (ContactController contactCtrl) {
                 return CustomButton(
                   onTap: () {
-                    Get.to(individualReceipts());
+                    Get.to(() => individualReceipts());
                     contactCtrlObj.update();
                   },
                   title: Text(
-                    'Reciept',
+                    'Receipt',
                     style: TextStyle(color: kWhiteColor),
                   ),
                 );
@@ -113,7 +111,7 @@ class _ViewCustomerState extends State<ViewCustomer> {
                   builder: (ContactController contactCtrl) {
                 return CustomButton(
                   onTap: () {
-                    Get.to(CreateOrderPage());
+                    Get.to(() => CreateOrderPage());
                   },
                   title: Text(
                     'Order',
@@ -125,10 +123,23 @@ class _ViewCustomerState extends State<ViewCustomer> {
                   builder: (ContactController contactCtrl) {
                 return CustomButton(
                   onTap: () {
-                    Get.to(ShowCustomerDetails(contactApi: widget.id));
+                    Get.to(() => ShowCustomerDetails(contactApi: widget.id));
                   },
                   title: Text(
                     'profile'.tr,
+                    style: TextStyle(color: kWhiteColor),
+                  ),
+                );
+              }),
+              GetBuilder<ContactController>(
+                  builder: (ContactController contactCtrl) {
+                return CustomButton(
+                  onTap: () {
+                    Get.to(() => IndividualSalesView(isSalesReturn: true));
+                    // Get.to(ShowCustomerDetails(contactApi: widget.id));
+                  },
+                  title: Text(
+                    'return'.tr,
                     style: TextStyle(color: kWhiteColor),
                   ),
                 );

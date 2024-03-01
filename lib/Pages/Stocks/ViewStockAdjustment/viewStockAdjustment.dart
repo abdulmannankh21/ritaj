@@ -1,43 +1,30 @@
-import '../../../Pages/Stocks/ViewStockAdjustment/viewStockAdjustmentTile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../Config/utils.dart';
 import '../../../Controllers/StockTransferController/stockTransferController.dart';
-
+import '../../../Pages/Stocks/ViewStockAdjustment/viewStockAdjustmentTile.dart';
 import 'createStockAdjustment.dart';
 
-class ViewStockAdjustment extends StatefulWidget {
+class ViewStockAdjustment extends StatelessWidget {
   const ViewStockAdjustment({Key? key}) : super(key: key);
-
-  @override
-  State<ViewStockAdjustment> createState() => _ViewStockAdjustmentState();
-}
-
-class _ViewStockAdjustmentState extends State<ViewStockAdjustment> {
-  StockTransferController stockAdjustmentCtrlObj =
-      Get.find<StockTransferController>();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    stockAdjustmentCtrlObj.fetchStockAdjustmentList();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton: FloatingActionButton.small(
-            child: Icon(Icons.add),
-            backgroundColor:
-                Theme.of(context).colorScheme.primary.withOpacity(0.5),
-            onPressed: () {
-              Get.to(CreateStockAdjustment());
-            }),
-        body: GetBuilder<StockTransferController>(
-            builder: (StockTransferController stockAdjustmentCtrlObj) {
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton.small(
+        child: Icon(Icons.add),
+        backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+        onPressed: () {
+          Get.to(() => CreateStockAdjustment());
+        },
+      ),
+      body: GetBuilder<StockTransferController>(
+        initState: (_) {
+          Get.find<StockTransferController>().fetchStockAdjustmentList();
+        },
+        builder: (StockTransferController stockAdjustmentCtrlObj) {
           if (stockAdjustmentCtrlObj.viewStockAdjustmentModel != null) {
             return RefreshIndicator(
               onRefresh: () async {
@@ -60,6 +47,8 @@ class _ViewStockAdjustmentState extends State<ViewStockAdjustment> {
             );
           } else
             return progressIndicator();
-        }));
+        },
+      ),
+    );
   }
 }

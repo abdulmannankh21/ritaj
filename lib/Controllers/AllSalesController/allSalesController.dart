@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../Config/utils.dart';
 import '../../Models/AllSalesModel/specifiedSellModel.dart';
 import '../../Models/NavBarModel.dart';
+import '../../Models/SaleReturn/saleReturn.dart';
 import '../../Models/order_type_model/SaleOrderModel.dart';
 import '../../Pages/SalesView/ListQuotations/listQuotations.dart';
 import '../../Pages/SalesView/SalesViewDetails/SalesView.dart';
@@ -143,12 +144,12 @@ class AllSalesController extends GetxController {
   SaleOrderModel? allSaleOrders;
   // fetch all sale orders list
   Future<bool?> fetchAllSalesList(
-      {int page = 0, String global_search = ''}) async {
+      {int page = 0, String globalSearch = ''}) async {
     print('========================================');
     print('Function calling');
     return await ApiServices.getMethod(
             feedUrl:
-                '${ApiUrls.allOrders}?page=$page&per_page=20&global_search=${global_search}&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}')
+                '${ApiUrls.allOrders}?page=$page&per_page=20&global_search=$globalSearch&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}')
         .then((_res) {
       if (_res == null) return null;
       final _data = saleOrderModelFromJson(_res);
@@ -166,6 +167,7 @@ class AllSalesController extends GetxController {
           page == allSaleOrders?.meta?.lastPage) {
         return true;
       }
+      // errorMsg: '$errorMsgrror';
 
       return false;
     }).onError((error, stackTrace) async {
@@ -180,14 +182,66 @@ class AllSalesController extends GetxController {
     });
   }
 
+  SaleReturnListModel? allSaleReturnOrders;
+  Future<bool?> fetchAllSalesReturnList(
+      {int page = 0, String global_search = ''}) async {
+    print('========================================');
+    print('Function calling');
+    return await ApiServices.getMethod(
+      feedUrl: 'connector/api/list-sell-return'
+          '?pagination=$page'
+          '&per_page=20'
+          '&global_search=${global_search}'
+          '&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}',
+    ).then((_res) {
+      if (_res == null) return null;
+      SaleReturnListModel _data = saleReturnListModelFromJson(_res);
+      if (page > 1 && allSaleReturnOrders != null && _data.data != null) {
+        allSaleReturnOrders!.data?.addAll(_data.data!);
+      } else {
+        allSaleReturnOrders = _data;
+      }
+      stopProgress();
+      //Get.close(1);
+
+      /* fallback end status means is all item finished or not */
+      if (allSaleReturnOrders?.lastPage != null &&
+          page == allSaleReturnOrders?.lastPage) {
+        return true;
+      }
+
+      return false;
+    }).onError((error, stackTrace) async {
+      debugPrint('Error => $error');
+      logger.e('StackTrace => $stackTrace');
+      await ExceptionController().exceptionAlert(
+        errorMsg: '$error',
+        exceptionFormat: ApiServices.methodExceptionFormat(
+            'POST', "connector/api/list-sell-return", error, stackTrace),
+      );
+      return null;
+    });
+  }
+
   // initial order page load function
-  callFirstOrderPage() async {
+  callFirstOrderPage({String globalSearch = ''}) async {
     allSaleOrdersPage = 1;
     isFirstLoadRunning = true;
     hasNextPage = true;
     isLoadMoreRunning.value = false;
-    await fetchAllSalesList(page: 1);
+    await fetchAllSalesList(page: 1, globalSearch: globalSearch);
     isFirstLoadRunning = false;
+    update();
+  }
+
+  callReturnSalePage() async {
+    allSaleOrdersPage = 1;
+    isFirstLoadRunning = true;
+    hasNextPage = true;
+    isLoadMoreRunning.value = false;
+    await fetchAllSalesReturnList(page: 1);
+    isFirstLoadRunning = false;
+    update();
   }
 
   SpecifiedSellModel? salesOrderModel;

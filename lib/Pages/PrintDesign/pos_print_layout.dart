@@ -376,6 +376,11 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
         ? 'Customer: ${selectedSaleOrderData?.contact?.name ?? ''}'
         : null,
   );
+  bytes += cl2(
+    cTxt1: (selectedSaleOrderData?.contact?.supplierBusinessName != null)
+        ? 'Company: ${selectedSaleOrderData?.contact?.supplierBusinessName ?? ''}'
+        : null,
+  );
   //customer contact no
   bytes += cl2(
     cTxt1: (selectedSaleOrderData?.contact?.mobile != null)

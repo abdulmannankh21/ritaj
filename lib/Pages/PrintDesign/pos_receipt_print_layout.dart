@@ -311,6 +311,7 @@ Future<List<int>> posReceiptLayout(
             '${singleReceiptModel?[index].paymentLines?.first.paymentRefNo}\n${singleReceiptModel?[index].invoiceNo}',
 
         // Item Quantity
+        /// TODO: - payed amount from total amount
         cTxt3:
             '${AppFormat.doubleToStringUpTo2(singleReceiptModel?[index].finalTotal)}',
         // cTxt4:
@@ -326,7 +327,7 @@ Future<List<int>> posReceiptLayout(
   // bytes += cl2(cTxt1: 'Currency: AED', cTxt2: '${totalPayedAmount()}');
   bytes += cl2(
     cTxt1:
-        'Payment Moethod: ${singleReceiptModel?.first.paymentLines?.first.method}',
+        'Payment Method: ${singleReceiptModel?.first.paymentLines?.first.method}',
   );
 
   bytes += cl2(

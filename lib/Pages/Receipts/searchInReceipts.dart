@@ -75,7 +75,7 @@ class _SearchInReceiptsState extends State<SearchInReceipts> {
                       showProgress();
                       allSalesCtrl.fetchAllSalesList(
                           page: 1,
-                          global_search: allSalesCtrl.searchReceiptCtrl.text
+                          globalSearch: allSalesCtrl.searchReceiptCtrl.text
                           //  global_search: allSalesCtrl.searchReceiptCtrl.text
                           );
                       // if (saleReturnCtrlObj.isTrue == true) {
