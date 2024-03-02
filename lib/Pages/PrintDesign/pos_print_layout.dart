@@ -518,6 +518,11 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
         'Sub Total: ${AppFormat.doubleToStringUpTo2('${double.parse('${selectedSaleOrderData?.finalTotal}') - totalItemsTax()}')}',
   );
   bytes += cl2(
+    cTxt1: "",
+    cTxt2:
+    'Discount: ${double.parse('${selectedSaleOrderData?.discountAmount}')}',
+  );
+  bytes += cl2(
     cTxt1: '',
     cTxt2:
         'Add: ${Get.find<TaxController>().checkTaxName(taxId: selectedSaleOrderData?.taxId)}(${Get.find<TaxController>().checkTaxAmount(taxId: selectedSaleOrderData?.taxId)}%)  ${totalItemsTax()}',
