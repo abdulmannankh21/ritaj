@@ -177,9 +177,9 @@ class _ReceiptsTileState extends State<ReceiptsTile> {
                       //   ),
                       //AppConst.dividerLine(height: 12, width: 1),
 
-                      /// TODO: - payed amount from total amount
                       AmountInfo(
-                        amount: '${widget.pastOrder.finalTotal ?? '- -'}',
+                        amount:
+                            '${Get.find<OrderController>().calculateRemainingAmountToPay(widget.pastOrder)} ',
                         status: 'Due Amount',
                       ),
                     ],

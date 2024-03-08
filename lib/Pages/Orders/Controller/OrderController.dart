@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Controllers/OrderController/order_type_controller.dart';
-import '../../../Controllers/exception_controller.dart';
-import '../../Stocks/ViewStockAdjustment/viewStockAdjustment.dart';
-import '../../Stocks/ViewStockTransfer/viewStockTransfer.dart';
 import '/Config/enums.dart';
 import '/Config/utils.dart';
 import '/Models/NavBarModel.dart';
 import '/Models/order_type_model/SaleOrderModel.dart';
 import '/Models/order_type_model/SellLineModel.dart';
+import '/Models/order_type_model/payment_line_model.dart';
 import '/Services/api_services.dart';
 import '/Services/api_urls.dart';
+import '../../../Controllers/OrderController/order_type_controller.dart';
+import '../../../Controllers/exception_controller.dart';
+import '../../Stocks/ViewStockAdjustment/viewStockAdjustment.dart';
+import '../../Stocks/ViewStockTransfer/viewStockTransfer.dart';
 
 enum OrderTabsPage {
   ActiveOrders,
@@ -296,6 +297,27 @@ class OrderController extends GetxController {
   //     return null;
   //   });
   // }
+
+  double calculatePayedAmount(List<PaymentLine> orderSellLinePaymentLines) {
+    double payedAmount = 0.0;
+
+    if (orderSellLinePaymentLines.isNotEmpty) {
+      orderSellLinePaymentLines.forEach((paymentLine) {
+        payedAmount += (double.parse('${paymentLine.amount ?? 0}'));
+      });
+    }
+
+    return payedAmount;
+  }
+
+  double calculateRemainingAmountToPay(SaleOrderDataModel orderSellLine) {
+    double remainingAmountToPay = 0.0;
+
+    remainingAmountToPay = double.parse('${orderSellLine.finalTotal ?? 0}') -
+        calculatePayedAmount(orderSellLine.paymentLines);
+
+    return remainingAmountToPay;
+  }
 
   notifyReadyToCheckout() {
     // Invoice Print

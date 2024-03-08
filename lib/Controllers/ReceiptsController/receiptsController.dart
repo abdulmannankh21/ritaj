@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '/Controllers/ProductController/all_products_controller.dart';
 import '../../Models/order_type_model/SaleOrderModel.dart';
+import '../../Pages/Orders/Controller/OrderController.dart';
 
 class ReceiptsController extends GetxController {
   String totalAmount = '0';
@@ -16,12 +17,8 @@ class ReceiptsController extends GetxController {
 
     orderSellLine.isSelected = !orderSellLine.isSelected;
     if (orderSellLine.isSelected == true) {
-      // TODO: calculate remaining amount
-      // String remaining =
-      //     '${double.parse('${orderSellLine.finalTotal!}') - double.parse('${orderSellLine.paymentLines.first.amount}')}';
-
       totalAmount =
-          '${double.parse(totalAmount) + double.parse(orderSellLine.finalTotal!)}';
+          '${double.parse(totalAmount) + Get.find<OrderController>().calculateRemainingAmountToPay(orderSellLine)}';
       listSaleOrderDataModel?.add(orderSellLine);
       print(listSaleOrderDataModel);
     } else if (orderSellLine.isSelected == false) {
