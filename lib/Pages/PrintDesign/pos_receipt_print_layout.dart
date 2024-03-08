@@ -303,18 +303,22 @@ Future<List<int>> posReceiptLayout(
   List.generate(
     singleReceiptModel?.length ?? 0,
     (index) {
+      double finalTotal =
+          double.parse('${singleReceiptModel?[index].finalTotal ?? 0}');
+      try {
+        finalTotal -= double.parse(
+            '${singleReceiptModel?[index].paymentLines!.first.amount ?? 0}');
+      } catch (e) {
+        print('Error => $e');
+      }
       bytes += cl3(
-        // Serial Number
         cTxt1: '${index + 1}',
-        // Item Details
-        cTxt2:
-            '${singleReceiptModel?[index].paymentLines?.first.paymentRefNo}\n${singleReceiptModel?[index].invoiceNo}',
-
-        // Item Quantity
-        cTxt3:
-            '${ double.parse('${singleReceiptModel?[index].finalTotal ?? 0.00}')- double.parse('${singleReceiptModel?[index].paymentLines!.first.amount ?? 0.00}')} ',
-        // cTxt4:
-        // '${AppFormat.doubleToStringUpTo2(singleReceiptModel?[index].)}',
+        cTxt2: ((singleReceiptModel?[index].paymentLines != null &&
+                    singleReceiptModel![index].paymentLines!.isNotEmpty)
+                ? '${singleReceiptModel[index].paymentLines?.first.paymentRefNo}'
+                : '') +
+            '\n${singleReceiptModel?[index].invoiceNo}',
+        cTxt3: '${AppFormat.doubleToStringUpTo2('$finalTotal')}',
       );
     },
   );

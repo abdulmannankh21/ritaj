@@ -6,17 +6,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '/Models/order_type_model/payment_line_model.dart';
 
 import '/Config/enums.dart';
+import '/Config/utils.dart';
 import '/Models/AuthModels/loggged_in_user_detail.dart';
 import '/Models/ProductsModel/ProductTaxModel.dart';
 import '/Models/TableManagementModel/table_management_model.dart';
 import '/Models/business_n_register/BusinessModel.dart';
 import '/Models/order_type_model/customer_contact_model.dart';
+import '/Models/order_type_model/payment_line_model.dart';
 import 'SellLineModel.dart';
 import 'order_service_model.dart';
-import '/Config/utils.dart';
 
 // import '/Models/order_type_model/payment_line_model.dart';
 
@@ -350,8 +350,8 @@ class SaleOrderDataModel {
   StaffUserModel? serviceStaff;
   OrderServiceDataModel? typesOfService;
   StaffUserModel? salesPerson;
-  late List<SellLine> sellLines;
-  late List<PaymentLine> paymentLines;
+  List<SellLine> sellLines = [];
+  List<PaymentLine> paymentLines = [];
   ContactDataModel? contact;
   String? invoiceUrl;
   String? paymentLink;

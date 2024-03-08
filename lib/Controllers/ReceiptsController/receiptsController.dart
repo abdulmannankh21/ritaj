@@ -1,15 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '/Controllers/ProductController/all_products_controller.dart';
-import '../../Config/utils.dart';
 import '../../Models/order_type_model/SaleOrderModel.dart';
-import '../../Services/api_services.dart';
-import '../../Services/api_urls.dart';
-import '../../Services/storage_services.dart';
-import '../AllSalesController/allSalesController.dart';
+import '../../Pages/Orders/Controller/OrderController.dart';
 
 class ReceiptsController extends GetxController {
   String totalAmount = '0';
@@ -24,11 +17,8 @@ class ReceiptsController extends GetxController {
 
     orderSellLine.isSelected = !orderSellLine.isSelected;
     if (orderSellLine.isSelected == true) {
-      String remaining =
-          '${double.parse('${orderSellLine.finalTotal!}') - double.parse('${orderSellLine.paymentLines.first.amount}')}';
-
       totalAmount =
-          '${double.parse(totalAmount) + double.parse(orderSellLine.finalTotal!)- double.parse('${orderSellLine.paymentLines.first.amount}')}';
+          '${double.parse(totalAmount) + Get.find<OrderController>().calculateRemainingAmountToPay(orderSellLine)}';
       listSaleOrderDataModel?.add(orderSellLine);
       print(listSaleOrderDataModel);
     } else if (orderSellLine.isSelected == false) {

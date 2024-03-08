@@ -8,44 +8,33 @@ import '../../../Pages/Stocks/ViewStockTransfer/viewStockTransferTile.dart';
 import '../../../Services/storage_services.dart';
 import 'createStockTransfer.dart';
 
-class ViewStockTransfer extends StatefulWidget {
+class ViewStockTransfer extends StatelessWidget {
   const ViewStockTransfer({Key? key}) : super(key: key);
-
-  @override
-  State<ViewStockTransfer> createState() => _ViewStockTransferState();
-}
-
-class _ViewStockTransferState extends State<ViewStockTransfer> {
-  StockTransferController stockTranCtrlObj =
-      Get.find<StockTransferController>();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    stockTranCtrlObj.fetchStatusList();
-    stockTranCtrlObj.fetchStockTransfersList();
-    stockTranCtrlObj.searchProductList();
-    Get.find<AllProductsController>().fetchUnitList();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton: FloatingActionButton.small(
-            child: Icon(Icons.add),
-            backgroundColor:
-                Theme.of(context).colorScheme.primary.withOpacity(0.5),
-            onPressed: () {
-              Get.to(CreateStockTransfer());
-            }),
-        body: GetBuilder<StockTransferController>(
-            builder: (StockTransferController stockTransferCtrlObj) {
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton.small(
+        child: Icon(Icons.add),
+        backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+        onPressed: () {
+          Get.to(() => CreateStockTransfer());
+        },
+      ),
+      body: GetBuilder<StockTransferController>(
+        initState: (_) {
+          Get.find<StockTransferController>()
+            ..fetchStatusList()
+            ..fetchStockTransfersList();
+          if (Get.find<AllProductsController>().unitListModel == null)
+            Get.find<AllProductsController>().fetchUnitList();
+        },
+        builder: (StockTransferController stockTransferCtrlObj) {
           if (stockTransferCtrlObj.viewStockTransferMoodel != null) {
             return RefreshIndicator(
               onRefresh: () async {
-                await stockTranCtrlObj.fetchStockTransfersList();
+                await stockTransferCtrlObj.fetchStockTransfersList();
               },
               child: ListView.builder(
                   physics: AlwaysScrollableScrollPhysics(),
@@ -79,6 +68,8 @@ class _ViewStockTransferState extends State<ViewStockTransfer> {
             );
           } else
             return progressIndicator();
-        }));
+        },
+      ),
+    );
   }
 }

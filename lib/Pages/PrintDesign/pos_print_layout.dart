@@ -424,9 +424,9 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
     cTxt1: '#',
     cTxt2: 'Item',
     cTxt3: 'Qty',
-    isBold: true,
     cTxt4: 'Price',
     cTxt5: 'Total',
+    isBold: true,
   );
 
   // Divider
@@ -507,16 +507,23 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   );
 
   // Divider
-
   bytes += printDivider();
 
   // Totals Information
   bytes += cl2(
     // Total Items
     cTxt1: 'Items: ${selectedSaleOrderData?.sellLines.length}',
-    cTxt2:
-        'Sub Total: ${AppFormat.doubleToStringUpTo2('${double.parse('${selectedSaleOrderData?.finalTotal}') - totalItemsTax()}')}',
+    cTxt2: 'Sub Total:'
+        ' ${AppFormat.doubleToStringUpTo2('${double.parse('${selectedSaleOrderData?.totalBeforeTax}') /* - totalItemsTax()*/}')}',
   );
+
+  // Discount
+  bytes += cl2(
+    cTxt1: '',
+    cTxt2: 'Discount: ${selectedSaleOrderData?.discountAmount ?? 0}',
+  );
+
+  // VAT name, percent and value
   bytes += cl2(
     cTxt1: "",
     cTxt2:
@@ -524,8 +531,9 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   );
   bytes += cl2(
     cTxt1: '',
-    cTxt2:
-        'Add: ${Get.find<TaxController>().checkTaxName(taxId: selectedSaleOrderData?.taxId)}(${Get.find<TaxController>().checkTaxAmount(taxId: selectedSaleOrderData?.taxId)}%)  ${totalItemsTax()}',
+    cTxt2: 'Tax (VAT):'
+        ' ${Get.find<TaxController>().checkTaxName(taxId: selectedSaleOrderData?.taxId)}(${Get.find<TaxController>().checkTaxAmount(taxId: selectedSaleOrderData?.taxId)}%)'
+        '  ${totalItemsTax()}',
   );
   // bytes += cl2(
   //   // Total Quantity
@@ -537,6 +545,7 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   //       : null,
   // );
 
+  // Total
   bytes += cl2(
     cTxt1: '',
     cTxt2:
@@ -565,7 +574,7 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   //           .capitalize ??
   //       '',
   // );
-  debugPrint(selectedSaleOrderData?.paymentLines.toString());
+  debugPrint('${selectedSaleOrderData?.paymentLines.toString()}');
   // for (PaymentLine e in selectedSaleOrderData.paymentLines) {
   //   if (e.transactionNo != null)
   //     bytes += cl2(
@@ -591,18 +600,23 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
             : (selectedSaleOrderData?.paymentLines[i].transactionNo != null)
                 ? 'Tr #: ${selectedSaleOrderData?.paymentLines[i].transactionNo}'
                 : '',
-        cTxt2:
-            '${(selectedSaleOrderData?.paymentLines[i].isReturn == 1) ? 'Return Amount' : '${selectedSaleOrderData?.paymentLines[i].method}'}: ${AppFormat.doubleToStringUpTo2(selectedSaleOrderData?.paymentLines[i].amount)}',
+        cTxt2: ((selectedSaleOrderData?.paymentLines[i].isReturn == 1)
+                ? 'Return Amount'
+                : '${selectedSaleOrderData?.paymentLines[i].method}') +
+            ': ${AppFormat.doubleToStringUpTo2(selectedSaleOrderData?.paymentLines[i].amount)}',
       );
     if (selectedSaleOrderData?.paymentLines[i].isReturn == 0)
       bytes += cl2(
-          cTxt1:
-              'Transaction Date: ${AppFormat.dateYYYYMMDDHHMM24(selectedSaleOrderData?.paymentLines[i].paidOn)}');
+        cTxt1:
+            'Transaction Date: ${AppFormat.dateYYYYMMDDHHMM24(selectedSaleOrderData?.paymentLines[i].paidOn)}',
+      );
   }
 
   if (selectedSaleOrderData?.totalPaid != null)
-    bytes +=
-        cl2(cTxt2: 'Total Paid Amount ${selectedSaleOrderData?.totalPaid}');
+    bytes += cl2(
+      cTxt2:
+          'Total Paid Amount ${AppFormat.doubleToStringUpTo2(selectedSaleOrderData?.totalPaid)}',
+    );
 
   if (anyAmountDue() != null) bytes += cl2(cTxt2: 'Due ${anyAmountDue()}');
 
@@ -617,6 +631,7 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   // Footer
   bytes += printDivider();
   bytes += centeredBoldTitle(
-      'Digitally generated invoice,\nvalid without signature or stamp');
+    'Digitally generated invoice,\nvalid without signature or stamp',
+  );
   return bytes;
 }

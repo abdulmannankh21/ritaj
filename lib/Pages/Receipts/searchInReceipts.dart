@@ -74,10 +74,10 @@ class _SearchInReceiptsState extends State<SearchInReceipts> {
                     onTap: () {
                       showProgress();
                       allSalesCtrl.fetchAllSalesList(
-                          page: 1,
-                          global_search: allSalesCtrl.searchReceiptCtrl.text
-                          //  global_search: allSalesCtrl.searchReceiptCtrl.text
-                          );
+                        page: 1,
+                        globalSearch: allSalesCtrl.searchReceiptCtrl.text,
+                        //  global_search: allSalesCtrl.searchReceiptCtrl.text
+                      );
                       // if (saleReturnCtrlObj.isTrue == true) {
                       //
                       // }

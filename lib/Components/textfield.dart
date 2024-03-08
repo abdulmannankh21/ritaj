@@ -36,7 +36,7 @@ class AppFormField extends StatefulWidget {
       {Key? key,
       this.labelText,
       this.title,
-      this.isLabel = true,
+      this.isLabel = false,
       this.icon,
       this.keyboardType = TextInputType.text,
       this.isPasswordField = false,

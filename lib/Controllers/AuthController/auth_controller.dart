@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import '../exception_controller.dart';
 import '/Config/app_config.dart';
 import '/Config/utils.dart';
 import '/Models/business_n_register/BusinessModel.dart';
@@ -12,6 +11,7 @@ import '/Services/api_services.dart';
 import '/Services/api_urls.dart';
 import '/Services/socket_handlers.dart';
 import '/Services/storage_services.dart';
+import '../exception_controller.dart';
 
 class AuthController extends GetxController {
   final TextEditingController userNameCtrl = TextEditingController();
@@ -22,7 +22,7 @@ class AuthController extends GetxController {
 
   initialDataCheck() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-version = packageInfo.version;
+    version = packageInfo.version;
     await Future.delayed(Duration(seconds: 2));
     if (!AppStorage.isStorageHasUserToken()) {
       return Get.off(() => LoginPage());
@@ -38,7 +38,7 @@ version = packageInfo.version;
     if (AppStorage
             .isStorageHasUserToken() /* &&
         Get.find<RegisterController>().openedRegisterStatus != null*/
-        ) Get.offAll(TabsPage());
+        ) Get.offAll(() => TabsPage());
   }
 
   Future<bool> getToken() async {
@@ -141,7 +141,7 @@ version = packageInfo.version;
     Get.offAll(() => LoginPage());
   }
 
-  Future<bool?> sendTokenToServer() async   {
+  Future<bool?> sendTokenToServer() async {
     Map<String, String> _field = {
       "device_token": '${token}',
     };

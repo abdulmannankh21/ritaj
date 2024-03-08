@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+import '/Controllers/FundsController/fundsController.dart';
 import '/Controllers/OrderController/order_type_controller.dart';
+import '/Controllers/ProductController/all_products_controller.dart';
 import '/Pages/Tabs/Controllers/BottomNavBarController.dart';
 
 class TabsPage extends StatefulWidget {
@@ -16,6 +18,9 @@ class _TabsPageState extends State<TabsPage> {
   @override
   void initState() {
     Get.find<OrderTypeSelectionController>().fetchOrderTypes();
+    Get.find<AllProductsController>().fetchUnitList();
+    Get.find<AllProductsController>().fetchAllProducts();
+    Get.find<FundsController>().fetchPaymentAccountList();
     super.initState();
   }
 
@@ -27,10 +32,10 @@ class _TabsPageState extends State<TabsPage> {
           if (_bottomNavBarCtrlObj.selectedNavBarIndex != 0) {
             _bottomNavBarCtrlObj.selectedNavBarIndex = 0;
             return false;
-          } else {
-            /// TODO: Double back press to exit app
-            return true;
           }
+
+          /// TODO: Double back press to exit app
+          return true;
         },
         child: Scaffold(
           /// if selected nav bar index is 3 which means setting selected, the app bar will hide.

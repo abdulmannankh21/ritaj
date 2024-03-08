@@ -12,7 +12,7 @@ import '/Locale/Languages/turkish.dart';
 import '/Models/AppLanguageModel.dart';
 
 class AppConfig {
-  static final String appName = "BizModo Royal Prime";
+  static final String appName = "Foodies & Goodies";
 
   // // to get the token
   // static String clientId = "8";

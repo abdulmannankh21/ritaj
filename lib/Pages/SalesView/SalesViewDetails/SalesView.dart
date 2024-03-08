@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 import '/Config/utils.dart';
 import '/Controllers/AllSalesController/allSalesController.dart';
-import '../../../Controllers/ProductController/all_products_controller.dart';
 import '../../Return/saleReturn.dart';
 import '../../order_type/search_customer_page.dart';
 import 'SalesViewTile.dart';
@@ -23,8 +22,7 @@ class _SalesViewState extends State<SalesView> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    Get.find<AllProductsController>().fetchAllProducts();
+    // Get.find<AllProductsController>().fetchAllProducts();
     allSalesCtrl.callFirstOrderPage();
     // if (widget.isSalesReturn) {
     //   allSalesCtrl.callFirstOrderPageForReceipt();
@@ -74,15 +72,14 @@ class _SalesViewState extends State<SalesView> {
               backgroundColor:
                   Theme.of(context).colorScheme.primary.withOpacity(0.5),
               onPressed: () {
-                Get.to(CustomerSearch(
-                  dashBoardId: 5,
-                ));
+                Get.to(() => CustomerSearch(dashBoardId: 5));
                 // Get.to(
                 //   AddSalesAndQuotation(
                 //     isSale: false,
                 //   ),
                 // );
-              }),
+              },
+            ),
       body: Stack(
         children: [
           GetBuilder(
@@ -107,15 +104,17 @@ class _SalesViewState extends State<SalesView> {
                               child: GestureDetector(
                                   onTap: () {
                                     if (widget.isSalesReturn) {
-                                      Get.to(SalesReturn(
-                                        id: '${allSalesCtrlObj.allSaleOrders!.saleOrdersData[index].id}',
-                                      ));
+                                      Get.to(() => SalesReturn(
+                                            id: '${allSalesCtrlObj.allSaleOrders!.saleOrdersData[index].id}',
+                                          ));
                                     } else {
-                                      Get.to(SalesViewDetailsPage(
-                                        salesOrderData: allSalesCtrlObj
-                                            .allSaleOrders!
-                                            .saleOrdersData[index],
-                                      ));
+                                      Get.to(
+                                        () => SalesViewDetailsPage(
+                                          salesOrderData: allSalesCtrlObj
+                                              .allSaleOrders!
+                                              .saleOrdersData[index],
+                                        ),
+                                      );
                                     }
                                   },
                                   child: SalesViewTile(

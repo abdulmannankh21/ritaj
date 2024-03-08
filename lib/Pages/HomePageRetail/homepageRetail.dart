@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import '/Config/app_format.dart';
 import '/Config/utils.dart';
 import '/Controllers/DashboardController/dashboardController.dart';
-import '/Controllers/FundsController/fundsController.dart';
-import '/Controllers/ProductController/all_products_controller.dart';
 import '/Theme/colors.dart';
 import '/const/CurvedContainer.dart';
 import '../CustomesVisit/newCustomerVisits.dart';
@@ -25,7 +23,6 @@ class HomePageRetail extends StatefulWidget {
 
 class _HomePageRetailState extends State<HomePageRetail> {
   DashboardController dashBoardCtrl = Get.find<DashboardController>();
-  AllProductsController allProductsCtrl = Get.find<AllProductsController>();
 
   @override
   void initState() {
@@ -36,8 +33,6 @@ class _HomePageRetailState extends State<HomePageRetail> {
     //   Get.find<AllProductsController>().getAllProductsFromStorage();
     // }
     dashBoardCtrl.fetchDashboardData();
-    Get.find<AllProductsController>().fetchUnitList();
-    Get.find<FundsController>().fetchPaymentAccountList();
     super.initState();
   }
 
@@ -55,8 +50,8 @@ class _HomePageRetailState extends State<HomePageRetail> {
             children: [
               CurvedContainer(),
               Container(
-                height: MediaQuery.of(context).size.height * 0.29,
-                width: MediaQuery.of(context).size.width * 0.85,
+                height: height * 0.29,
+                width: width * 0.85,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   color: kWhiteColor,
@@ -160,8 +155,8 @@ class _HomePageRetailState extends State<HomePageRetail> {
                       itemCount: dashBoardCtrl.names.length,
                       itemBuilder: (context, index) {
                         return Container(
-                          height: MediaQuery.of(context).size.height * 0.02,
-                          width: MediaQuery.of(context).size.width * 0.6,
+                          height: height * 0.02,
+                          width: width * 0.6,
                           decoration: BoxDecoration(
                               color: Theme.of(context).colorScheme.primary,
                               borderRadius: BorderRadius.circular(15)),

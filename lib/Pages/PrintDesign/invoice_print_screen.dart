@@ -6,9 +6,7 @@ import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 import 'package:get/get.dart';
-import '../../Controllers/AllPrinterController/allPrinterController.dart';
-import '../../Services/storage_services.dart';
-import '../../const/dimensions.dart';
+
 import '/Components/custom_circular_button.dart';
 import '/Config/utils.dart';
 import '/Controllers/ProductController/all_products_controller.dart';
@@ -17,6 +15,26 @@ import '/Pages/PrintDesign/pos_receipt_print_layout.dart';
 import '/Pages/Tabs/View/TabsPage.dart';
 import '/Theme/colors.dart';
 import '/Theme/style.dart';
+import '../../Controllers/AllPrinterController/allPrinterController.dart';
+import '../../Services/storage_services.dart';
+import '../../const/dimensions.dart';
+
+// class CustomPrintPaperSize {
+//   const CustomPrintPaperSize._internal(this.value);
+//   final int value;
+//   static const mm58 = CustomPrintPaperSize._internal(1);
+//   static const mm80 = CustomPrintPaperSize._internal(2);
+//   static const mm113 = CustomPrintPaperSize._internal(3);
+//
+//   int get width {
+//     if (value == CustomPrintPaperSize.mm113.value)
+//       return 836;
+//     else if (value == CustomPrintPaperSize.mm58.value)
+//       return 372;
+//     else
+//       return 558;
+//   }
+// }
 
 class InVoicePrintScreen extends StatefulWidget {
   final bool isPrintReceipt;
@@ -184,21 +202,18 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
               //   },
               // )),
               Expanded(
-                  child:
-                  RadioListTile(
-                    title: Text('58 mm'),
-                    groupValue: allPrinterCtrlObj.selectedPaperSize,
-                    dense: true,
-                    contentPadding: EdgeInsets.zero,
-                    value: PaperSize.mm58,
-                    onChanged: (value) {
+                child: RadioListTile(
+                  title: Text('58 mm'),
+                  groupValue: allPrinterCtrlObj.selectedPaperSize,
+                  dense: true,
+                  contentPadding: EdgeInsets.zero,
+                  value: PaperSize.mm58,
+                  onChanged: (value) {
                     allPrinterCtrlObj.selectedPaperSize = PaperSize.mm58;
                     allPrinterCtrlObj.update();
-                    setState(() {
-
-                    });
-                },
-              ),
+                    setState(() {});
+                  },
+                ),
               ),
             ]),
             // Text("${allPrinterCtrlObj.selectedPaperSize.width}"),
@@ -228,18 +243,18 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                       //     await File('${tempDir.path}/generated_print.pdf')
                       //         .create();
                       // await printPDFFile.writeAsBytes(printPDF);
-
-                      // String pdfPrintFilePath = File(printPDF).path;
-                      // debugPrint('PDF Print File Path => ${printPDFFile.path}');
-
-                      // Zebra Printer
-                      // if(isZebra == true){
+                      //
+                      // // String pdfPrintFilePath = File(printPDF).path;
+                      // // debugPrint('PDF Print File Path => ${printPDFFile.path}');
+                      //
+                      // // Zebra Printer
+                      // if (isZebra == true) {
                       //   final value = await zsdk.printPdfFileOverTCPIP(
                       //     filePath: printPDFFile.path,
                       //     address:
-                      //     '${allPrinterCtrlObj.bluetoothDevices[index].address}',
+                      //         '${allPrinterCtrlObj.bluetoothDevices[index].address}',
                       //     port: int.tryParse(
-                      //         '${allPrinterCtrlObj.bluetoothDevices[index].port}') ??
+                      //             '${allPrinterCtrlObj.bluetoothDevices[index].port}') ??
                       //         9100,
                       //   );
                       //
@@ -255,9 +270,7 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                       //     Get.back();
                       //
                       //   }
-                      // } else
-                      //
-                      //   {
+                      // } else {
                       // Other Printers
                       List<int> bytes = [];
                       CapabilityProfile profile =

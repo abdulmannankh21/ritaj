@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../Return/saleReturn.dart';
 import '/Components/custom_circular_button.dart';
 import '/Config/app_format.dart';
 import '/Config/const.dart';
@@ -18,6 +17,7 @@ import '/const/dimensions.dart';
 import '../../CreateOrder/createOrderPage.dart';
 import '../../PrintDesign/invoice_print_screen.dart';
 import '../../PrintDesign/pdfGenerate.dart';
+import '../../Return/saleReturn.dart';
 
 class SalesViewDetailsPage extends StatefulWidget {
   final SaleOrderDataModel? salesOrderData;
@@ -378,15 +378,14 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
                   //   EdgeInsets.all(Dimensions.paddingSizeSmall),
                   //   child: InVoicePrintScreen(),
                   // ));
-                  Get.to(SalesReturn(
-                    id: '${widget.salesOrderData!.id}',
-                  ));
+                  Get.to(() => SalesReturn(
+                        id: '${widget.salesOrderData!.id}',
+                      ));
                   // Get.to(PrintData(
                   //   saleOrderDataModel: widget.salesOrderData,
                   // ));
                 },
               ),
-
             ],
           )
         ],

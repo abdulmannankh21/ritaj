@@ -144,12 +144,12 @@ class AllSalesController extends GetxController {
   SaleOrderModel? allSaleOrders;
   // fetch all sale orders list
   Future<bool?> fetchAllSalesList(
-      {int page = 0, String global_search = ''}) async {
+      {int page = 0, String globalSearch = ''}) async {
     print('========================================');
     print('Function calling');
     return await ApiServices.getMethod(
             feedUrl:
-                '${ApiUrls.allOrders}?page=$page&per_page=20&global_search=${global_search}&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}')
+                '${ApiUrls.allOrders}?page=$page&per_page=20&global_search=$globalSearch&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}')
         .then((_res) {
       if (_res == null) return null;
       final _data = saleOrderModelFromJson(_res);
@@ -174,6 +174,7 @@ class AllSalesController extends GetxController {
       debugPrint('Error => $error');
       logger.e('StackTrace => $stackTrace');
       await ExceptionController().exceptionAlert(
+        errorMsg: '$error',
         exceptionFormat: ApiServices.methodExceptionFormat(
             'POST', ApiUrls.allOrders, error, stackTrace),
       );
@@ -223,12 +224,12 @@ class AllSalesController extends GetxController {
   }
 
   // initial order page load function
-  callFirstOrderPage() async {
+  callFirstOrderPage({String globalSearch = ''}) async {
     allSaleOrdersPage = 1;
     isFirstLoadRunning = true;
     hasNextPage = true;
     isLoadMoreRunning.value = false;
-    await fetchAllSalesList(page: 1);
+    await fetchAllSalesList(page: 1, globalSearch: globalSearch);
     isFirstLoadRunning = false;
     update();
   }
