@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-import 'package:zsdk/zsdk.dart';
 
 Logger logger = Logger();
-final zsdk = ZSDK();
 
 showToast(String msg) async {
   await Fluttertoast.showToast(
