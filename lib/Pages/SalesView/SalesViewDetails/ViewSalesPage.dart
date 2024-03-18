@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../Services/storage_services.dart';
 import '/Components/custom_circular_button.dart';
 import '/Config/app_format.dart';
 import '/Config/const.dart';
@@ -21,6 +22,7 @@ import '../../Return/saleReturn.dart';
 
 class SalesViewDetailsPage extends StatefulWidget {
   final SaleOrderDataModel? salesOrderData;
+
   SalesViewDetailsPage({Key? key, this.salesOrderData}) : super(key: key);
 
   @override
@@ -32,6 +34,7 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
   final ContactController contactCtrlObj = Get.find<ContactController>();
   final AllProductsController allProdCtrlObj =
       Get.find<AllProductsController>();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -48,32 +51,38 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
         centerTitle: true,
         title: Text('sale_order_details'.tr),
         actions: [
-          CustomButton(
-            onTap: () {
-              allProdCtrlObj.editOrderFunction(widget.salesOrderData);
-              allProdCtrlObj.updateOrderId = '${widget.salesOrderData?.id}';
-              allProdCtrlObj.isUpdate = true;
-              if (widget.salesOrderData?.totalPaid != null)
-                allProdCtrlObj.paidAmount =
-                    double.parse(widget.salesOrderData?.totalPaid ?? '0.00');
-              allProdCtrlObj.update();
-              contactCtrlObj.nameCtrl.text =
-                  '${widget.salesOrderData?.contact?.name ?? ''}';
+          AppStorage.getLoggedUserData()!.staffUser.isAdmin!
+              ? CustomButton(
+                  onTap: () {
+                    allProdCtrlObj.editOrderFunction(widget.salesOrderData);
+                    allProdCtrlObj.updateOrderId =
+                        '${widget.salesOrderData?.id}';
+                    allProdCtrlObj.isUpdate = true;
+                    if (widget.salesOrderData?.totalPaid != null)
+                      allProdCtrlObj.paidAmount = double.parse(
+                          widget.salesOrderData?.totalPaid ?? '0.00');
+                    allProdCtrlObj.update();
+                    contactCtrlObj.nameCtrl.text =
+                        '${widget.salesOrderData?.contact?.name ?? ''}';
 
-              contactCtrlObj.contactId =
-                  '${widget.salesOrderData?.contact?.contactId ?? ''}';
-              contactCtrlObj.id = '${widget.salesOrderData?.contact?.id ?? ''}';
+                    contactCtrlObj.contactId =
+                        '${widget.salesOrderData?.contact?.contactId ?? ''}';
+                    contactCtrlObj.id =
+                        '${widget.salesOrderData?.contact?.id ?? ''}';
 
-              Get.to(CreateOrderPage(
-                salesOrderData: widget.salesOrderData,
-                isUpdate: true,
-              ));
-            },
-            title: Text(
-              'edit'.tr,
-              style: TextStyle(color: kWhiteColor),
-            ),
-          ),
+                    Get.to(CreateOrderPage(
+                      salesOrderData: widget.salesOrderData,
+                      isUpdate: true,
+                    ));
+                  },
+                  title: Text(
+                    'edit'.tr,
+                    style: TextStyle(color: kWhiteColor),
+                  ),
+                )
+              : SizedBox(
+                  width: 10,
+                ),
           SizedBox(
             width: 10,
           ),
@@ -582,6 +591,7 @@ class OrderSelectionBox extends StatefulWidget {
   final bool isHeading;
   final SaleOrderDataModel order;
   final SellLine? sellLine;
+
   const OrderSelectionBox(
       {required this.order,
       this.sellLine,

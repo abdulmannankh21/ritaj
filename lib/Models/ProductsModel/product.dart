@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 Product productModelFromJson(Map<String, dynamic> src) => Product.fromJson(src);
 
 Map<String, dynamic> productModelToJson(Product data) => data.toJson();
@@ -41,7 +43,7 @@ class Product {
   DateTime? createdAt;
   DateTime? updatedAt;
   int? kitchenId;
-  Kitchen? typeOfProduct;
+  // Kitchen? typeOfProduct;
   int? modifierStatus;
   int? inputField;
   String? imageUrl;
@@ -95,7 +97,7 @@ class Product {
     this.createdAt,
     this.updatedAt,
     this.kitchenId,
-    this.typeOfProduct,
+    // this.typeOfProduct,
     this.modifierStatus,
     this.inputField,
     this.imageUrl,
@@ -111,88 +113,139 @@ class Product {
     this.pivot,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-        id: json["id"],
-        name: json["name"],
-        businessId: json["business_id"],
-        type: json["type"],
-        unitId: json["unit_id"],
-        secondaryUnitId: json["secondary_unit_id"],
-        subUnitIds: json["sub_unit_ids"],
-        brandId: json["brand_id"],
-        categoryId: json["category_id"],
-        subCategoryId: json["sub_category_id"],
-        tax: json["tax"],
-        taxType: taxTypeValues.map[json["tax_type"]],
-        enableStock: json["enable_stock"],
-        alertQuantity: json["alert_quantity"],
-        sku: json["sku"],
-        barcodeType: barcodeTypeValues.map[json["barcode_type"]],
-        expiryPeriod: json["expiry_period"],
-        expiryPeriodType: json["expiry_period_type"],
-        enableSrNo: json["enable_sr_no"],
-        weight: json["weight"],
-        productCustomField1: json["product_custom_field1"],
-        productCustomField2: json["product_custom_field2"],
-        productCustomField3: json["product_custom_field3"],
-        productCustomField4: json["product_custom_field4"],
-        image: json["image"],
-        woocommerceMediaId: json["woocommerce_media_id"],
-        productDescription: json["product_description"],
-        createdBy: json["created_by"],
-        preparationTimeInMinutes: json["preparation_time_in_minutes"],
-        woocommerceProductId: json["woocommerce_product_id"],
-        woocommerceDisableSync: json["woocommerce_disable_sync"],
-        warrantyId: json["warranty_id"],
-        isInactive: json["is_inactive"],
-        repairModelId: json["repair_model_id"],
-        notForSelling: json["not_for_selling"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
-        kitchenId: json["kitchen_id"],
-        typeOfProduct: json["type_of_product"] == null
-            ? null
-            : Kitchen.fromJson(json["type_of_product"]),
-        modifierStatus: json["modifier_status"],
-        inputField: json["input_field"],
-        imageUrl: json["image_url"],
-        productVariationsDetails: json["product_variations_details"] == null
-            ? null
-            : ProductVariationsDetails.fromJson(
-                json["product_variations_details"]),
-        kitchen:
-            json["kitchen"] == null ? null : Kitchen.fromJson(json["kitchen"]),
-        productVariations: json["product_variations"] == null
-            ? []
-            : List<ProductVariation>.from(json["product_variations"]!
-                .map((x) => ProductVariation.fromJson(x))),
-        productTax: json["product_tax"] == null
-            ? null
-            : ProductTax.fromJson(json["product_tax"]),
-        brand: json["brand"] == null ? null : Brand.fromJson(json["brand"]),
-        modifier: json["modifier"] == null
-            ? []
-            : List<Modifier>.from(
-                json["modifier"]!.map((x) => Modifier.fromJson(x))),
-        modifierSets: json["modifier_sets"] == null
-            ? []
-            : List<Product>.from(
-                json["modifier_sets"]!.map((x) => Product.fromJson(x))),
-        productLocations: json["product_locations"] == null
-            ? []
-            : List<ProductLocation>.from(json["product_locations"]!
-                .map((x) => ProductLocation.fromJson(x))),
-        variations: json["variations"] == null
-            ? []
-            : List<Variation>.from(
-                json["variations"]!.map((x) => Variation.fromJson(x))),
-        pivot:
-            json["pivot"] == null ? null : ProductPivot.fromJson(json["pivot"]),
-      );
+  Product.fromJson(Map<String, dynamic> json) {
+    id = json["id"];
+    name = json["name"];
+    businessId = json["business_id"];
+    type = json["type"];
+    unitId = json["unit_id"];
+    secondaryUnitId = json["secondary_unit_id"];
+    subUnitIds = json["sub_unit_ids"];
+    brandId = json["brand_id"];
+    categoryId = json["category_id"];
+    subCategoryId = json["sub_category_id"];
+    tax = json["tax"];
+    try {
+      taxType = taxTypeValues.map[json["tax_type"]];
+    } catch (e) {
+      debugPrint('product -> tax_type -> Error => $e');
+    }
+    enableStock = json["enable_stock"];
+    alertQuantity = json["alert_quantity"];
+    sku = json["sku"];
+    try {
+      barcodeType = barcodeTypeValues.map[json["barcode_type"]];
+    } catch (e) {
+      debugPrint('product -> barcode_type -> Error => $e');
+    }
+    expiryPeriod = json["expiry_period"];
+    expiryPeriodType = json["expiry_period_type"];
+    enableSrNo = json["enable_sr_no"];
+    weight = json["weight"];
+    productCustomField1 = json["product_custom_field1"];
+    productCustomField2 = json["product_custom_field2"];
+    productCustomField3 = json["product_custom_field3"];
+    productCustomField4 = json["product_custom_field4"];
+    image = json["image"];
+    woocommerceMediaId = json["woocommerce_media_id"];
+    productDescription = json["product_description"];
+    createdBy = json["created_by"];
+    preparationTimeInMinutes = json["preparation_time_in_minutes"];
+    woocommerceProductId = json["woocommerce_product_id"];
+    woocommerceDisableSync = json["woocommerce_disable_sync"];
+    warrantyId = json["warranty_id"];
+    isInactive = json["is_inactive"];
+    repairModelId = json["repair_model_id"];
+    notForSelling = json["not_for_selling"];
+    createdAt =
+        json["created_at"] == null ? null : DateTime.parse(json["created_at"]);
+    updatedAt =
+        json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]);
+    kitchenId = json["kitchen_id"];
+    // try {
+    //   debugPrint('product -> type of product => ${json["type_of_product"]}');
+    //   typeOfProduct = json["type_of_product"] == null
+    //       ? null
+    //       : Kitchen.fromJson(json["type_of_product"]);
+    // } catch (e) {
+    //   debugPrint('product -> type_of_product -> Error => $e');
+    // }
+    modifierStatus = json["modifier_status"];
+    inputField = json["input_field"];
+    imageUrl = json["image_url"];
+    try {
+      productVariationsDetails = json["product_variations_details"] == null
+          ? null
+          : ProductVariationsDetails.fromJson(
+              json["product_variations_details"]);
+    } catch (e) {
+      debugPrint('product -> product_variations_details -> Error => $e');
+    }
+    try {
+      kitchen =
+          json["kitchen"] == null ? null : Kitchen.fromJson(json["kitchen"]);
+    } catch (e) {
+      debugPrint('product -> kitchen -> Error => $e');
+    }
+    try {
+      productVariations = json["product_variations"] == null
+          ? []
+          : List<ProductVariation>.from(json["product_variations"]!
+              .map((x) => ProductVariation.fromJson(x)));
+    } catch (e) {
+      debugPrint('product -> product_variations -> Error => $e');
+    }
+    try {
+      productTax = json["product_tax"] == null
+          ? null
+          : ProductTax.fromJson(json["product_tax"]);
+    } catch (e) {
+      debugPrint('product -> product_tax -> Error => $e');
+    }
+    try {
+      brand = json["brand"] == null ? null : Brand.fromJson(json["brand"]);
+    } catch (e) {
+      debugPrint('product -> brand -> Error => $e');
+    }
+    try {
+      modifier = json["modifier"] == null
+          ? []
+          : List<Modifier>.from(
+              json["modifier"]!.map((x) => Modifier.fromJson(x)));
+    } catch (e) {
+      debugPrint('product -> modifier -> Error => $e');
+    }
+    try {
+      modifierSets = json["modifier_sets"] == null
+          ? []
+          : List<Product>.from(
+              json["modifier_sets"]!.map((x) => Product.fromJson(x)));
+    } catch (e) {
+      debugPrint('product -> modifier_sets -> Error => $e');
+    }
+    try {
+      productLocations = json["product_locations"] == null
+          ? []
+          : List<ProductLocation>.from(json["product_locations"]!
+              .map((x) => ProductLocation.fromJson(x)));
+    } catch (e) {
+      debugPrint('product -> product_locations -> Error => $e');
+    }
+    try {
+      variations = json["variations"] == null
+          ? []
+          : List<Variation>.from(
+              json["variations"]!.map((x) => Variation.fromJson(x)));
+    } catch (e) {
+      debugPrint('product -> variations -> Error => $e');
+    }
+    try {
+      pivot =
+          json["pivot"] == null ? null : ProductPivot.fromJson(json["pivot"]);
+    } catch (e) {
+      debugPrint('product -> pivot -> Error => $e');
+    }
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -233,7 +286,7 @@ class Product {
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
         "kitchen_id": kitchenId,
-        "type_of_product": typeOfProduct?.toJson(),
+        // "type_of_product": typeOfProduct?.toJson(),
         "modifier_status": modifierStatus,
         "input_field": inputField,
         "image_url": imageUrl,
@@ -343,23 +396,29 @@ class Kitchen {
     this.color,
   });
 
-  factory Kitchen.fromJson(Map<String, dynamic> json) => Kitchen(
-        id: json["id"],
-        businessId: json["business_id"],
-        locationId: json["location_id"],
-        name: purpleNameValues.map[json["name"]],
-        description: json["description"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
-        kitchenPrinter: json["kitchen_printer"] == null
-            ? null
-            : KitchenPrinter.fromJson(json["kitchen_printer"]),
-        color: json["color"],
-      );
+  Kitchen.fromJson(Map<String, dynamic> json) {
+    id = json["id"];
+    businessId = json["business_id"];
+    locationId = json["location_id"];
+    try {
+      name = purpleNameValues.map[json["name"]];
+    } catch (e) {
+      debugPrint('kitchen -> name -> Error => $e');
+    }
+    description = json["description"];
+    createdAt =
+        json["created_at"] == null ? null : DateTime.parse(json["created_at"]);
+    updatedAt =
+        json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]);
+    try {
+      kitchenPrinter = json["kitchen_printer"] == null
+          ? null
+          : KitchenPrinter.fromJson(json["kitchen_printer"]);
+    } catch (e) {
+      debugPrint('product -> kitchen_printer -> Error => $e');
+    }
+    color = json["color"];
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,
