@@ -264,7 +264,7 @@ class ReceiptPdfGenerate extends StatelessWidget {
               finalDetails(
                   txt1: 'Total Paid Amount:',
                   txt2:
-                      '${AppFormat.doubleToStringUpTo2(totalPayedAmount())} AED'),
+                      '${AppFormat.doubleToStringUpTo2(totalPayedAmount().toString())} AED'),
               pw.SizedBox(height: 5),
             ],
           ),
