@@ -46,6 +46,7 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   }
 
   calculatingUnitPrice({required int index}) {
+
     return '${AppFormat.doubleToStringUpTo2('${double.parse('${selectedSaleOrderData?.sellLines[index].unitPriceIncTax}') * double.parse('${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: selectedSaleOrderData?.sellLines[index].subUnitId)}')}')}';
   }
 

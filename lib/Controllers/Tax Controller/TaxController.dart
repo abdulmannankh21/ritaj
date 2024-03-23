@@ -120,13 +120,13 @@ class TaxController extends GetxController {
           i < Get.find<AllProductsController>().selectedQuantityList.length;
           i++) {
         double _itemPrice = double.parse(
-            '${prodCartCtrlObj.selectedProducts[i].productVariations?.first.variations?.first.sellPriceIncTax ?? 0.0}');
+            '${prodCartCtrlObj.selectedProducts[i].productVariations?.first.variations?.first.defaultSellPrice ?? 0.0}');
         itemsTax += (_itemPrice *
                 double.parse(
                     Get.find<AllProductsController>().selectedQuantityList[i] ??
                         '0.00') *
                 double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')) /
-            ((double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')) +
+            ((double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')) *
                 100);
       }
       print('Order tax ;;;;${itemsTax}');
@@ -144,17 +144,33 @@ class TaxController extends GetxController {
     final AllProductsController prodCartCtrlObj =
         Get.find<AllProductsController>();
 
-    // return (double.parse(
-    //             '${itemProduct.productVariations?.first.variations?.first.sellPriceIncTax}') *
-    //         double.parse('${itemProduct.productTax?.amount ?? 0.00}')) /
-    //     (100 + double.parse('${itemProduct.productTax?.amount ?? 0.00}'));
-    return (double.parse(
-                '${itemProduct.productVariations?.first.variations?.first.defaultSellPrice}') /
-            100) *
+    print("${itemProduct.taxType}");
+
+    var productPrice = itemProduct.taxType == "inclusive"
+        ? itemProduct.productVariations?.first.variations?.first.sellPriceIncTax
+        : itemProduct
+            .productVariations?.first.variations?.first.defaultSellPrice;
+
+    return (double.parse('${productPrice}') / 100) *
         double.parse('${itemProduct.productTax?.amount ?? 0.00}');
+    // if(){
+    //   return (double.parse(
+    //       '${itemProduct.productVariations?.first.variations?.first.sellPriceIncTax}') *
+    //       double.parse('${itemProduct.productTax?.amount ?? 0.00}')) /
+    //       (100 + double.parse('${itemProduct.productTax?.amount ?? 0.00}'));
+    // }else{
+    // }
   }
 
   /// inline tax amount calculation method
+  /// its not inline tax formula its ordertax formula assurance by sir haseeb
+  /// amount * tax value / 100 +  tax value     for inline inclusive tax
+  /// exclusive inline below function is correct
+  /// inline tax equal to item tax
+  /// order tax complete order invoice
+  /// if inline 1,orderdisable 1 then inline
+  /// if inline 0,orderdisable 0 then ordertax
+  /// if inline 0,orderdisable 1 then 0 return
   double inlineTaxAmountForPDF(
     int? taxId,
     String? amount,
@@ -167,6 +183,7 @@ class TaxController extends GetxController {
     //             '${itemProduct.productVariations?.first.variations?.first.sellPriceIncTax}') *
     //         double.parse('${itemProduct.productTax?.amount ?? 0.00}')) /
     //     (100 + double.parse('${itemProduct.productTax?.amount ?? 0.00}'));
+
     print(
         'Inside Tax Ctrl --> ${(double.parse('${amount}') / 100) * double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}')}');
     return (double.parse('${amount}') / 100) *

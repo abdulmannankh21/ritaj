@@ -426,10 +426,8 @@ class PrintData extends StatelessWidget {
       // Get.find<TaxController>().inlineTaxAmountForPDF(amount: )
       print(
           'Item quantity in PDF ---> ${saleOrderDataModel?.sellLines[i].quantity}');
-
       print(
           'Item Tax After Calculation --->>> ${Get.find<TaxController>().inlineTaxAmountForPDF(saleOrderDataModel?.sellLines[i].taxId, '${double.parse(calculatingUnitPrice(index: i) ?? '0.00') * double.parse(calculatingQty(index: i) ?? '0.00')}')}');
-
       totalTax = totalTax +
               double.parse(
                   '${Get.find<TaxController>().inlineTaxAmountForPDF(saleOrderDataModel?.sellLines[i].taxId, '${double.parse(calculatingUnitPrice(index: i) ?? '0.00') * double.parse(calculatingQty(index: i) ?? '0.00')}')}')

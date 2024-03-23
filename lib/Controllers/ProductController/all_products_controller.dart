@@ -61,11 +61,28 @@ class AllProductsController extends GetxController {
   RxBool isLoadMoreRunning = false.obs;
 
   ListProductsModel? listProductsModel;
+
+  void qtyOrderCalculation() {
+    var inlineTax =
+        AppStorage
+            .getBusinessDetailsData()
+            ?.businessData
+            ?.enableInlineTax;
+  }
+
   Future fetchAllProducts({String? pageUrl}) async {
     await ApiServices.getMethod(
       feedUrl: pageUrl ??
           '${ApiUrls.allProducts}?'
-              'location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id ?? AppStorage.getLoggedUserData()?.staffUser.locationId}',
+              'location_id=${AppStorage
+              .getBusinessDetailsData()
+              ?.businessData
+              ?.locations
+              .first
+              .id ?? AppStorage
+              .getLoggedUserData()
+              ?.staffUser
+              .locationId}',
     ).then((_res) {
       update();
       if (_res == null) return null;
@@ -91,8 +108,10 @@ class AllProductsController extends GetxController {
   List<String> selectedQuantityList = [];
   List<String> selectedUnitsList = [];
   List<String> selectedUnitsNames = [];
+
   // List<String> selected
   List<String> unitListStatusIds = [];
+
   showingAllItems() {
     productModelObjs.clear();
     var categoriesLength = listProductsModel?.data?.length ?? 0;
@@ -151,7 +170,7 @@ class AllProductsController extends GetxController {
 
   checkUnitsInList({int? id, List<Product>? product, required int index}) {
     return (product?.firstWhere((unitId) =>
-        product[index].unitId == unitListModel?.data?.first.baseUnitId));
+    product[index].unitId == unitListModel?.data?.first.baseUnitId));
   }
 
   ///function to show the unit id actual names...
@@ -160,8 +179,8 @@ class AllProductsController extends GetxController {
   }) {
     try {
       return unitListModel?.data
-              ?.firstWhereOrNull((i) => i.id == product?.unitId)
-              ?.shortName ??
+          ?.firstWhereOrNull((i) => i.id == product?.unitId)
+          ?.shortName ??
           '';
     } catch (e) {}
   }
@@ -178,8 +197,8 @@ class AllProductsController extends GetxController {
     String? unitName,
   }) {
     return unitListModel?.data
-            ?.firstWhereOrNull((i) => i.shortName == unitName)
-            ?.baseUnitMultiplier ??
+        ?.firstWhereOrNull((i) => i.shortName == unitName)
+        ?.baseUnitMultiplier ??
         '1.00';
   }
 
@@ -196,12 +215,13 @@ class AllProductsController extends GetxController {
     int? idNumber,
   }) {
     return unitListModel?.data
-            ?.firstWhereOrNull((i) => i.id == idNumber)
-            ?.baseUnitMultiplier ??
+        ?.firstWhereOrNull((i) => i.id == idNumber)
+        ?.baseUnitMultiplier ??
         1;
   }
 
   List<List<String>> nestedist = [];
+
   addingSpecifiedUnitsInList({
     Product? product,
   }) {
@@ -240,6 +260,7 @@ class AllProductsController extends GetxController {
   ///Function to fetch the list of units
   UnitListModel? unitListModel;
   List<String> unitListStatus = [];
+
   Future fetchUnitList({String? pageUrl}) async {
     await ApiServices.getMethod(feedUrl: pageUrl ?? '${ApiUrls.unitListApi}')
         .then((_res) {
@@ -261,10 +282,19 @@ class AllProductsController extends GetxController {
   }
 
   ProductShowListModel? productShowListModel;
+
   Future getProductShowList({String? pageUrl}) async {
     await ApiServices.getMethod(
-            feedUrl: pageUrl ??
-                '${ApiUrls.productListApi}location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id ?? AppStorage.getLoggedUserData()?.staffUser.locationId}&per_page=50')
+        feedUrl: pageUrl ??
+            '${ApiUrls.productListApi}location_id=${AppStorage
+                .getBusinessDetailsData()
+                ?.businessData
+                ?.locations
+                .first
+                .id ?? AppStorage
+                .getLoggedUserData()
+                ?.staffUser
+                .locationId}&per_page=50')
         .then((_res) {
       update();
       if (_res == null) return null;
@@ -304,8 +334,16 @@ class AllProductsController extends GetxController {
     print('========================================');
     print('Function calling');
     return await ApiServices.getMethod(
-            feedUrl:
-                '${ApiUrls.productListApi}&page=$_page&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id ?? AppStorage.getLoggedUserData()?.staffUser.locationId}&per_page=20')
+        feedUrl:
+        '${ApiUrls.productListApi}&page=$_page&location_id=${AppStorage
+            .getBusinessDetailsData()
+            ?.businessData
+            ?.locations
+            .first
+            .id ?? AppStorage
+            .getLoggedUserData()
+            ?.staffUser
+            .locationId}&per_page=20')
         .then((_res) {
       if (_res == null) return null;
       final _data = productShowListModelFromJson(_res);
@@ -357,14 +395,33 @@ class AllProductsController extends GetxController {
   }
 
   calculatingProductAmountForUnit({required int index}) {
-    return '${double.parse('${productQuantityCtrl[index].text.isEmpty ? '0.00' : productQuantityCtrl[index].text}') * double.parse(AppFormat.doubleToStringUpTo2('${double.parse('${productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') * double.parse(checkUnitsActualBaseMultiplier(unitName: unitListStatus[index]) ?? '1.00')}') ?? '0.00')}';
+    // var productPrice = productModelObjs[index].taxType == "inclusive"
+    //     ?
+    // productModelObjs[index].
+    // productVariations?.first.variations?.first.sellPriceIncTax
+    //     : productModelObjs[index].
+    // productVariations?.first.variations?.first.defaultSellPrice;
+    return '${double.parse('${productQuantityCtrl[index].text.isEmpty ? '0.00'
+        : productQuantityCtrl[index].text}') *
+        (double.parse('${productModelObjs[index].
+             productVariations?.first.variations?.first.sellPriceIncTax}')
+            * double.parse(checkUnitsActualBaseMultiplier(
+                unitName: unitListStatus[index]) ??
+                '1.00'))}';
   }
 
   String calculatingStock({required int index}) {
     if (unitListStatus.isEmpty) return '';
     return AppFormat.doubleToStringUpTo2(
-          '${double.parse(checkProductStockLocationBasedForOrderCreate(locationId: AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id, index: index) ?? '0.00') / double.parse(checkUnitsActualBaseMultiplier(unitName: unitListStatus[index]))}',
-        ) ??
+      '${double.parse(
+          checkProductStockLocationBasedForOrderCreate(locationId: AppStorage
+              .getBusinessDetailsData()
+              ?.businessData
+              ?.locations
+              .first
+              .id, index: index) ?? '0.00') / double.parse(
+          checkUnitsActualBaseMultiplier(unitName: unitListStatus[index]))}',
+    ) ??
         '0.00';
   }
 
@@ -384,7 +441,11 @@ class AllProductsController extends GetxController {
   }
 
   calculatingProductAmountForOrder({required int i}) {
-    return '${double.parse(AppFormat.doubleToStringUpTo2('${double.parse('${selectedProducts[i].productVariations?.first.variations?.first.sellPriceIncTax ?? 0.0}') * double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')}') ?? '0.00') * double.parse(selectedQuantityList[i])}';
+    return '${double.parse(AppFormat.doubleToStringUpTo2('${double.parse(
+        '${selectedProducts[i].productVariations?.first.variations?.first
+            .sellPriceIncTax ?? 0.0}') * double.parse(
+        checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ??
+            '1.00')}') ?? '0.00') * double.parse(selectedQuantityList[i])}';
   }
 
   //
@@ -399,9 +460,18 @@ class AllProductsController extends GetxController {
     try {
       for (int i = 0; i < selectedProducts.length; i++) {
         // itemsPriceCount += _itr.productTotalPrice;
+        var productPrice = selectedProducts[i].taxType == "inclusive"
+            ?
+        selectedProducts[i].
+        productVariations?.first.variations?.first.sellPriceIncTax
+            : selectedProducts[i].
+        productVariations?.first.variations?.first.defaultSellPrice;
         itemsPriceCount += double.parse(AppFormat.doubleToStringUpTo2(
-                    '${double.parse('${selectedProducts[i].productVariations?.first.variations?.first.sellPriceIncTax ?? 0.0}') * double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')}') ??
-                '0.00') *
+            '${double.parse(
+                '${productPrice ?? 0.0}') * double.parse(
+                checkUnitsActualBaseMultiplier(
+                    unitName: selectedUnitsNames[i]) ?? '1.00')}') ??
+            '0.00') *
             double.parse(selectedQuantityList[i]);
       }
     } catch (e) {
@@ -427,7 +497,7 @@ class AllProductsController extends GetxController {
     }
     print(itemsPriceCount);
     return AppFormat.doubleToStringUpTo2(
-            '${itemsPriceCount + ordersItemsSubTotalAmount}') ??
+        '${itemsPriceCount + ordersItemsSubTotalAmount}') ??
         '0';
   }
 
@@ -490,28 +560,51 @@ class AllProductsController extends GetxController {
 
     Map<String, String> _fields = {};
     _fields['transaction_date'] =
-        '${AppFormat.dateYYYYMMDDHHMM24(DateTime.now())}';
+    '${AppFormat.dateYYYYMMDDHHMM24(DateTime.now())}';
     _fields['contact_id'] = '${contactCtrlObj.id}';
     _fields['service_staff_id'] =
-        '${AppStorage.getLoggedUserData()?.staffUser.id}';
-    _fields['created_by'] = '${AppStorage.getLoggedUserData()?.staffUser.id}';
+    '${AppStorage
+        .getLoggedUserData()
+        ?.staffUser
+        .id}';
+    _fields['created_by'] = '${AppStorage
+        .getLoggedUserData()
+        ?.staffUser
+        .id}';
 
     _fields['status'] = '${statusValue != null ? statusValue : 'final'}';
     _fields['type'] = 'sell';
     _fields['discounttype'] =
-        '${productCtrlCtrlObj.discountType.text.toLowerCase()}';
+    '${productCtrlCtrlObj.discountType.text.toLowerCase()}';
     _fields['discount_amount'] = '${productCtrlCtrlObj.discoutCtrl.text}';
     _fields['final_total'] =
-        '${AppFormat.doubleToStringUpTo2('${finalTotal - calculatingTotalDiscount()}')}';
+    '${AppFormat.doubleToStringUpTo2(
+        '${finalTotal - calculatingTotalDiscount()}')}';
     _fields['exchange_rate'] = '0.00';
     _fields['packing_charge'] = '0.00';
     _fields['packing_charge_type'] = 'fixed';
     _fields['business_id'] =
-        '${AppStorage.getBusinessDetailsData()?.businessData?.id ?? AppStorage.getLoggedUserData()?.staffUser.businessId}';
+    '${AppStorage
+        .getBusinessDetailsData()
+        ?.businessData
+        ?.id ?? AppStorage
+        .getLoggedUserData()
+        ?.staffUser
+        .businessId}';
     _fields['location_id'] =
-        '${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id ?? AppStorage.getLoggedUserData()?.staffUser.locationId}';
+    '${AppStorage
+        .getBusinessDetailsData()
+        ?.businessData
+        ?.locations
+        .first
+        .id ?? AppStorage
+        .getLoggedUserData()
+        ?.staffUser
+        .locationId}';
     _fields['shipping_charges'] =
-        '${productCtrlCtrlObj.shippingChargeCtrl.text.isNotEmpty ? productCtrlCtrlObj.shippingChargeCtrl.text : '0'}';
+    '${productCtrlCtrlObj.shippingChargeCtrl.text.isNotEmpty
+        ? productCtrlCtrlObj.shippingChargeCtrl.text
+        : '0'}';
     _fields['is_suspend'] = '0';
     _fields['total_before_tax'] = '${subTotalAmount()}';
     // request.fields['discount_type'] = 'Fixed';
@@ -520,25 +613,37 @@ class AllProductsController extends GetxController {
       if (selectedQuantityList[i].isNotEmpty) {
         _fields['product_id[$i]'] = '${selectedProducts[i].id}';
         _fields['variation_id[$i]'] =
-            '${selectedProducts[i].productVariations?.first.variations?.first.id}';
+        '${selectedProducts[i].productVariations?.first.variations?.first.id}';
         _fields['quantity[$i]'] =
-            '${double.parse(selectedQuantityList[i]) * double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')}'; //
+        '${double.parse(selectedQuantityList[i]) * double.parse(
+            checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ??
+                '1.00')}'; //
         _fields['line_discount_type[$i]'] = 'fixed';
         _fields['unit_price_before_discount[$i]'] =
-            // calculatingProductAmountAfterTaxForOrder(i: i);
-            '${AppFormat.doubleToStringUpTo2('${double.parse(selectedProducts[i].productVariations?.first.variations?.first.defaultSellPrice ?? '0.00')}')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
+        // calculatingProductAmountAfterTaxForOrder(i: i);
+        '${AppFormat.doubleToStringUpTo2('${double.parse(
+            selectedProducts[i].productVariations?.first.variations?.first
+                .defaultSellPrice ??
+                '0.00')}')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
         _fields['unit_price[$i]'] =
-            // calculatingProductAmountAfterTaxForOrder(i: i);
-            '${AppFormat.doubleToStringUpTo2('${double.parse(selectedProducts[i].productVariations?.first.variations?.first.defaultSellPrice ?? '0.00')}')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
+        // calculatingProductAmountAfterTaxForOrder(i: i);
+        '${AppFormat.doubleToStringUpTo2('${double.parse(
+            selectedProducts[i].productVariations?.first.variations?.first
+                .defaultSellPrice ??
+                '0.00')}')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
         _fields['unit_price_inc_tax[$i]'] =
-            // calculatingProductAmountForOrder(i: i);
-            '${AppFormat.doubleToStringUpTo2('${double.parse(selectedProducts[i].productVariations?.first.variations?.first.sellPriceIncTax ?? '0.00')}')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
+        // calculatingProductAmountForOrder(i: i);
+        '${AppFormat.doubleToStringUpTo2('${double.parse(
+            selectedProducts[i].productVariations?.first.variations?.first
+                .sellPriceIncTax ??
+                '0.00')}')}'; //* double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')
 
         if (selectedProducts[i].productTax != null) {
           _fields['tax_id'] = '${selectedProducts[i].productTax?.id}';
         }
         _fields['item_tax[$i]'] =
-            '${AppFormat.doubleToStringUpTo2('${taxCtrlObj.inlineTaxAmount(selectedProducts[i])}')}';
+        '${AppFormat.doubleToStringUpTo2(
+            '${taxCtrlObj.inlineTaxAmount(selectedProducts[i])}')}';
         // '${taxCtrlObj.inlineTaxAmount(selectedProducts[i], calculatingProductAmountForOrder(i: i))}';
         _fields['sub_unit_id[$i]'] = '${selectedUnitsList[i]}';
       }
@@ -548,9 +653,9 @@ class AllProductsController extends GetxController {
       _fields['payment_status'] = 'due';
     } else {
       _fields['payment_status'] =
-          paymentCtrlObj.totalPayingAmount() < double.parse('${finalTotal}')
-              ? 'partial'
-              : 'paid';
+      paymentCtrlObj.totalPayingAmount() < double.parse('${finalTotal}')
+          ? 'partial'
+          : 'paid';
     }
     // for order suspend = due, cash = paid / partial,
 
@@ -559,33 +664,37 @@ class AllProductsController extends GetxController {
 
     if (isDirectCheckout == false)
       for (int checkoutIndex = 0;
-          checkoutIndex < paymentCtrlObj.paymentWidgetList.length;
-          checkoutIndex++) {
+      checkoutIndex < paymentCtrlObj.paymentWidgetList.length;
+      checkoutIndex++) {
         _fields['amount[$checkoutIndex]'] =
-            '${paymentCtrlObj.paymentWidgetList[checkoutIndex].amountCtrl.text}';
+        '${paymentCtrlObj.paymentWidgetList[checkoutIndex].amountCtrl.text}';
         _fields['method[$checkoutIndex]'] =
-            '${paymentCtrlObj.paymentWidgetList[checkoutIndex].selectedPaymentOption?.paymentMethod}';
+        '${paymentCtrlObj.paymentWidgetList[checkoutIndex].selectedPaymentOption
+            ?.paymentMethod}';
         _fields['account_id[$checkoutIndex]'] =
-            '${paymentCtrlObj.paymentWidgetList[checkoutIndex].selectedPaymentOption?.account?.id}';
+        '${paymentCtrlObj.paymentWidgetList[checkoutIndex].selectedPaymentOption
+            ?.account?.id}';
         _fields['card_type[$checkoutIndex]'] = 'credit'; // debit
 
         if (paymentCtrlObj.isSelectedPaymentOptionCheque(
             index: checkoutIndex)) {
           _fields['cheque_number[$checkoutIndex]'] =
-              '${paymentCtrlObj.paymentWidgetList[checkoutIndex].checkNoCtrl.text}';
+          '${paymentCtrlObj.paymentWidgetList[checkoutIndex].checkNoCtrl.text}';
         } else if (!paymentCtrlObj.isSelectedPaymentOptionCash(
             index: checkoutIndex)) {
           for (int tranIndex = 0; tranIndex < 8; tranIndex++) {
             _fields['transaction_no_$tranIndex'] = '';
           }
           _fields['transaction_no_$checkoutIndex'] =
-              '${paymentCtrlObj.paymentWidgetList[checkoutIndex].transactionNoCtrl.text}';
+          '${paymentCtrlObj.paymentWidgetList[checkoutIndex].transactionNoCtrl
+              .text}';
           // _fields['transaction_no_1[$checkoutIndex]'] =
           //     '${paymentCtrlObj.paymentWidgetList[checkoutIndex].transactionNoCtrl.text}';
         }
 
         _fields['note[$checkoutIndex]'] =
-            '${paymentCtrlObj.paymentWidgetList[checkoutIndex].paymentNoteCtrl.text}';
+        '${paymentCtrlObj.paymentWidgetList[checkoutIndex].paymentNoteCtrl
+            .text}';
       }
 
     if (isDirectCheckout == true) {
@@ -636,7 +745,8 @@ class AllProductsController extends GetxController {
 
         logger.i(salesOrderModel?.sellLines);
         print(
-            'Sale Order Data Model Sell Lines --> ${salesOrderModel?.sellLines?.first.product?.name}');
+            'Sale Order Data Model Sell Lines --> ${salesOrderModel?.sellLines
+                ?.first.product?.name}');
 
         if (isPDFView == true) {
           Get.offAll(TabsPage());
@@ -683,8 +793,8 @@ class AllProductsController extends GetxController {
     selectedUnitsList.clear();
     selectedUnitsNames.clear();
     for (int checkoutIndex = 0;
-        checkoutIndex < paymentCtrlObj.paymentWidgetList.length;
-        checkoutIndex++) {
+    checkoutIndex < paymentCtrlObj.paymentWidgetList.length;
+    checkoutIndex++) {
       paymentCtrlObj.paymentWidgetList[checkoutIndex].amountCtrl.clear();
       paymentCtrlObj.paymentWidgetList[checkoutIndex].transactionNoCtrl.clear();
       paymentCtrlObj.paymentWidgetList[checkoutIndex].checkNoCtrl.clear();
@@ -712,8 +822,8 @@ class AllProductsController extends GetxController {
     selectedUnitsList.clear();
     selectedUnitsNames.clear();
     for (int checkoutIndex = 0;
-        checkoutIndex < paymentCtrlObj.paymentWidgetList.length;
-        checkoutIndex++) {
+    checkoutIndex < paymentCtrlObj.paymentWidgetList.length;
+    checkoutIndex++) {
       paymentCtrlObj.paymentWidgetList[checkoutIndex].amountCtrl.clear();
       paymentCtrlObj.paymentWidgetList[checkoutIndex].transactionNoCtrl.clear();
       paymentCtrlObj.paymentWidgetList[checkoutIndex].checkNoCtrl.clear();
@@ -726,12 +836,12 @@ class AllProductsController extends GetxController {
     request.fields['method[0]'] = '${paymentCtrlObj.paymentMethodCtrl.text}';
     // '${paymentWidgetList[checkoutIndex].selectedPaymentOption?.paymentMethod}';
     request.fields['account_id[0]'] =
-        '${paymentCtrlObj.accountIdCtrl.text}'; //'27';
+    '${paymentCtrlObj.accountIdCtrl.text}'; //'27';
     // '${paymentWidgetList[checkoutIndex].selectedPaymentOption?.account?.id}';
     request.fields['card_type[0]'] = 'credit'; // debit
 
     request.fields['transaction_no_1[0]'] =
-        '${paymentCtrlObj.transactionNoCtrl.text}';
+    '${paymentCtrlObj.transactionNoCtrl.text}';
 
     // if (isSelectedPaymentOptionCheque(index: checkoutIndex)) {
     //   request.fields['cheque_number[$checkoutIndex]'] =
@@ -797,21 +907,24 @@ class AllProductsController extends GetxController {
     for (int i = 0; i < length; i++) {
       if (allSalesCtrl.allSaleOrders?.saleOrdersData[i].isSelected != false)
         _fields['transaction_id[$i]'] =
-            '${allSalesCtrl.allSaleOrders?.saleOrdersData[i].id}';
+        '${allSalesCtrl.allSaleOrders?.saleOrdersData[i].id}';
       print('${allSalesCtrl.allSaleOrders?.saleOrdersData[i].id}');
     }
 
     _fields['method'] = 'cash';
     _fields['note'] =
-        '${paymentCtrlObj.paymentWidgetList[0].paymentNoteCtrl.text}';
+    '${paymentCtrlObj.paymentWidgetList[0].paymentNoteCtrl.text}';
     _fields['card_type'] = 'credit';
     _fields['is_return'] = '0';
     _fields['paid_on'] = '${DateTime.now()}';
-    _fields['created_by'] = '${AppStorage.getLoggedUserData()?.staffUser.id}';
+    _fields['created_by'] = '${AppStorage
+        .getLoggedUserData()
+        ?.staffUser
+        .id}';
     _fields['amount'] = '$receiptsFinalPayment';
     _fields['payment_ref_no'] = '';
     _fields['account_id'] =
-        '${paymentCtrlObj.paymentWidgetList[0].selectedPaymentOption?.account?.id}';
+    '${paymentCtrlObj.paymentWidgetList[0].selectedPaymentOption?.account?.id}';
     _fields['transaction_no_1'] = '';
     _fields['transaction_no_2'] = '';
     _fields['transaction_no_3'] = '';
@@ -940,38 +1053,38 @@ class AllProductsController extends GetxController {
 
   double orderedTotalAmount = 0.00;
 
-  String getOrderedProductQuantity(
-      int allProductsIndex, SaleOrderDataModel saleOrderData) {
+  String getOrderedProductQuantity(int allProductsIndex,
+      SaleOrderDataModel saleOrderData) {
     try {
       // print(productModelObjs[allProductsIndex].sku);
       print(saleOrderData.sellLines
-              .firstWhereOrNull((saleLine) =>
-                  saleLine.product?.sku ==
-                  productModelObjs[allProductsIndex].sku)
-              ?.quantity
-              .toString() ??
+          .firstWhereOrNull((saleLine) =>
+      saleLine.product?.sku ==
+          productModelObjs[allProductsIndex].sku)
+          ?.quantity
+          .toString() ??
           '');
       orderedTotalAmount = ((saleOrderData.sellLines
-                      .firstWhereOrNull((saleLine) =>
-                          saleLine.product?.sku ==
-                          productModelObjs[allProductsIndex].sku)
-                      ?.quantity ??
-                  0) *
-              double.parse(productModelObjs[allProductsIndex]
-                      .productVariations
-                      ?.first
-                      .variations
-                      ?.first
-                      .sellPriceIncTax ??
-                  '0.00') +
+          .firstWhereOrNull((saleLine) =>
+      saleLine.product?.sku ==
+          productModelObjs[allProductsIndex].sku)
+          ?.quantity ??
+          0) *
+          double.parse(productModelObjs[allProductsIndex]
+              .productVariations
+              ?.first
+              .variations
+              ?.first
+              .sellPriceIncTax ??
+              '0.00') +
           orderedTotalAmount);
 
       return saleOrderData.sellLines
-              .firstWhereOrNull((saleLine) =>
-                  saleLine.product?.sku ==
-                  productModelObjs[allProductsIndex].sku)
-              ?.quantity
-              .toString() ??
+          .firstWhereOrNull((saleLine) =>
+      saleLine.product?.sku ==
+          productModelObjs[allProductsIndex].sku)
+          ?.quantity
+          .toString() ??
           '';
     } catch (e) {
       debugPrint(
@@ -1000,7 +1113,8 @@ class AllProductsController extends GetxController {
     print(updateOrderId);
     // API Method with url
     String _url =
-        '${ApiUrls.sellUpdateOrder}${updateOrderId}'; //orderCtrlObj.singleOrderData?.id
+        '${ApiUrls
+        .sellUpdateOrder}${updateOrderId}'; //orderCtrlObj.singleOrderData?.id
 
     /*
     Approach 2 (Multipart Request simple )
@@ -1024,11 +1138,14 @@ class AllProductsController extends GetxController {
     _fields['is_suspend'] = '0';
 
     _fields['transaction_date'] =
-        '${AppFormat.dateYYYYMMDDHHMM24(DateTime.now())}';
+    '${AppFormat.dateYYYYMMDDHHMM24(DateTime.now())}';
 
     // res waiter id and created by ???
     _fields['service_staff_id'] =
-        '${AppStorage.getLoggedUserData()?.staffUser.id}';
+    '${AppStorage
+        .getLoggedUserData()
+        ?.staffUser
+        .id}';
     // _fields['created_by'] = '${AppStorage.getLoggedUserData()?.staffUser.id}';
 
     _fields['contact_id'] = '${contactCtrlObj.id}';
@@ -1066,7 +1183,7 @@ class AllProductsController extends GetxController {
       if (selectedQuantityList[i].isNotEmpty) {
         _fields['product_id[$i]'] = '${selectedProducts[i].id}';
         _fields['variation_id[$i]'] =
-            '${selectedProducts[i].productVariations?.first.variations?.first.id}';
+        '${selectedProducts[i].productVariations?.first.variations?.first.id}';
         _fields['quantity[$i]'] = '${selectedQuantityList[i]}';
         _fields['sub_unit_id[$i]'] = '${selectedUnitsList[i]}';
         if (selectedProducts[i].productTax != null) {
@@ -1076,11 +1193,14 @@ class AllProductsController extends GetxController {
         if (selectedProducts[i].productVariations != null) {
           _fields['line_discount_type[$i]'] = 'fixed';
           _fields['unit_price_before_discount[$i]'] =
-              '${selectedProducts[i].productVariations?.first.variations?.first.defaultSellPrice}';
+          '${selectedProducts[i].productVariations?.first.variations?.first
+              .defaultSellPrice}';
           _fields['unit_price[$i]'] =
-              '${selectedProducts[i].productVariations?.first.variations?.first.defaultSellPrice}';
+          '${selectedProducts[i].productVariations?.first.variations?.first
+              .defaultSellPrice}';
           _fields['unit_price_inc_tax[$i]'] =
-              '${selectedProducts[i].productVariations?.first.variations?.first.sellPriceIncTax}';
+          '${selectedProducts[i].productVariations?.first.variations?.first
+              .sellPriceIncTax}';
           _fields['item_tax[$i]'] = '0.00';
         }
       }
@@ -1090,28 +1210,30 @@ class AllProductsController extends GetxController {
       _fields['payment_status'] = 'due';
     } else {
       _fields['payment_status'] =
-          paymentCtrlObj.totalPayingAmount() < double.parse('${finalTotal}')
-              ? 'partial'
-              : 'paid';
+      paymentCtrlObj.totalPayingAmount() < double.parse('${finalTotal}')
+          ? 'partial'
+          : 'paid';
     }
     // for order suspend = due, cash = paid / partial,
 
     // Get.find<PaymentController>().fieldsForCheckout(request);
     /// OR
     for (int checkoutIndex = 0;
-        checkoutIndex < paymentCtrlObj.paymentWidgetList.length;
-        checkoutIndex++) {
+    checkoutIndex < paymentCtrlObj.paymentWidgetList.length;
+    checkoutIndex++) {
       _fields['amount[$checkoutIndex]'] =
-          '${paymentCtrlObj.paymentWidgetList[checkoutIndex].amountCtrl.text}';
+      '${paymentCtrlObj.paymentWidgetList[checkoutIndex].amountCtrl.text}';
       _fields['method[$checkoutIndex]'] =
-          '${paymentCtrlObj.paymentWidgetList[checkoutIndex].selectedPaymentOption?.paymentMethod}';
+      '${paymentCtrlObj.paymentWidgetList[checkoutIndex].selectedPaymentOption
+          ?.paymentMethod}';
       _fields['account_id[$checkoutIndex]'] =
-          '${paymentCtrlObj.paymentWidgetList[checkoutIndex].selectedPaymentOption?.account?.id}';
+      '${paymentCtrlObj.paymentWidgetList[checkoutIndex].selectedPaymentOption
+          ?.account?.id}';
       _fields['card_type[$checkoutIndex]'] = 'credit'; // debit
 
       if (paymentCtrlObj.isSelectedPaymentOptionCheque(index: checkoutIndex)) {
         _fields['cheque_number[$checkoutIndex]'] =
-            '${paymentCtrlObj.paymentWidgetList[checkoutIndex].checkNoCtrl.text}';
+        '${paymentCtrlObj.paymentWidgetList[checkoutIndex].checkNoCtrl.text}';
       } else if (!paymentCtrlObj.isSelectedPaymentOptionCash(
           index: checkoutIndex)) {
         // _fields['transaction_no_1[$checkoutIndex]'] =
@@ -1120,11 +1242,12 @@ class AllProductsController extends GetxController {
           _fields['transaction_no_$tranIndex'] = '';
         }
         _fields['transaction_no_$checkoutIndex'] =
-            '${paymentCtrlObj.paymentWidgetList[checkoutIndex].transactionNoCtrl.text}';
+        '${paymentCtrlObj.paymentWidgetList[checkoutIndex].transactionNoCtrl
+            .text}';
       }
 
       _fields['note[$checkoutIndex]'] =
-          '${paymentCtrlObj.paymentWidgetList[checkoutIndex].paymentNoteCtrl.text}';
+      '${paymentCtrlObj.paymentWidgetList[checkoutIndex].paymentNoteCtrl.text}';
     }
 
     // for (var _itr in selectedProducts) {
@@ -1201,7 +1324,8 @@ class AllProductsController extends GetxController {
 
         logger.i(salesOrderModel?.sellLines);
         print(
-            'Sale Order Data Model Sell Lines --> ${salesOrderModel?.sellLines?.first.product?.name}');
+            'Sale Order Data Model Sell Lines --> ${salesOrderModel?.sellLines
+                ?.first.product?.name}');
 
         if (isPDFView == true) {
           Get.offAll(TabsPage());
@@ -1252,7 +1376,9 @@ class AllProductsController extends GetxController {
   }
 
   checkTheIndex({int? id}) {
-    return productModelObjs.firstWhereOrNull((i) => i.id == id)?.name;
+    return productModelObjs
+        .firstWhereOrNull((i) => i.id == id)
+        ?.name;
   }
 
   ProductCartController prodCtrl = Get.find<ProductCartController>();
