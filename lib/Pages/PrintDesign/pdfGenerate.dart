@@ -450,6 +450,13 @@ class PrintData extends StatelessWidget {
     return '${AppFormat.doubleToStringUpTo2('${double.parse('${productPrice}') * double.parse('${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[index].subUnitId)}')}')}';
   }
 
+
+
+
+
+
+
+
   calculatingQty({required int index}) {
     return '${AppFormat.doubleToStringUpTo2('${double.parse('${saleOrderDataModel?.sellLines[index].quantity}') / double.parse('${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[index].subUnitId)}')}')}';
   }
