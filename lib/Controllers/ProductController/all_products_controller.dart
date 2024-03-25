@@ -62,13 +62,13 @@ class AllProductsController extends GetxController {
 
   ListProductsModel? listProductsModel;
 
-  void qtyOrderCalculation() {
-    var inlineTax =
-        AppStorage
-            .getBusinessDetailsData()
-            ?.businessData
-            ?.enableInlineTax;
-  }
+  // void qtyOrderCalculation() {
+  //   var inlineTax =
+  //       AppStorage
+  //           .getBusinessDetailsData()
+  //           ?.businessData
+  //           ?.enableInlineTax;
+  // }
 
   Future fetchAllProducts({String? pageUrl}) async {
     await ApiServices.getMethod(
@@ -168,10 +168,10 @@ class AllProductsController extends GetxController {
         ?.qtyAvailable;
   }
 
-  checkUnitsInList({int? id, List<Product>? product, required int index}) {
-    return (product?.firstWhere((unitId) =>
-    product[index].unitId == unitListModel?.data?.first.baseUnitId));
-  }
+  // checkUnitsInList({int? id, List<Product>? product, required int index}) {
+  //   return (product?.firstWhere((unitId) =>
+  //   product[index].unitId == unitListModel?.data?.first.baseUnitId));
+  // }
 
   ///function to show the unit id actual names...
   checkUnits({
@@ -340,10 +340,13 @@ class AllProductsController extends GetxController {
             ?.businessData
             ?.locations
             .first
-            .id ?? AppStorage
+            .id ??
+            AppStorage
             .getLoggedUserData()
             ?.staffUser
-            .locationId}&per_page=20')
+            .locationId
+        }'
+            '&per_page=20')
         .then((_res) {
       if (_res == null) return null;
       final _data = productShowListModelFromJson(_res);
@@ -368,12 +371,12 @@ class AllProductsController extends GetxController {
     });
   }
 
-  void getAllProductsFromStorage({res}) async {
-    allCategoriesProductsData = AppStorage.getProductsData(res: res);
-    print('get all products from storage');
-    print(allCategoriesProductsData?.categories.length);
-    isFetchingProduct.value = false;
-  }
+  // void getAllProductsFromStorage({res}) async {
+  //   allCategoriesProductsData = AppStorage.getProductsData(res: res);
+  //   print('get all products from storage');
+  //   print(allCategoriesProductsData?.categories.length);
+  //   isFetchingProduct.value = false;
+  // }
 
   // initial order page load function
   callFirstOrderPage() async {
@@ -388,15 +391,21 @@ class AllProductsController extends GetxController {
   calculateFinalAmount() {
     finalTotal = 0.00;
     for (int i = 0; i < totalAmount.length; i++) {
-      finalTotal = double.parse('${totalAmount[i]}') + finalTotal;
+      finalTotal = double.parse('${totalAmount[i]}') + finalTotal ;
     }
     // finalTotal = finalTotal + orderedTotalAmount;
     print('final Total = ${finalTotal}');
   }
 
+  bool isProductPriceInclusiveTax(String taxType){
+    return Get.find<TaxController>().isInlineTaxEnable &&
+        taxType == "inclusive" ;
+  }
   calculatingProductAmountForUnit({required int index}) {
     // var productPrice = productModelObjs[index].taxType == "inclusive"
     //     ?
+    // var productPrice = isProductPriceInclusiveTax('${productModelObjs[index].taxType}') ?
+    //
     // productModelObjs[index].
     // productVariations?.first.variations?.first.sellPriceIncTax
     //     : productModelObjs[index].
@@ -404,7 +413,7 @@ class AllProductsController extends GetxController {
     return '${double.parse('${productQuantityCtrl[index].text.isEmpty ? '0.00'
         : productQuantityCtrl[index].text}') *
         (double.parse('${productModelObjs[index].
-             productVariations?.first.variations?.first.sellPriceIncTax}')
+        productVariations?.first.variations?.first.sellPriceIncTax}')
             * double.parse(checkUnitsActualBaseMultiplier(
                 unitName: unitListStatus[index]) ??
                 '1.00'))}';
@@ -441,9 +450,21 @@ class AllProductsController extends GetxController {
   }
 
   calculatingProductAmountForOrder({required int i}) {
+    // var productPrice = selectedProducts[i].taxType == "inclusive"
+    //     ?
+    // selectedProducts[i].
+    // productVariations?.first.variations?.first.sellPriceIncTax
+    //     : selectedProducts[i].
+    // productVariations?.first.variations?.first.defaultSellPrice;
+    // var productPrice = isProductPriceInclusiveTax('${selectedProducts[i].taxType}') ?
+    //
+    // selectedProducts[i].
+    // productVariations?.first.variations?.first.sellPriceIncTax
+    //     : selectedProducts[i].
+    // productVariations?.first.variations?.first.defaultSellPrice;
     return '${double.parse(AppFormat.doubleToStringUpTo2('${double.parse(
-        '${selectedProducts[i].productVariations?.first.variations?.first
-            .sellPriceIncTax ?? 0.0}') * double.parse(
+        '${selectedProducts[i].
+        productVariations?.first.variations?.first.sellPriceIncTax ?? 0.0}') * double.parse(
         checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ??
             '1.00')}') ?? '0.00') * double.parse(selectedQuantityList[i])}';
   }
@@ -454,13 +475,13 @@ class AllProductsController extends GetxController {
   // }
 
   String subTotalAmount(
-      {List<Product>? items, double ordersItemsSubTotalAmount = 0.0}) {
+      { double ordersItemsSubTotalAmount = 0.0}) {
     double itemsPriceCount = 0.0;
     double itemsTax = 0.0;
     try {
       for (int i = 0; i < selectedProducts.length; i++) {
         // itemsPriceCount += _itr.productTotalPrice;
-        var productPrice = selectedProducts[i].taxType == "inclusive"
+        var productPrice = isProductPriceInclusiveTax("${selectedProducts[i].taxType}")
             ?
         selectedProducts[i].
         productVariations?.first.variations?.first.sellPriceIncTax
@@ -1160,7 +1181,7 @@ class AllProductsController extends GetxController {
     _fields['discounttype'] = '${productCtrlCtrlObj.discountType.text}';
     _fields['discount_amount'] = '${productCtrlCtrlObj.discoutCtrl.text}';
 
-    _fields['final_total'] = '${finalTotal}';
+    _fields['final_total'] = '${finalTotal - calculatingTotalDiscount()}';
     // AppFormat.doubleToStringUpTo2('${double.parse(finalAmount())}') ??
     //     '${orderCtrlObj.singleOrderData?.finalTotal}';
 
