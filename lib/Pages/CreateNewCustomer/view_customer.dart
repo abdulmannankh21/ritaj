@@ -16,9 +16,15 @@ import '../SalesView/SalesViewDetails/individual_sale_view.dart';
 
 class ViewCustomer extends StatefulWidget {
   final String id;
+  final String? customerName;
   final bool isSalesReturn;
 
-  const ViewCustomer({super.key, required this.id, this.isSalesReturn = false});
+  const ViewCustomer({
+    super.key,
+    required this.id,
+    required this.customerName,
+    this.isSalesReturn = false,
+  });
 
   @override
   State<ViewCustomer> createState() => _ViewCustomerState();
@@ -33,7 +39,7 @@ class _ViewCustomerState extends State<ViewCustomer> {
   @override
   void initState() {
     // Get.find<AllProductsController>().fetchAllProducts();
-    allSalesCtrl.callFirstOrderPage();
+    allSalesCtrl.callFirstOrderPage(globalSearch: widget.customerName);
     scrollControllerLis();
     super.initState();
   }
@@ -67,9 +73,7 @@ class _ViewCustomerState extends State<ViewCustomer> {
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        title: Text(
-          contactCtrlObj.nameCtrl.text,
-        ),
+        title: Text('${widget.customerName ?? contactCtrlObj.nameCtrl.text}'),
       ),
       body: Column(
         children: [
@@ -149,57 +153,64 @@ class _ViewCustomerState extends State<ViewCustomer> {
           Expanded(
             child: Stack(
               children: [
+                Center(
+                  child: GetX(
+                    builder: (AllSalesController allSalesCtrlObj) {
+                      return allSalesCtrlObj.isFirstLoadRunning.isTrue
+                          ? progressIndicator()
+                          : SizedBox();
+                    },
+                  ),
+                ),
                 GetBuilder(
                   builder: (AllSalesController allSalesCtrlObj) {
                     return RefreshIndicator(
                       onRefresh: () async {
                         await allSalesCtrlObj.callFirstOrderPage();
                       },
-                      child: (allSalesCtrlObj.allSaleOrders == null)
-                          ? progressIndicator()
-                          : Scrollbar(
-                              controller: _pastOrdersScrollCtrl,
-                              child: ListView.builder(
-                                controller: _pastOrdersScrollCtrl,
-                                physics: AlwaysScrollableScrollPhysics(),
-                                padding: const EdgeInsets.only(bottom: 100),
-                                itemCount: allSalesCtrlObj
-                                        .allSaleOrders?.saleOrdersData.length ??
-                                    0,
-                                itemBuilder: (context, index) {
-                                  final saleOrder = allSalesCtrlObj
-                                      .allSaleOrders!.saleOrdersData[index];
-                                  String name = contactCtrlObj.nameCtrl.text;
-                                  if (saleOrder.contact!.name == name) {
-                                    return IntrinsicHeight(
-                                      child: GestureDetector(
-                                          onTap: () {
-                                            if (widget.isSalesReturn) {
-                                              Get.to(SalesReturn(
-                                                id: '${allSalesCtrlObj.allSaleOrders!.saleOrdersData[index].id}',
-                                              ));
-                                            } else {
-                                              Get.to(SalesViewDetailsPage(
-                                                salesOrderData: allSalesCtrlObj
-                                                    .allSaleOrders!
-                                                    .saleOrdersData[index],
-                                              ));
-                                            }
-                                          },
-                                          child: SalesViewTile(
-                                            pastOrder: allSalesCtrlObj
-                                                .allSaleOrders!
-                                                .saleOrdersData[index],
-                                          )),
-                                    );
-                                  } else {
-                                    print(contactCtrlObj.nameCtrl.text);
-                                    print(saleOrder.contact!.name);
-                                    return SizedBox();
-                                  }
-                                },
-                              ),
-                            ),
+                      child: Scrollbar(
+                        controller: _pastOrdersScrollCtrl,
+                        child: ListView.builder(
+                          controller: _pastOrdersScrollCtrl,
+                          physics: AlwaysScrollableScrollPhysics(),
+                          padding: const EdgeInsets.only(bottom: 100),
+                          itemCount: allSalesCtrlObj
+                                  .allSaleOrders?.saleOrdersData.length ??
+                              0,
+                          itemBuilder: (context, index) {
+                            final saleOrder = allSalesCtrlObj
+                                .allSaleOrders!.saleOrdersData[index];
+                            if (saleOrder.contact!.name ==
+                                widget.customerName) {
+                              return IntrinsicHeight(
+                                child: GestureDetector(
+                                    onTap: () {
+                                      if (widget.isSalesReturn) {
+                                        Get.to(SalesReturn(
+                                          id: '${allSalesCtrlObj.allSaleOrders!.saleOrdersData[index].id}',
+                                        ));
+                                      } else {
+                                        Get.to(SalesViewDetailsPage(
+                                          salesOrderData: allSalesCtrlObj
+                                              .allSaleOrders!
+                                              .saleOrdersData[index],
+                                        ));
+                                      }
+                                    },
+                                    child: SalesViewTile(
+                                      pastOrder: allSalesCtrlObj
+                                          .allSaleOrders!.saleOrdersData[index],
+                                    )),
+                              );
+                            } else {
+                              print(contactCtrlObj.nameCtrl.text);
+                              print(widget.customerName);
+                              print(saleOrder.contact!.name);
+                              return SizedBox();
+                            }
+                          },
+                        ),
+                      ),
                     );
                   },
                 ),

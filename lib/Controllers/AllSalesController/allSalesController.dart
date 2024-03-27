@@ -34,7 +34,7 @@ class AllSalesController extends GetxController {
   final ContactController contactCtrlObj = Get.find<ContactController>();
   // order screen pagination flags
   int allSaleOrdersPage = 1;
-  bool isFirstLoadRunning = true;
+  RxBool isFirstLoadRunning = true.obs;
   bool hasNextPage = true;
   RxBool isLoadMoreRunning = false.obs;
 
@@ -122,7 +122,7 @@ class AllSalesController extends GetxController {
   // load more order page
   void loadMoreSaleOrders() async {
     logger.wtf('load more sale orders function called!');
-    if (hasNextPage && !isFirstLoadRunning) {
+    if (hasNextPage && !isFirstLoadRunning.value) {
       isLoadMoreRunning.value = true;
 
       allSaleOrdersPage += 1;
@@ -143,14 +143,16 @@ class AllSalesController extends GetxController {
 
   SaleOrderModel? allSaleOrders;
   // fetch all sale orders list
-  Future<bool?> fetchAllSalesList(
-      {int page = 0, String globalSearch = ''}) async {
+  Future<bool?> fetchAllSalesList({int page = 0, String? globalSearch}) async {
     print('========================================');
     print('Function calling');
     return await ApiServices.getMethod(
-            feedUrl:
-                '${ApiUrls.allOrders}?page=$page&per_page=20&global_search=$globalSearch&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}')
-        .then((_res) {
+      feedUrl: '${ApiUrls.allOrders}'
+          '?page=$page'
+          '&per_page=20'
+          '${globalSearch != null ? '&global_search=$globalSearch' : ''}'
+          '&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}',
+    ).then((_res) {
       if (_res == null) return null;
       final _data = saleOrderModelFromJson(_res);
       if (page > 1 && allSaleOrders != null) {
@@ -224,23 +226,23 @@ class AllSalesController extends GetxController {
   }
 
   // initial order page load function
-  callFirstOrderPage({String globalSearch = ''}) async {
+  callFirstOrderPage({String? globalSearch}) async {
     allSaleOrdersPage = 1;
-    isFirstLoadRunning = true;
+    isFirstLoadRunning.value = true;
     hasNextPage = true;
     isLoadMoreRunning.value = false;
     await fetchAllSalesList(page: 1, globalSearch: globalSearch);
-    isFirstLoadRunning = false;
+    isFirstLoadRunning.value = false;
     update();
   }
 
   callReturnSalePage() async {
     allSaleOrdersPage = 1;
-    isFirstLoadRunning = true;
+    isFirstLoadRunning.value = true;
     hasNextPage = true;
     isLoadMoreRunning.value = false;
     await fetchAllSalesReturnList(page: 1);
-    isFirstLoadRunning = false;
+    isFirstLoadRunning.value = false;
     update();
   }
 
@@ -271,11 +273,11 @@ class AllSalesController extends GetxController {
 
   callFirstOrderPageForReceipt() async {
     allSaleOrdersPage = 1;
-    isFirstLoadRunning = true;
+    isFirstLoadRunning.value = true;
     hasNextPage = true;
     isLoadMoreRunning.value = false;
     await fetchAllReceiptsList(1);
-    isFirstLoadRunning = false;
+    isFirstLoadRunning.value = false;
   }
 
   Future<bool?> fetchAllReceiptsList(
@@ -284,9 +286,12 @@ class AllSalesController extends GetxController {
     print('========================================');
     print('Function calling');
     return await ApiServices.getMethod(
-            feedUrl:
-                '${ApiUrls.allOrders}?page=$_page&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}&per_page=20&global_search=${contactCtrlObj.nameCtrl.text.isNotEmpty ? contactCtrlObj.nameCtrl.text : ''}')
-        .then((_res) {
+      feedUrl: '${ApiUrls.allOrders}'
+          '?page=$_page'
+          '&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}'
+          '&per_page=500'
+          '&global_search=${contactCtrlObj.nameCtrl.text.isNotEmpty ? contactCtrlObj.nameCtrl.text : ''}',
+    ).then((_res) {
       if (_res == null) return null;
       final _data = saleOrderModelFromJson(_res);
       if (_page > 1 && allSaleOrders != null) {

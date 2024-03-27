@@ -360,7 +360,9 @@ class _CustomerSearchState extends State<CustomerSearch> {
                                         //         .id
                                         //         .toString()));
                                         Get.to(() => ViewCustomer(
-                                            id: contactDetails.id.toString()));
+                                              id: contactDetails.id.toString(),
+                                              customerName: contactDetails.name,
+                                            ));
                                       } else if (widget.dashBoardId == 2) {
                                         Get.to(() => CreateOrderPage());
                                       } else if (widget.dashBoardId == 3) {
