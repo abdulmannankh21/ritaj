@@ -526,11 +526,11 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   );
 
   // VAT name, percent and value
-  bytes += cl2(
-    cTxt1: "",
-    cTxt2:
-    'Discount: ${double.parse('${selectedSaleOrderData?.discountAmount}')}',
-  );
+  // bytes += cl2(
+  //   cTxt1: "",
+  //   cTxt2:
+  //   'Discount: ${selectedSaleOrderData?.discountAmount}',
+  // );
   bytes += cl2(
     cTxt1: '',
     cTxt2: 'Tax (VAT):'
