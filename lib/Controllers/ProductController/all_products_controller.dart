@@ -404,16 +404,15 @@ class AllProductsController extends GetxController {
   calculatingProductAmountForUnit({required int index}) {
     // var productPrice = productModelObjs[index].taxType == "inclusive"
     //     ?
-    // var productPrice = isProductPriceInclusiveTax('${productModelObjs[index].taxType}') ?
-    //
-    // productModelObjs[index].
-    // productVariations?.first.variations?.first.sellPriceIncTax
-    //     : productModelObjs[index].
-    // productVariations?.first.variations?.first.defaultSellPrice;
+    var productPrice = isProductPriceInclusiveTax('${productModelObjs[index].taxType}') ?
+
+    productModelObjs[index].
+    productVariations?.first.variations?.first.sellPriceIncTax
+        : productModelObjs[index].
+    productVariations?.first.variations?.first.defaultSellPrice;
     return '${double.parse('${productQuantityCtrl[index].text.isEmpty ? '0.00'
         : productQuantityCtrl[index].text}') *
-        (double.parse('${productModelObjs[index].
-        productVariations?.first.variations?.first.sellPriceIncTax}')
+        (double.parse('${productPrice}')
             * double.parse(checkUnitsActualBaseMultiplier(
                 unitName: unitListStatus[index]) ??
                 '1.00'))}';
@@ -805,7 +804,7 @@ class AllProductsController extends GetxController {
     paymentCtrlObj.paymentNoteCtrl.clear();
     paymentCtrlObj.paymentAccountCtrl.clear();
     paymentCtrlObj.fileNameCtrl.clear();
-    paymentCtrlObj.paymentMethodCtrl.clear();
+    paymentCtrlObj.paymentMethodCtrl  .clear();
     paymentCtrlObj.accountIdCtrl.clear();
     nestedist.clear();
     paidAmount = 0.00;

@@ -198,13 +198,13 @@ class _ReceiptsState extends State<Receipts> {
                             //     .paymentStatus]);
                             final saleOrder = allSalesCtrlObj
                                 .allSaleOrders!.saleOrdersData[index];
-                            String name = contactCtrl.nameCtrl.text;
+                            String name = contactCtrl.id!;
 
                             // print(name);
                             // print(name == saleOrder.contact!.name);
                             // print(saleOrder.contact!.name);
 
-                            if (name != saleOrder.contact!.name) {
+                            if (name != saleOrder.contactId) {
                               return SizedBox();
                             }
 

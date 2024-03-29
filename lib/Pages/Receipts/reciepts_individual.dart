@@ -171,7 +171,7 @@ class _individualReceiptsState extends State<individualReceipts> {
             builder: (AllSalesController allSalesCtrlObj) {
               return RefreshIndicator(
                 onRefresh: () async {
-                  await allSalesCtrlObj.callFirstOrderPage();
+                  await allSalesCtrlObj.callFirstOrderPage(globalSearch: contactCtrlObj.nameCtrl.text);
                   // await allSalesCtrlObj.callFirstOrderPageForReceipt();
                   setState(() {
                     receiptsCtrl.totalAmount = '0';
@@ -197,13 +197,13 @@ class _individualReceiptsState extends State<individualReceipts> {
                                 .paymentStatus]);
                             final saleOrder = allSalesCtrlObj
                                 .allSaleOrders!.saleOrdersData[index];
-                            String name = contactCtrlObj.nameCtrl.text;
+                            String name = contactCtrlObj.id!;
                             print(
-                                'nameCtrl.text => ${contactCtrlObj.nameCtrl.text}');
+                                'nameCtrl.text => ${contactCtrlObj.id}');
                             print(
-                                'saleOrder.contact.name => ${saleOrder.contact!.name}');
+                                'saleOrder.contact.name => ${saleOrder.contactId}');
 
-                            if (saleOrder.contact!.name != name) {
+                            if (saleOrder.contactId != name) {
                               return SizedBox();
                             }
                             return IntrinsicHeight(

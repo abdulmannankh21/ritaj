@@ -166,7 +166,7 @@ class _ViewCustomerState extends State<ViewCustomer> {
                   builder: (AllSalesController allSalesCtrlObj) {
                     return RefreshIndicator(
                       onRefresh: () async {
-                        await allSalesCtrlObj.callFirstOrderPage();
+                        await allSalesCtrlObj.callFirstOrderPage(globalSearch: widget.customerName);
                       },
                       child: Scrollbar(
                         controller: _pastOrdersScrollCtrl,

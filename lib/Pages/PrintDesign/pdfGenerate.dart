@@ -360,7 +360,8 @@ class PrintData extends StatelessWidget {
               finalDetails(
                 txt1: 'Total:',
                 txt2:
-                    '${AppFormat.doubleToStringUpTo2(saleOrderDataModel.finalTotal)}',
+
+                    '${AppFormat.doubleToStringUpTo2(saleOrderDataModel.finalTotal )}',
               ),
               pw.SizedBox(height: 5),
               finalDetails(
