@@ -198,6 +198,27 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
               ],
             ),
           ),
+          //if (order.discountAmount != null)
+          Container(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'discount'.tr,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                Text(
+                  AppFormat.doubleToStringUpTo2(
+                    '${widget.salesOrderData?.discountAmount ?? ''}',
+                  ) ??
+                      '',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
+            ),
+          ),
           // if (order.taxAmount != null)
           Container(
             color: Theme.of(context).scaffoldBackgroundColor,
@@ -220,47 +241,8 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
             ),
           ),
 
-          //if (order.discountAmount != null)
-          Container(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'discount'.tr,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-                Text(
-                  AppFormat.doubleToStringUpTo2(
-                        '${widget.salesOrderData?.discountAmount ?? ''}',
-                      ) ??
-                      '',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ],
-            ),
-          ),
-          // if (order.totalPaid != null)
-          Container(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'paid_amount'.tr,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-                Text(
-                  AppFormat.doubleToStringUpTo2(
-                          '${widget.salesOrderData?.totalPaid}') ??
-                      '',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ],
-            ),
-          ),
+
+
 
           // if (order.finalTotal != null)
           Container(
@@ -281,6 +263,26 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ]),
+          ),
+          // if (order.totalPaid != null)
+          Container(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'paid_amount'.tr,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                Text(
+                  AppFormat.doubleToStringUpTo2(
+                      '${widget.salesOrderData?.totalPaid}') ??
+                      '',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
+            ),
           ),
           AppConst.dividerLine(color: Theme.of(context).cardColor),
           // Due Amount

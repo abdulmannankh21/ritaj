@@ -46,7 +46,7 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   }
 
   calculatingUnitPrice({required int index}) {
-    var productPrice = selectedSaleOrderData?.sellLines[index].product!.taxType == 'inclusive' ?
+    var productPrice = selectedSaleOrderData?.sellLines[index].product!.taxType == 'TaxType.INCLUSIVE' ?
     selectedSaleOrderData?.sellLines[index].unitPriceIncTax : selectedSaleOrderData?.sellLines[index].unitPrice;
     return '${AppFormat.doubleToStringUpTo2('${double.parse('${productPrice}') * double.parse('${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: selectedSaleOrderData?.sellLines[index].subUnitId)}')}')}';
   }

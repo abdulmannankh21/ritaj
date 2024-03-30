@@ -146,7 +146,7 @@ class TaxController extends GetxController {
 
     print("${itemProduct.taxType}");
 
-    var productPrice = itemProduct.taxType == "inclusive"
+    var productPrice = itemProduct.taxType == "TaxType.INCLUSIVE"
         ? itemProduct.productVariations?.first.variations?.first.sellPriceIncTax
         : itemProduct
             .productVariations?.first.variations?.first.defaultSellPrice;
