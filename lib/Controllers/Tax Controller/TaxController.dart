@@ -185,9 +185,8 @@ class TaxController extends GetxController {
     //     (100 + double.parse('${itemProduct.productTax?.amount ?? 0.00}'));
 
     print(
-        'Inside Tax Ctrl --> ${(double.parse('${amount}') / 100) * double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}')}');
-    return (double.parse('${amount}') / 100) *
-        double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}');
+        'Inside Tax Ctrl --> ${(double.parse('${amount}') * double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}')  / 100) + double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}')}');
+    return (double.parse('${amount}')  * double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}')  / 100)  + double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}');
   }
 
   checkTaxAmount({
