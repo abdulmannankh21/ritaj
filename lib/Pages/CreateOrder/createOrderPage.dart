@@ -380,7 +380,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                 Center(
                   child: Text(
                     'total'.tr +
-                        ' (AED) = ${allProdCtrlObj.finalTotal - allProdCtrlObj.calculatingTotalDiscount() + allProdCtrlObj.calculateTotalitemTax()}',
+                        ' (AED) = ${allProdCtrlObj.finalTotal - allProdCtrlObj.calculatingTotalDiscount() }',
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),

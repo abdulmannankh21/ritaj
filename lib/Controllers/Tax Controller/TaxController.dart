@@ -145,13 +145,14 @@ class TaxController extends GetxController {
         Get.find<AllProductsController>();
 
     print("${itemProduct.taxType}");
+    //
+    // var productPrice = itemProduct.taxType == "TaxType.INCLUSIVE"
+    //     ? itemProduct.productVariations?.first.variations?.first.sellPriceIncTax
+    //     : itemProduct
+    //         .productVariations?.first.variations?.first.defaultSellPrice;
 
-    var productPrice = itemProduct.taxType == "TaxType.INCLUSIVE"
-        ? itemProduct.productVariations?.first.variations?.first.sellPriceIncTax
-        : itemProduct
-            .productVariations?.first.variations?.first.defaultSellPrice;
-
-    return (double.parse('${productPrice}') / 100) *
+    return (double.parse('${itemProduct.productVariations?.first.variations?.first.sellPriceIncTax}') *
+        double.parse('${itemProduct.productTax?.amount ?? 0.00}') / 100) +
         double.parse('${itemProduct.productTax?.amount ?? 0.00}');
     // if(){
     //   return (double.parse(
