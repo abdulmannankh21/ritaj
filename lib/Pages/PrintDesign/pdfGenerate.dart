@@ -367,13 +367,13 @@ class PrintData extends StatelessWidget {
               finalDetails(
                 txt1: 'Total paid:',
                 txt2:
-                    '${AppFormat.doubleToStringUpTo2(saleOrderDataModel.finalTotal ?? '0.00')}',
+                    '${AppFormat.doubleToStringUpTo2(saleOrderDataModel.paymentLines.first.amount ?? '0.00')}',
               ),
               pw.SizedBox(height: 5),
               finalDetails(
                 txt1: 'Due Amount:',
                 txt2: AppFormat.doubleToStringUpTo2(
-                  '${double.parse('${saleOrderDataModel.finalTotal ?? 0.00}') - double.parse('${saleOrderDataModel.finalTotal ?? 0.00}')}',
+                  '${double.parse('${saleOrderDataModel.finalTotal ?? 0.00}') - double.parse('${saleOrderDataModel.paymentLines.first.amount ?? 0.00}')}',
                 ),
               ),
               pw.SizedBox(height: 5),
@@ -446,9 +446,9 @@ class PrintData extends StatelessWidget {
   }
 
   calculatingUnitPrice({required int index}) {
-    var productPrice = saleOrderDataModel?.sellLines[index].product!.taxType == 'TaxType.INCLUSIVE' ?
-    saleOrderDataModel?.sellLines[index].unitPriceIncTax : saleOrderDataModel?.sellLines[index].unitPrice;
-    return '${AppFormat.doubleToStringUpTo2('${double.parse('${productPrice}') * double.parse('${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[index].subUnitId)}')}')}';
+    // var productPrice = saleOrderDataModel?.sellLines[index].product!.taxType == 'inclusive' ?
+    // saleOrderDataModel?.sellLines[index].unitPriceIncTax : saleOrderDataModel?.sellLines[index].unitPrice;
+    return '${AppFormat.doubleToStringUpTo2('${double.parse('${saleOrderDataModel?.sellLines[index].unitPriceIncTax}') * double.parse('${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[index].subUnitId)}')}')}';
   }
 
 

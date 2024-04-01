@@ -397,22 +397,23 @@ class AllProductsController extends GetxController {
     print('final Total = ${finalTotal}');
   }
 
-  bool isProductPriceInclusiveTax(String taxType){
-    return Get.find<TaxController>().isInlineTaxEnable &&
-        taxType == "TaxType.INCLUSIVE" ;
-  }
+  // bool isProductPriceInclusiveTax(String taxType){
+  //   return Get.find<TaxController>().isInlineTaxEnable &&
+  //       taxType == "inclusive" ;
+  // }
   calculatingProductAmountForUnit({required int index}) {
-    // var productPrice = productModelObjs[index].taxType == "TaxType.INCLUSIVE"
+    // var productPrice = productModelObjs[index].taxType == "inclusive"
     //     ?
-    var productPrice = isProductPriceInclusiveTax('${productModelObjs[index].taxType}') ?
-
-    productModelObjs[index].
-    productVariations?.first.variations?.first.sellPriceIncTax
-        : productModelObjs[index].
-    productVariations?.first.variations?.first.defaultSellPrice;
+    // var productPrice = isProductPriceInclusiveTax('${productModelObjs[index].taxType}') ?
+    //
+    // productModelObjs[index].
+    // productVariations?.first.variations?.first.sellPriceIncTax
+    //     : productModelObjs[index].
+    // productVariations?.first.variations?.first.defaultSellPrice;
     return '${double.parse('${productQuantityCtrl[index].text.isEmpty ? '0.00'
         : productQuantityCtrl[index].text}') *
-        (double.parse('${productPrice}')
+        (double.parse('${productModelObjs[index].
+        productVariations?.first.variations?.first.sellPriceIncTax}')
             * double.parse(checkUnitsActualBaseMultiplier(
                 unitName: unitListStatus[index]) ??
                 '1.00'))}';
@@ -455,14 +456,15 @@ class AllProductsController extends GetxController {
     // productVariations?.first.variations?.first.sellPriceIncTax
     //     : selectedProducts[i].
     // productVariations?.first.variations?.first.defaultSellPrice;
-    var productPrice = isProductPriceInclusiveTax('${selectedProducts[i].taxType}') ?
-
-    selectedProducts[i].
-    productVariations?.first.variations?.first.sellPriceIncTax
-        : selectedProducts[i].
-    productVariations?.first.variations?.first.defaultSellPrice;
+    // var productPrice = isProductPriceInclusiveTax('${selectedProducts[i].taxType}') ?
+    //
+    // selectedProducts[i].
+    // productVariations?.first.variations?.first.sellPriceIncTax
+    //     : selectedProducts[i].
+    // productVariations?.first.variations?.first.defaultSellPrice;
     return '${double.parse(AppFormat.doubleToStringUpTo2('${double.parse(
-        '${productPrice ?? 0.0}') * double.parse(
+        '${selectedProducts[i].
+        productVariations?.first.variations?.first.sellPriceIncTax ?? 0.0}') * double.parse(
         checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ??
             '1.00')}') ?? '0.00') * double.parse(selectedQuantityList[i])}';
   }
@@ -479,16 +481,16 @@ class AllProductsController extends GetxController {
     try {
       for (int i = 0; i < selectedProducts.length; i++) {
         // itemsPriceCount += _itr.productTotalPrice;
-        var productPrice = isProductPriceInclusiveTax("${selectedProducts[i].taxType}")
-        // var productPrice = selectedProducts[i].taxType == 'TaxType.INCLUSIVE'
-            ?
-        selectedProducts[i].
-        productVariations?.first.variations?.first.sellPriceIncTax
-            : selectedProducts[i].
-        productVariations?.first.variations?.first.defaultSellPrice;
+        // var productPrice = isProductPriceInclusiveTax("${selectedProducts[i].taxType}")
+        //     ?
+        // selectedProducts[i].
+        // productVariations?.first.variations?.first.sellPriceIncTax
+        //     : selectedProducts[i].
+        // productVariations?.first.variations?.first.defaultSellPrice;
         itemsPriceCount += double.parse(AppFormat.doubleToStringUpTo2(
             '${double.parse(
-                '${productPrice ?? 0.0}') * double.parse(
+                '${selectedProducts[i].
+                productVariations?.first.variations?.first.sellPriceIncTax ?? 0.0}') * double.parse(
                 checkUnitsActualBaseMultiplier(
                     unitName: selectedUnitsNames[i]) ?? '1.00')}') ??
             '0.00') *
@@ -599,7 +601,7 @@ class AllProductsController extends GetxController {
     _fields['discount_amount'] = '${productCtrlCtrlObj.discoutCtrl.text}';
     _fields['final_total'] =
     '${AppFormat.doubleToStringUpTo2(
-        '${finalTotal - calculatingTotalDiscount()+ calculateTotalitemTax()}')}';
+        '${finalTotal - calculatingTotalDiscount()}')}';
     _fields['exchange_rate'] = '0.00';
     _fields['packing_charge'] = '0.00';
     _fields['packing_charge_type'] = 'fixed';
@@ -1075,12 +1077,6 @@ class AllProductsController extends GetxController {
 
   String getOrderedProductQuantity(int allProductsIndex,
       SaleOrderDataModel saleOrderData) {
-    var productPrice = isProductPriceInclusiveTax('${productModelObjs[allProductsIndex].taxType}') ?
-
-    productModelObjs[allProductsIndex].
-    productVariations?.first.variations?.first.sellPriceIncTax
-        : productModelObjs[allProductsIndex].
-    productVariations?.first.variations?.first.defaultSellPrice;
     try {
       // print(productModelObjs[allProductsIndex].sku);
       print(saleOrderData.sellLines
@@ -1096,7 +1092,12 @@ class AllProductsController extends GetxController {
           productModelObjs[allProductsIndex].sku)
           ?.quantity ??
           0) *
-          double.parse(productPrice ??
+          double.parse(productModelObjs[allProductsIndex]
+              .productVariations
+              ?.first
+              .variations
+              ?.first
+              .sellPriceIncTax ??
               '0.00') +
           orderedTotalAmount);
 
@@ -1404,18 +1405,6 @@ class AllProductsController extends GetxController {
 
   ProductCartController prodCtrl = Get.find<ProductCartController>();
 
-  //function to calculate total item tax
-  double calculateTotalitemTax(){
-    double totalTax = 0.0;
-
-// Iterate over the indices and accumulate the values
-    for (int i = 0; i < selectedProducts.length; i++) {
-      String taxAmountString = AppFormat.doubleToStringUpTo2('${taxCtrlObj.inlineTaxAmount(selectedProducts[i])}') ?? '0.0';
-      double taxAmount = double.tryParse(taxAmountString) ?? 0.0;
-      totalTax += taxAmount;
-    }
-    return totalTax;
-  }
   //function to calculate total discount
   double calculatingTotalDiscount() {
     double itemsDiscountCount = 0.0;
