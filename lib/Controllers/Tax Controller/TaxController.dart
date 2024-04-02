@@ -144,16 +144,21 @@ class TaxController extends GetxController {
     final AllProductsController prodCartCtrlObj =
         Get.find<AllProductsController>();
 
-    print("${itemProduct.taxType}");
-    //
-    // var productPrice = itemProduct.taxType == "TaxType.INCLUSIVE"
-    //     ? itemProduct.productVariations?.first.variations?.first.sellPriceIncTax
-    //     : itemProduct
-    //         .productVariations?.first.variations?.first.defaultSellPrice;
+    print("Tax Type => ${itemProduct.taxType}");
 
-    return (double.parse('${itemProduct.productVariations?.first.variations?.first.sellPriceIncTax}') *
-        double.parse('${itemProduct.productTax?.amount ?? 0.00}') / 100) +
-        double.parse('${itemProduct.productTax?.amount ?? 0.00}');
+    String? productPrice;
+    if (itemProduct.taxType.toString() == "TaxType.INCLUSIVE") {
+      productPrice = itemProduct
+          .productVariations?.first.variations?.first.sellPriceIncTax;
+    } else {
+      productPrice = itemProduct
+          .productVariations?.first.variations?.first.defaultSellPrice;
+      ;
+    }
+
+    return (double.parse('$productPrice') *
+        double.parse('${itemProduct.productTax?.amount ?? 0.00}') /
+        (100 + double.parse('${itemProduct.productTax?.amount ?? 0.00}')));
     // if(){
     //   return (double.parse(
     //       '${itemProduct.productVariations?.first.variations?.first.sellPriceIncTax}') *
@@ -161,6 +166,31 @@ class TaxController extends GetxController {
     //       (100 + double.parse('${itemProduct.productTax?.amount ?? 0.00}'));
     // }else{
     // }
+  }
+
+  double calculateItemTax(Product itemProduct) {
+    if (!isInlineTaxEnable) return 0;
+    // final AllProductsController prodCartCtrlObj =
+    //     Get.find<AllProductsController>();
+
+    print("Tax Type => ${itemProduct.taxType}");
+
+    String? productPrice;
+    if (itemProduct.taxType.toString() == "TaxType.INCLUSIVE") {
+      productPrice = itemProduct
+          .productVariations?.first.variations?.first.sellPriceIncTax;
+
+      return (double.parse('$productPrice') /
+          double.parse('${itemProduct.productTax?.amount ?? 0.00}') *
+          100);
+    } else {
+      productPrice = itemProduct
+          .productVariations?.first.variations?.first.defaultSellPrice;
+
+      return (double.parse('$productPrice') *
+          double.parse('${itemProduct.productTax?.amount ?? 0.00}') /
+          (100 + double.parse('${itemProduct.productTax?.amount ?? 0.00}')));
+    }
   }
 
   /// inline tax amount calculation method
@@ -186,8 +216,13 @@ class TaxController extends GetxController {
     //     (100 + double.parse('${itemProduct.productTax?.amount ?? 0.00}'));
 
     print(
-        'Inside Tax Ctrl --> ${(double.parse('${amount}') * double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}')  / 100) + double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}')}');
-    return (double.parse('${amount}')  * double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}')  / 100)  + double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}');
+        'Inside Tax Ctrl --> ${(double.parse('${amount}') * double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}') / 100) + double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}')}');
+    return (double.parse('${amount}') *
+            double.parse('${checkTaxAmount(
+                  taxId: taxId,
+                ) ?? 0.00}') /
+            100) +
+        double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}');
   }
 
   checkTaxAmount({

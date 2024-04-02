@@ -390,15 +390,18 @@ class _AddSalesAndQuotationState extends State<AddSalesAndQuotation> {
                                                   onChanged: (value) {
                                                     //multiplying quantity with product amount
 
-                                                    allProdCtrlObj.totalAmount[
-                                                            index] =
-                                                        '${double.parse('${allProdCtrlObj.productQuantityCtrl[index].text.isEmpty ? '0.00' : allProdCtrlObj.productQuantityCtrl[index].text}') * double.parse('${allProdCtrlObj.productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}')}';
+                                                    allProdCtrlObj
+                                                            .productsAmount[index] =
+                                                        double.parse(
+                                                              '${allProdCtrlObj.productQuantityCtrl[index].text.isEmpty ? '0.00' : allProdCtrlObj.productQuantityCtrl[index].text}',
+                                                            ) *
+                                                            double.parse(
+                                                              '${allProdCtrlObj.productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}',
+                                                            );
                                                     allProdCtrlObj
                                                         .calculateFinalAmount();
                                                     debugPrint(
-                                                        'Product Amount');
-                                                    debugPrint(allProdCtrlObj
-                                                        .totalAmount[index]);
+                                                        'Product Amount ${allProdCtrlObj.productsAmount[index]}');
                                                     allProdCtrlObj.update();
                                                   }),
                                             ),
@@ -417,7 +420,7 @@ class _AddSalesAndQuotationState extends State<AddSalesAndQuotation> {
                                               flex: 1,
                                               child: Center(
                                                 child: Text(
-                                                  '${allProdCtrlObj.totalAmount[index]}',
+                                                  '${allProdCtrlObj.productsAmount[index]}',
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                 ),

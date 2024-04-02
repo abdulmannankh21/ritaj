@@ -39,12 +39,12 @@ class _SelectionDialogueState extends State<SelectionDialogue> {
                   showProgress();
                   allProdCtrlObj.update();
                   print('Receipt Payment: ${allProdCtrlObj.receiptPayment}');
-                  if (allProdCtrlObj.receiptPayment == true) {
+                  if (allProdCtrlObj.receiptPayment) {
                     print('inside add receipt method call');
                     allProdCtrlObj.isPDFView = true;
                     allProdCtrlObj.update();
                     allProdCtrlObj.addReceipt();
-                  } else if (allProdCtrlObj.isUpdate == true) {
+                  } else if (allProdCtrlObj.isUpdate) {
                     print('->> for Update Order');
                     allProdCtrlObj.isPDFView = true;
                     allProdCtrlObj.addSelectedItemsInList();

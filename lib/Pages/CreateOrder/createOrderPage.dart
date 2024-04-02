@@ -58,7 +58,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
 
   void dispose() {
     allProdCtrlObj.finalTotal = 0.00;
-    allProdCtrlObj.totalAmount.clear();
+    allProdCtrlObj.productsAmount.clear();
     allProdCtrlObj.selectedQuantityList.clear();
     allProdCtrlObj.selectedUnitsList.clear();
     allProdCtrlObj.selectedProducts.clear();
@@ -239,7 +239,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                                             unitName: value);
 
                                                 allProdCtrlObj
-                                                        .totalAmount[index] =
+                                                        .productsAmount[index] =
                                                     allProdCtrlObj
                                                         .calculatingProductAmountForUnit(
                                                             index: index);
@@ -308,64 +308,64 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                             //
                                             // },
                                             onChanged: (value) {
-                                              if (double.parse(allProdCtrlObj
-                                                          .productModelObjs[
-                                                              index]
-                                                          .productVariationsDetails
-                                                          ?.qtyAvailable ??
-                                                      '0.00') <=
-                                                  0.00) {
-                                                if (AppStorage
-                                                            .getBusinessDetailsData()
-                                                        ?.businessData
-                                                        ?.posSettings
-                                                        ?.allowOverselling ==
-                                                    1) {
-                                                  print('in 1st allow if');
-                                                  allProdCtrlObj.finalTotal =
-                                                      0.00;
-                                                  allProdCtrlObj
-                                                          .totalAmount[index] =
-                                                      allProdCtrlObj
-                                                          .calculatingProductAmountForUnit(
-                                                              index:
-                                                                  index); // created function to calculate the value Qty * (price * unit)
-                                                  allProdCtrlObj
-                                                      .calculateFinalAmount();
-                                                  debugPrint(
-                                                      'Product Amount After all Calculation --->> ${allProdCtrlObj.totalAmount[index]}');
-                                                } else {
-                                                  allProdCtrlObj
-                                                      .productQuantityCtrl[
-                                                          index]
-                                                      .text = '';
+                                              calculateAmountOnChangeQuantity(
+                                                  index);
 
-                                                  showToast(
-                                                      'Stock not available');
-                                                }
-                                              } else if (double.parse(allProdCtrlObj
-                                                          .productModelObjs[
-                                                              index]
-                                                          .productVariationsDetails
-                                                          ?.qtyAvailable ??
-                                                      '0.00') >
-                                                  0.00) {
-                                                print('in third if');
-                                                allProdCtrlObj.finalTotal =
-                                                    0.00;
-                                                allProdCtrlObj
-                                                        .totalAmount[index] =
-                                                    allProdCtrlObj
-                                                        .calculatingProductAmountForUnit(
-                                                            index:
-                                                                index); // created function to calculate the value Qty * (price * unit)
-
-                                                debugPrint(
-                                                    'Product Amount After all Calculation --->> ${allProdCtrlObj.totalAmount[index]}');
-                                                allProdCtrlObj
-                                                    .calculateFinalAmount();
-                                              }
-                                              allProdCtrlObj.update();
+                                              // if (double.parse(
+                                              //       '${allProdCtrlObj.productModelObjs[index].productVariationsDetails?.qtyAvailable ?? 0.00}',
+                                              //     ) <=
+                                              //     0.00) {
+                                              //   if (AppStorage
+                                              //               .getBusinessDetailsData()
+                                              //           ?.businessData
+                                              //           ?.posSettings
+                                              //           ?.allowOverselling ==
+                                              //       1) {
+                                              //     print('in 1st allow if');
+                                              //     allProdCtrlObj.finalTotal =
+                                              //         0.00;
+                                              //     allProdCtrlObj.productsAmount[
+                                              //             index] =
+                                              //         // created function to calculate the value Qty * (price * unit)
+                                              //         allProdCtrlObj
+                                              //             .calculatingProductAmountForUnit(
+                                              //                 index: index);
+                                              //     allProdCtrlObj
+                                              //         .calculateFinalAmount();
+                                              //     debugPrint(
+                                              //         'Product Amount After all Calculation --->> ${allProdCtrlObj.productsAmount[index]}');
+                                              //   } else {
+                                              //     allProdCtrlObj
+                                              //         .productQuantityCtrl[
+                                              //             index]
+                                              //         .clear();
+                                              //
+                                              //     showToast(
+                                              //         'Stock not available');
+                                              //   }
+                                              // } else if (double.parse(allProdCtrlObj
+                                              //             .productModelObjs[
+                                              //                 index]
+                                              //             .productVariationsDetails
+                                              //             ?.qtyAvailable ??
+                                              //         '0.00') >
+                                              //     0.00) {
+                                              //   print('in third if');
+                                              //   allProdCtrlObj.finalTotal =
+                                              //       0.00;
+                                              //   allProdCtrlObj
+                                              //           .productsAmount[index] =
+                                              //       // created function to calculate the value Qty * (price * unit)
+                                              //       allProdCtrlObj
+                                              //           .calculatingProductAmountForUnit(
+                                              //               index: index);
+                                              //
+                                              //   debugPrint(
+                                              //       'Product Amount After all Calculation --->> ${allProdCtrlObj.productsAmount[index]}');
+                                              //   allProdCtrlObj
+                                              //       .calculateFinalAmount();
+                                              // }
+                                              // allProdCtrlObj.update();
                                             }),
                                       ),
                                   ],
@@ -379,8 +379,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
 
                 Center(
                   child: Text(
-                    'total'.tr +
-                        ' (AED) = ${allProdCtrlObj.finalTotal - allProdCtrlObj.calculatingTotalDiscount() }',
+                    '${'total'.tr} (AED) = ${allProdCtrlObj.getPayableFinalTotalAmount()}',
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -465,5 +464,45 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
         ),
       ),
     );
+  }
+
+  calculateAmountOnChangeQuantity(int index) {
+    if (double.parse(
+          '${allProdCtrlObj.productModelObjs[index].productVariationsDetails?.qtyAvailable ?? 0.00}',
+        ) <=
+        0.00) {
+      if (AppStorage.getBusinessDetailsData()
+              ?.businessData
+              ?.posSettings
+              ?.allowOverselling ==
+          1) {
+        print('in 1st allow if');
+        allProdCtrlObj.finalTotal = 0.00;
+        allProdCtrlObj.productsAmount[index] =
+            // created function to calculate the value Qty * (price * unit)
+            allProdCtrlObj.calculatingProductAmountForUnit(index: index);
+        allProdCtrlObj.calculateFinalAmount();
+        debugPrint(
+            'Product Amount After all Calculation --->> ${allProdCtrlObj.productsAmount[index]}');
+      } else {
+        allProdCtrlObj.productQuantityCtrl[index].clear();
+
+        showToast('Stock not available');
+      }
+    } else if (double.parse(allProdCtrlObj.productModelObjs[index]
+                .productVariationsDetails?.qtyAvailable ??
+            '0.00') >
+        0.00) {
+      print('in third if');
+      allProdCtrlObj.finalTotal = 0.00;
+      allProdCtrlObj.productsAmount[index] =
+          // created function to calculate the value Qty * (price * unit)
+          allProdCtrlObj.calculatingProductAmountForUnit(index: index);
+
+      debugPrint(
+          'Product Amount After all Calculation --->> ${allProdCtrlObj.productsAmount[index]}');
+      allProdCtrlObj.calculateFinalAmount();
+    }
+    allProdCtrlObj.update();
   }
 }
