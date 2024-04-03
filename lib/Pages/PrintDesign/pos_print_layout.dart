@@ -162,34 +162,34 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
     }
   }
 
-  // totalItemsTax() {
-  //   double totalTax = 0.00;
-  //   var length = selectedSaleOrderData?.sellLines.length ?? 0;
-  //   for (int i = 0; i < length; i++) {
-  //     print(
-  //         'Item Tax Id in PDF --->${selectedSaleOrderData?.sellLines[i].taxId}');
-  //     // Get.find<TaxController>().inlineTaxAmountForPDF(amount: )
-  //     print(
-  //         'Item quantity in PDF ---> ${selectedSaleOrderData?.sellLines[i].quantity}');
-  //
-  //     print(
-  //         'Item Tax After Calculation --->>> ${Get.find<TaxController>().inlineTaxAmountForPDF(selectedSaleOrderData?.sellLines[i].taxId, '${double.parse(calculatingUnitPrice(index: i)) * double.parse(calculatingQty(index: i))}')}');
-  //
-  //     totalTax = totalTax +
-  //             double.parse(
-  //                 '${Get.find<TaxController>().inlineTaxAmountForPDF(selectedSaleOrderData?.sellLines[i].taxId, '${double.parse(calculatingUnitPrice(index: i)) * double.parse(calculatingQty(index: i))}')}')
-  //         // (double.parse('${saleOrderDataModel?.sellLines[i].itemTax}') *
-  //         //     double.parse('${saleOrderDataModel?.sellLines[i].quantity}')
-  //         // double.parse('${calculatingQty(index: i)}')
-  //         // * double.parse(
-  //         //     '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[i].subUnitId)}')
-  //         ;
-  //     print(
-  //         'Item Tax --> ${selectedSaleOrderData?.sellLines[i].itemTax} * Item quantity --> ${selectedSaleOrderData?.sellLines[i].quantity} === ${double.parse('${selectedSaleOrderData?.sellLines[i].itemTax}') * double.parse('${selectedSaleOrderData?.sellLines[i].quantity}')}');
-  //   }
-  //   print('Item Total Tax ---> ${totalTax}');
-  //   return totalTax;
-  // }
+  totalItemsTax() {
+    double totalTax = 0.00;
+    var length = selectedSaleOrderData?.sellLines.length ?? 0;
+    for (int i = 0; i < length; i++) {
+      print(
+          'Item Tax Id in PDF --->${selectedSaleOrderData?.sellLines[i].taxId}');
+      // Get.find<TaxController>().inlineTaxAmountForPDF(amount: )
+      print(
+          'Item quantity in PDF ---> ${selectedSaleOrderData?.sellLines[i].quantity}');
+
+      print(
+          'Item Tax After Calculation --->>> ${Get.find<TaxController>().inlineTaxAmountForPDF(selectedSaleOrderData?.sellLines[i].taxId, '${double.parse(calculatingUnitPrice(index: i)) * double.parse(calculatingQty(index: i))}')}');
+
+      totalTax = totalTax +
+              double.parse(
+                  '${Get.find<TaxController>().inlineTaxAmountForPDF(selectedSaleOrderData?.sellLines[i].taxId, '${double.parse(calculatingUnitPrice(index: i)) * double.parse(calculatingQty(index: i))}')}')
+          // (double.parse('${saleOrderDataModel?.sellLines[i].itemTax}') *
+          //     double.parse('${saleOrderDataModel?.sellLines[i].quantity}')
+          // double.parse('${calculatingQty(index: i)}')
+          // * double.parse(
+          //     '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[i].subUnitId)}')
+          ;
+      print(
+          'Item Tax --> ${selectedSaleOrderData?.sellLines[i].itemTax} * Item quantity --> ${selectedSaleOrderData?.sellLines[i].quantity} === ${double.parse('${selectedSaleOrderData?.sellLines[i].itemTax}') * double.parse('${selectedSaleOrderData?.sellLines[i].quantity}')}');
+    }
+    print('Item Total Tax ---> ${totalTax}');
+    return totalTax;
+  }
 
   // double functionToCalculateTotalTax(){
   //   var length = selectedSaleOrderData?.sellLines.length ?? 0;
