@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Services/storage_services.dart';
 import '/Components/custom_circular_button.dart';
 import '/Config/app_format.dart';
 import '/Config/const.dart';
@@ -15,6 +14,8 @@ import '/Pages/Orders/Controller/OrderController.dart';
 import '/Theme/colors.dart';
 import '/Theme/style.dart';
 import '/const/dimensions.dart';
+import '../../../Controllers/Tax Controller/TaxController.dart';
+import '../../../Services/storage_services.dart';
 import '../../CreateOrder/createOrderPage.dart';
 import '../../PrintDesign/invoice_print_screen.dart';
 import '../../PrintDesign/pdfGenerate.dart';
@@ -211,8 +212,8 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
                 ),
                 Text(
                   AppFormat.doubleToStringUpTo2(
-                    '${widget.salesOrderData?.discountAmount ?? ''}',
-                  ) ??
+                        '${widget.salesOrderData?.discountAmount ?? ''}',
+                      ) ??
                       '',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
@@ -231,18 +232,16 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 Text(
-                  AppFormat.doubleToStringUpTo2(
-                        '${widget.salesOrderData?.totalItemTax ?? ''}',
-                      ) ??
-                      '',
+                  calculateTotalTax(widget.salesOrderData),
+                  // AppFormat.doubleToStringUpTo2(
+                  //       '${widget.salesOrderData?.totalItemTax ?? ''}',
+                  //     ) ??
+                  //     '',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],
             ),
           ),
-
-
-
 
           // if (order.finalTotal != null)
           Container(
@@ -277,7 +276,7 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
                 ),
                 Text(
                   AppFormat.doubleToStringUpTo2(
-                      '${widget.salesOrderData?.totalPaid}') ??
+                          '${widget.salesOrderData?.totalPaid}') ??
                       '',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
@@ -469,6 +468,83 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
     );
   }
 
+  String calculateTotalTax(saleOrderDataModel) {
+    double calculatingUnitPrice({required int index}) {
+      // var productPrice = saleOrderDataModel?.sellLines[index].product!.taxType == 'inclusive' ?
+      // saleOrderDataModel?.sellLines[index].unitPriceIncTax : saleOrderDataModel?.sellLines[index].unitPrice;
+      try {
+        return double.parse(
+                '${saleOrderDataModel?.sellLines[index].unitPriceIncTax}') *
+            double.parse(
+                '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[index].subUnitId)}');
+      } catch (e) {
+        return 0.00;
+      }
+    }
+
+    double calculatingQty({required int index}) {
+      try {
+        return double.parse(
+                '${saleOrderDataModel?.sellLines[index].quantity}') /
+            double.parse(
+              '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[index].subUnitId)}',
+            );
+      } catch (e) {
+        return 0.00;
+      }
+    }
+
+    double totalTax = 0.00;
+    var length = saleOrderDataModel?.sellLines.length ?? 0;
+    for (int i = 0; i < length; i++) {
+      print('Item Tax Id in PDF --->${saleOrderDataModel?.sellLines[i].taxId}');
+      // Get.find<TaxController>().inlineTaxAmountForPDF(amount: )
+      print(
+          'Item quantity in PDF ---> ${saleOrderDataModel?.sellLines[i].quantity}');
+      print(
+        'Item Tax After Calculation --->>> ${Get.find<TaxController>().inlineTaxAmountForPDF(
+          saleOrderDataModel?.sellLines[i].taxId,
+          '${calculatingUnitPrice(index: i) * calculatingQty(index: i)}',
+        )}',
+      );
+      totalTax +=
+              (double.parse('${Get.find<TaxController>().inlineTaxAmountForPDF(
+        saleOrderDataModel?.sellLines[i].taxId,
+        '${calculatingUnitPrice(index: i) * calculatingQty(index: i)}',
+      )}'))
+          // // (double.parse('${saleOrderDataModel?.sellLines[i].itemTax}'))
+          //
+          // /// Failed (result is 10.95) should be 14.80
+          // (double.parse(calculatingUnitPrice(index: i) ?? '0.00') *
+          //         double.parse(calculatingQty(index: i) ?? '0.00') *
+          //         (Get.find<TaxController>().checkTaxAmount(
+          //                 taxId: saleOrderDataModel?.sellLines[i].taxId) /
+          //             100) +
+          //     (Get.find<TaxController>().checkTaxAmount(
+          //         taxId: saleOrderDataModel?.sellLines[i].taxId)))
+
+          /// bug value
+          // double.parse('${Get.find<TaxController>().inlineTaxAmountForPDF(
+          //   saleOrderDataModel?.sellLines[i].taxId,
+          //   '${double.parse(calculatingUnitPrice(index: i) ?? '0.00') * double.parse(calculatingQty(index: i) ?? '0.00')}',
+          // )}')
+
+          // (double.parse('${saleOrderDataModel?.sellLines[i].itemTax}') *
+          //     double.parse('${saleOrderDataModel?.sellLines[i].quantity}')
+          // double.parse('${calculatingQty(index: i)}')
+          // * double.parse(
+          //     '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[i].subUnitId)}')
+          ;
+      print(
+        'Item Tax --> ${saleOrderDataModel?.sellLines[i].itemTax} '
+        '* Item quantity --> ${saleOrderDataModel?.sellLines[i].quantity} '
+        '=== ${double.parse('${saleOrderDataModel?.sellLines[i].itemTax}') * double.parse('${saleOrderDataModel?.sellLines[i].quantity}')}',
+      );
+    }
+    print('Item Total Tax ---> ${totalTax}');
+    return '$totalTax';
+  }
+
   itemsTable(BuildContext context,
       {required int index, bool isHeading = false}) {
     TextStyle? _headingTextStyle = Theme.of(context)
@@ -558,7 +634,7 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
                   // AppFormat.doubleToStringUpTo2(
                   //         order.sellLines[index].unitPriceIncTax) ??
                   AppFormat.doubleToStringUpTo2(
-                        '${widget.salesOrderData?.sellLines[index].unitPrice ?? ''}',
+                        '${widget.salesOrderData?.sellLines[index].unitPriceIncTax ?? ''}',
                       ) ??
                       '0',
                   style: Theme.of(context)
@@ -573,7 +649,7 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
             ? Text('total'.tr, style: _headingTextStyle)
             : Text(
                 AppFormat.doubleToStringUpTo2(
-                        '${double.parse(widget.salesOrderData?.sellLines[index].unitPrice ?? '0') * double.parse(widget.salesOrderData?.sellLines[index].quantity.toString() ?? '0')}') ??
+                        '${double.parse(widget.salesOrderData?.sellLines[index].unitPriceIncTax ?? '0') * double.parse(widget.salesOrderData?.sellLines[index].quantity.toString() ?? '0')}') ??
                     '0.00',
                 // Get.find<ProductCartController>().totalItemPrice(
                 //     order.sellLines[index].unitPriceIncTax,
