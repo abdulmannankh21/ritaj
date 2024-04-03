@@ -166,7 +166,8 @@ class _ViewCustomerState extends State<ViewCustomer> {
                   builder: (AllSalesController allSalesCtrlObj) {
                     return RefreshIndicator(
                       onRefresh: () async {
-                        await allSalesCtrlObj.callFirstOrderPage(globalSearch: widget.customerName);
+                        await allSalesCtrlObj.callFirstOrderPage(
+                            globalSearch: widget.customerName);
                       },
                       child: Scrollbar(
                         controller: _pastOrdersScrollCtrl,
@@ -190,11 +191,13 @@ class _ViewCustomerState extends State<ViewCustomer> {
                                           id: '${allSalesCtrlObj.allSaleOrders!.saleOrdersData[index].id}',
                                         ));
                                       } else {
-                                        Get.to(SalesViewDetailsPage(
-                                          salesOrderData: allSalesCtrlObj
-                                              .allSaleOrders!
-                                              .saleOrdersData[index],
-                                        ));
+                                        Get.to(
+                                          () => SalesViewDetailsPage(
+                                            salesOrderData: allSalesCtrlObj
+                                                .allSaleOrders!
+                                                .saleOrdersData[index],
+                                          ),
+                                        );
                                       }
                                     },
                                     child: SalesViewTile(

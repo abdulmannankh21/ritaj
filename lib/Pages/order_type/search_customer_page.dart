@@ -281,9 +281,7 @@ class _CustomerSearchState extends State<CustomerSearch> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(
-                  left: 15.0,
-                ),
+                padding: const EdgeInsets.only(left: 15.0),
                 child: Text(
                     'suggesstions'.tr /*, style: theme.style16W800Orange*/),
               ),

@@ -589,7 +589,7 @@ class AllProductsController extends GetxController {
           _fields['tax_id'] = '${selectedProducts[i].productTax?.id}';
         }
         _fields['item_tax[$i]'] =
-            '${taxCtrlObj.calculateItemTax(selectedProducts[i])}';
+            '${taxCtrlObj.calculateItemTax(selectedProducts[i], productCtrlCtrlObj.discoutCtrl.text)}';
         // '${taxCtrlObj.inlineTaxAmount(selectedProducts[i], calculatingProductAmountForOrder(i: i))}';
         _fields['sub_unit_id[$i]'] = '${selectedUnitsList[i]}';
       }
@@ -651,7 +651,12 @@ class AllProductsController extends GetxController {
 
     logger.i(_fields);
 
-    return;
+    // selectedProducts.clear();
+    // selectedQuantityList.clear();
+    // selectedUnitsList.clear();
+    // selectedUnitsNames.clear();
+    // stopProgress();
+    // return;
 
     // return await request.send().then((response) async {
     //   String result = await response.stream.bytesToString();

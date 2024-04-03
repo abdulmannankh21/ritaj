@@ -168,7 +168,7 @@ class TaxController extends GetxController {
     // }
   }
 
-  double calculateItemTax(Product itemProduct) {
+  double calculateItemTax(Product itemProduct, String discountAmount) {
     if (!isInlineTaxEnable) return 0;
     // final AllProductsController prodCartCtrlObj =
     //     Get.find<AllProductsController>();
@@ -180,14 +180,18 @@ class TaxController extends GetxController {
       productPrice = itemProduct
           .productVariations?.first.variations?.first.sellPriceIncTax;
 
-      return (double.parse('$productPrice') /
-          double.parse('${itemProduct.productTax?.amount ?? 0.00}') *
-          100);
+      // print(double.parse('${itemProduct.productTax?.amount ?? 0.00}') / 100);
+      // return (double.parse('$productPrice') *
+      //     (double.parse('${itemProduct.productTax?.amount ?? 0.00}')) /
+      //     100);
+      return (double.parse('$productPrice')) -
+          double.parse(
+              '${itemProduct.productVariations?.first.variations?.first.defaultSellPrice}');
     } else {
       productPrice = itemProduct
           .productVariations?.first.variations?.first.defaultSellPrice;
 
-      return (double.parse('$productPrice') *
+      return ((double.parse('$productPrice')) *
           double.parse('${itemProduct.productTax?.amount ?? 0.00}') /
           (100 + double.parse('${itemProduct.productTax?.amount ?? 0.00}')));
     }
@@ -202,10 +206,7 @@ class TaxController extends GetxController {
   /// if inline 1,orderdisable 1 then inline
   /// if inline 0,orderdisable 0 then ordertax
   /// if inline 0,orderdisable 1 then 0 return
-  double inlineTaxAmountForPDF(
-    int? taxId,
-    String? amount,
-  ) {
+  double inlineTaxAmountForPDF(int? taxId, String? amount) {
     if (!isInlineTaxEnable) return 0;
     final AllProductsController prodCartCtrlObj =
         Get.find<AllProductsController>();
@@ -216,20 +217,15 @@ class TaxController extends GetxController {
     //     (100 + double.parse('${itemProduct.productTax?.amount ?? 0.00}'));
 
     print(
-        'Inside Tax Ctrl --> ${(double.parse('${amount}') * double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}') / 100) + double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}')}');
-    return (double.parse('${amount}') *
-            double.parse('${checkTaxAmount(
-                  taxId: taxId,
-                ) ?? 0.00}') /
-            100) +
-        double.parse('${checkTaxAmount(taxId: taxId) ?? 0.00}');
+      'Inside Tax Ctrl --> ${(double.parse('${amount}') * checkTaxAmount(taxId: taxId)) / (100 + checkTaxAmount(taxId: taxId))}',
+    );
+    return (double.parse('${amount}') * checkTaxAmount(taxId: taxId)) /
+        (100 + checkTaxAmount(taxId: taxId));
   }
 
-  checkTaxAmount({
-    int? taxId,
-  }) {
-    return listTaxModel?.data?.firstWhereOrNull((i) => i.id == taxId)?.amount ??
-        '0.00';
+  double checkTaxAmount({int? taxId}) {
+    return double.parse(
+        '${listTaxModel?.data?.firstWhereOrNull((i) => i.id == taxId)?.amount ?? 0}');
   }
 
   checkTaxName({

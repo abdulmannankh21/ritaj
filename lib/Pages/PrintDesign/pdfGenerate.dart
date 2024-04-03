@@ -301,7 +301,7 @@ class PrintData extends StatelessWidget {
                         child: pw.Padding(
                           padding: pw.EdgeInsets.symmetric(horizontal: 2.5),
                           child: pw.Text(
-                            calculatingUnitPrice(index: index),
+                            '${calculatingUnitPrice(index: index) ?? ''}',
                             textAlign: pw.TextAlign.center,
                             style: pw.TextStyle(fontSize: 16),
                           ),
@@ -313,7 +313,7 @@ class PrintData extends StatelessWidget {
                         child: pw.Padding(
                           padding: pw.EdgeInsets.symmetric(horizontal: 2.5),
                           child: pw.Text(
-                            '${double.parse(calculatingUnitPrice(index: index) ?? '0.00') * double.parse(calculatingQty(index: index) ?? '0.00')}',
+                            '${calculatingUnitPrice(index: index) * calculatingQty(index: index)}',
                             //  '${double.parse(saleOrderDataModel.sellLines[index].unitPriceIncTax ?? '0.00') * double.parse('${saleOrderDataModel.sellLines[index].quantity}')}',
                             textAlign: pw.TextAlign.right,
                             style: pw.TextStyle(
@@ -354,7 +354,7 @@ class PrintData extends StatelessWidget {
               finalDetails(
                 txt1: 'Tax (VAT):',
                 txt2: //'${saleOrderDataModel.totalItemTax}'
-                    '${AppFormat.doubleToStringUpTo2('${totalItemsTax()}')}',
+                    '${AppFormat.doubleToStringUpTo2('${totalTax()}')}',
               ),
               pw.SizedBox(height: 5),
               finalDetails(
@@ -419,7 +419,7 @@ class PrintData extends StatelessWidget {
     ]);
   }
 
-  totalItemsTax() {
+  totalTax() {
     double totalTax = 0.00;
     var length = saleOrderDataModel?.sellLines.length ?? 0;
     for (int i = 0; i < length; i++) {
@@ -428,11 +428,15 @@ class PrintData extends StatelessWidget {
       print(
           'Item quantity in PDF ---> ${saleOrderDataModel?.sellLines[i].quantity}');
       print(
-          'Item Tax After Calculation --->>> ${Get.find<TaxController>().inlineTaxAmountForPDF(saleOrderDataModel?.sellLines[i].taxId, '${double.parse(calculatingUnitPrice(index: i) ?? '0.00') * double.parse(calculatingQty(index: i) ?? '0.00')}')}');
+        'Item Tax After Calculation --->>> ${Get.find<TaxController>().inlineTaxAmountForPDF(
+          saleOrderDataModel?.sellLines[i].taxId,
+          '${calculatingUnitPrice(index: i) * calculatingQty(index: i)}',
+        )}',
+      );
       totalTax +=
               (double.parse('${Get.find<TaxController>().inlineTaxAmountForPDF(
         saleOrderDataModel?.sellLines[i].taxId,
-        '${double.parse(calculatingUnitPrice(index: i) ?? '0.00') * double.parse(calculatingQty(index: i) ?? '0.00')}',
+        '${calculatingUnitPrice(index: i) * calculatingQty(index: i)}',
       )}'))
           // // (double.parse('${saleOrderDataModel?.sellLines[i].itemTax}'))
           //
@@ -458,20 +462,37 @@ class PrintData extends StatelessWidget {
           //     '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[i].subUnitId)}')
           ;
       print(
-          'Item Tax --> ${saleOrderDataModel?.sellLines[i].itemTax} * Item quantity --> ${saleOrderDataModel?.sellLines[i].quantity} === ${double.parse('${saleOrderDataModel?.sellLines[i].itemTax}') * double.parse('${saleOrderDataModel?.sellLines[i].quantity}')}');
+        'Item Tax --> ${saleOrderDataModel?.sellLines[i].itemTax} '
+        '* Item quantity --> ${saleOrderDataModel?.sellLines[i].quantity} '
+        '=== ${double.parse('${saleOrderDataModel?.sellLines[i].itemTax}') * double.parse('${saleOrderDataModel?.sellLines[i].quantity}')}',
+      );
     }
     print('Item Total Tax ---> ${totalTax}');
     return totalTax;
   }
 
-  calculatingUnitPrice({required int index}) {
+  double calculatingUnitPrice({required int index}) {
     // var productPrice = saleOrderDataModel?.sellLines[index].product!.taxType == 'inclusive' ?
     // saleOrderDataModel?.sellLines[index].unitPriceIncTax : saleOrderDataModel?.sellLines[index].unitPrice;
-    return '${AppFormat.doubleToStringUpTo2('${double.parse('${saleOrderDataModel?.sellLines[index].unitPriceIncTax}') * double.parse('${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[index].subUnitId)}')}')}';
+    try {
+      return double.parse(
+              '${saleOrderDataModel?.sellLines[index].unitPriceIncTax}') *
+          double.parse(
+              '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[index].subUnitId)}');
+    } catch (e) {
+      return 0.00;
+    }
   }
 
-  calculatingQty({required int index}) {
-    return '${AppFormat.doubleToStringUpTo2('${double.parse('${saleOrderDataModel?.sellLines[index].quantity}') / double.parse('${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[index].subUnitId)}')}')}';
+  double calculatingQty({required int index}) {
+    try {
+      return double.parse('${saleOrderDataModel?.sellLines[index].quantity}') /
+          double.parse(
+            '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[index].subUnitId)}',
+          );
+    } catch (e) {
+      return 0.00;
+    }
   }
 
   printBasicInfoWidget({String? title, String? titleVal}) {
