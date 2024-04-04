@@ -18,8 +18,9 @@ import '/Services/storage_services.dart';
 
 class PrintData extends StatelessWidget {
   final SaleOrderDataModel? saleOrderDataModel;
+  bool salesView = false ;
 
-  PrintData({Key? key, this.saleOrderDataModel}) : super(key: key);
+  PrintData({Key? key, this.saleOrderDataModel, required this.salesView}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -353,7 +354,7 @@ class PrintData extends StatelessWidget {
               // pw.SizedBox(height: 5),
               finalDetails(
                 txt1: 'Tax (VAT):',
-                txt2: //'${saleOrderDataModel.totalItemTax}'
+                txt2: salesView ? '${saleOrderDataModel.totalItemLineTax}':
                     '${totalTax()}',
               ),
               pw.SizedBox(height: 5),
@@ -433,12 +434,17 @@ class PrintData extends StatelessWidget {
           '${calculatingUnitPrice(index: i) * calculatingQty(index: i)}',
         )}',
       );
-      totalTax +=
-              (double.parse('${Get.find<TaxController>().inlineTaxAmountForPDF(
+      // totalTax +=
+      //         (double.parse('${Get.find<TaxController>().inlineTaxAmountForPDF(
+      //   saleOrderDataModel?.sellLines[i].taxId,
+      //   '${calculatingUnitPrice(index: i) * calculatingQty(index: i)}',
+      // )}'))
+      totalTax += double.parse('${Get.find<TaxController>().inlineTaxAmountForPDF(
         saleOrderDataModel?.sellLines[i].taxId,
         '${calculatingUnitPrice(index: i) * calculatingQty(index: i)}',
-      )}'))
-          // // (double.parse('${saleOrderDataModel?.sellLines[i].itemTax}'))
+      ).toStringAsFixed(2)}');
+
+      // // (double.parse('${saleOrderDataModel?.sellLines[i].itemTax}'))
           //
           // /// Failed (result is 10.95) should be 14.80
           // (double.parse(calculatingUnitPrice(index: i) ?? '0.00') *

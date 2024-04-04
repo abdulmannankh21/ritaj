@@ -699,6 +699,7 @@ class AllProductsController extends GetxController {
         if (isPDFView == true) {
           Get.offAll(TabsPage());
           Get.to(PrintData(
+            salesView: false,
             saleOrderDataModel: salesOrderModel,
           ));
           isPDFView = false;
@@ -1264,6 +1265,7 @@ class AllProductsController extends GetxController {
         if (isPDFView == true) {
           Get.offAll(TabsPage());
           Get.to(PrintData(
+            salesView: false,
             saleOrderDataModel: salesOrderModel,
           ));
           isPDFView = false;

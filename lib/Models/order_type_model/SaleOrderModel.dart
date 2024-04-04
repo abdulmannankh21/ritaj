@@ -344,6 +344,7 @@ class SaleOrderDataModel {
   dynamic pjtProjectId;
   dynamic pjtTitle;
   int? sellingPriceGroupId;
+
   // DateTime? createdAt;
   // DateTime? updatedAt;
   TableDataModel? tableData;
@@ -359,6 +360,7 @@ class SaleOrderDataModel {
   double? sellDue;
   double? sellReturnDue;
   double? totalItemTax;
+  double? totalItemLineTax;
   String? paymentMethod;
   late bool isSelected;
 
@@ -708,7 +710,13 @@ class SaleOrderDataModel {
     } catch (e) {
       logger.e('SaleOrderDataModel -> total_item_tax -> Error => $e');
     }
-
+    try {
+      totalItemLineTax = json["total_line_item_tax"] == null
+          ? null
+          : double.tryParse('${json["total_line_item_tax"]}');
+    } catch (e) {
+      logger.e('SaleOrderDataModel -> total_line_item_tax -> Error => $e');
+    }
     paymentMethod =
         json["payment_method"] == null ? null : json["payment_method"];
     isSelected = false;
@@ -889,6 +897,8 @@ class SaleOrderDataModel {
         "sell_due": sellDue == null ? null : sellDue,
         "sell_return_due": sellReturnDue == null ? null : sellReturnDue,
         "total_item_tax": totalItemTax == null ? null : totalItemTax,
+        "total_line_item_tax":
+            totalItemLineTax == null ? null : totalItemLineTax,
         "payment_method": paymentMethod == null ? null : paymentMethod,
       };
 }

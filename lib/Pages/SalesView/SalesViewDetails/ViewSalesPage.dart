@@ -232,11 +232,11 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 Text(
-                  calculateTotalTax(widget.salesOrderData),
-                  // AppFormat.doubleToStringUpTo2(
-                  //       '${widget.salesOrderData?.totalItemTax ?? ''}',
-                  //     ) ??
-                  //     '',
+                  // calculateTotalTax(widget.salesOrderData),
+                  AppFormat.doubleToStringUpTo2(
+                        '${widget.salesOrderData?.totalItemLineTax ?? ''}',
+                      ) ??
+                      '',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],
@@ -360,6 +360,7 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
                   // ));
 
                   Get.to(PrintData(
+                    salesView: true,
                     saleOrderDataModel: widget.salesOrderData,
                   ));
                 },
@@ -476,7 +477,7 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
         return double.parse(
                 '${saleOrderDataModel?.sellLines[index].unitPriceIncTax}') *
             double.parse(
-                '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[index].subUnitId)}');
+                '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[index].subUnitId).toStringAsFixed(2)}');
       } catch (e) {
         return 0.00;
       }

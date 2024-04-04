@@ -186,7 +186,7 @@ class TaxController extends GetxController {
       //     100);
       return (double.parse('$productPrice')) -
           double.parse(
-              '${itemProduct.productVariations?.first.variations?.first.defaultSellPrice}');
+              '${itemProduct.productVariations?.first.variations?.first.defaultSellPrice}')  ;
     } else {
       productPrice = itemProduct
           .productVariations?.first.variations?.first.defaultSellPrice;
