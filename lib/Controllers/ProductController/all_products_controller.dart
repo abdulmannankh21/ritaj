@@ -62,13 +62,13 @@ class AllProductsController extends GetxController {
 
   ListProductsModel? listProductsModel;
 
-  // void qtyOrderCalculation() {
-  //   var inlineTax =
-  //       AppStorage
-  //           .getBusinessDetailsData()
-  //           ?.businessData
-  //           ?.enableInlineTax;
-  // }
+  void qtyOrderCalculation() {
+    var inlineTax =
+        AppStorage
+            .getBusinessDetailsData()
+            ?.businessData
+            ?.enableInlineTax;
+  }
 
   Future fetchAllProducts({String? pageUrl}) async {
     await ApiServices.getMethod(
@@ -160,10 +160,10 @@ class AllProductsController extends GetxController {
         ?.qtyAvailable;
   }
 
-  // checkUnitsInList({int? id, List<Product>? product, required int index}) {
-  //   return (product?.firstWhere((unitId) =>
-  //   product[index].unitId == unitListModel?.data?.first.baseUnitId));
-  // }
+  checkUnitsInList({int? id, List<Product>? product, required int index}) {
+    return (product?.firstWhere((unitId) =>
+    product[index].unitId == unitListModel?.data?.first.baseUnitId));
+  }
 
   ///function to show the unit id actual names...
   checkUnits({
