@@ -504,7 +504,7 @@ class SaleOrderDataModel {
     } catch (e) {
       logger.e('SaleOrderModel -> additional_expense_value_4 -> Error => $e');
     }
-    finalTotal = json["final_total"] == null ? null : json["final_total"];
+    finalTotal = json["final_total"].toString();
     expenseCategoryId = json["expense_category_id"];
     expenseSubCategoryId = json["expense_sub_category_id"];
     expenseFor = json["expense_for"];

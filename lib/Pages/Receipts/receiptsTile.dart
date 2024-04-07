@@ -262,8 +262,7 @@ class _OrderSelectionBoxState extends State<OrderSelectionBox> {
           });
         else
           setState(() {
-            Get.find<ReceiptsController>()
-                .markUnMarkOrder(widget.order, index: widget.index);
+            Get.find<ReceiptsController>().markUnMarkOrder(widget.order);
           });
       },
     );

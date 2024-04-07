@@ -40,7 +40,7 @@ class _ReceiptsState extends State<Receipts> {
     Get.find<StockTransferController>().fetchStockTransfersList();
     receiptsCtrl.totalAmount = '0';
     receiptsCtrl.listSaleOrderDataModel =
-        allSalesCtrl.allSaleOrders?.saleOrdersData;
+        allSalesCtrl.allSaleOrders?.saleOrdersData ?? [];
     scrollControllerLis();
     super.initState();
   }
@@ -67,6 +67,16 @@ class _ReceiptsState extends State<Receipts> {
     receiptsCtrl.totalAmount = '0';
     allSalesCtrl.allSaleOrders = null;
     super.dispose();
+  }
+
+  Future<void> refreshReceipts() async {
+    await Get.find<AllSalesController>().callFirstOrderPage(
+      globalSearch: contactCtrl.nameCtrl.text,
+    );
+    // await allSalesCtrlObj.callFirstOrderPageForReceipt();
+    setState(() {
+      receiptsCtrl.totalAmount = '0';
+    });
   }
 
   @override
@@ -168,15 +178,7 @@ class _ReceiptsState extends State<Receipts> {
           GetBuilder(
             builder: (AllSalesController allSalesCtrlObj) {
               return RefreshIndicator(
-                onRefresh: () async {
-                  await allSalesCtrlObj.callFirstOrderPage(
-                    globalSearch: contactCtrl.nameCtrl.text,
-                  );
-                  // await allSalesCtrlObj.callFirstOrderPageForReceipt();
-                  setState(() {
-                    receiptsCtrl.totalAmount = '0';
-                  });
-                },
+                onRefresh: refreshReceipts,
                 child: (allSalesCtrlObj.allSaleOrders == null)
                     ? progressIndicator()
                     : Scrollbar(
@@ -269,90 +271,90 @@ class _ReceiptsState extends State<Receipts> {
                   : SizedBox();
             }),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              GetBuilder<ReceiptsController>(
-                  builder: (ReceiptsController receiptCtrlObj) {
-                return Container(
-                  color: kWhiteColor,
-                  height: 25,
-                  width: 150,
-                  child: Center(
-                    child: Text(
-                      'total'.tr +
-                          ' (AED) = ${AppFormat.doubleToStringUpTo2(receiptCtrlObj.totalAmount)}',
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                    ),
-                  ),
-                );
-              }),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     CustomButton(
-              //       onTap: () {
-              //         setState(() {
-              //           selectedMethod = 1;
-              //         });
-              //       },
-              //       title: Text(
-              //         'CASH',
-              //         style: TextStyle(color: kWhiteColor),
-              //       ),
-              //       bgColor: selectedMethod == 1
-              //           ? Theme.of(context).colorScheme.primary
-              //           : strikeThroughColor,
-              //     ),
-              //     SizedBox(
-              //       width: 10,
-              //     ),
-              //     CustomButton(
-              //       onTap: () {
-              //         setState(() {
-              //           selectedMethod = 2;
-              //         });
-              //       },
-              //       title: Text(
-              //         'CHEQUE',
-              //         style: TextStyle(color: kWhiteColor),
-              //       ),
-              //       bgColor: selectedMethod == 2
-              //           ? Theme.of(context).colorScheme.primary
-              //           : strikeThroughColor,
-              //     ),
-              //   ],
-              // ),
-              CustomButton(
-                onTap: () {
-                  Get.find<AllProductsController>().receiptPayment = true;
-                  Get.find<AllProductsController>().finalTotal = 0.00;
-                  Get.find<AllProductsController>().update();
-                  Get.to(CheckOutPage(
-                    isReceipt: true,
-                  ));
-
-                  ///for cash
-                  // if (selectedMethod == 1) {}
-                  //
-                  // ///for cheque
-                  // if (selectedMethod == 2) {}
-                  // if (selectedMethod == 0) {
-                  //   showToast('Please select method');
-                  // }
-                },
-                title: Text(
-                  'submit'.tr,
-                  style: TextStyle(color: kWhiteColor),
-                ),
-              ),
-            ],
-          ),
         ],
+      ),
+      bottomSheet: Padding(
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            GetBuilder<ReceiptsController>(
+                builder: (ReceiptsController receiptCtrlObj) {
+              return Container(
+                color: kWhiteColor,
+                height: 25,
+                // width: 150,
+                child: Center(
+                  child: Text(
+                    'total'.tr +
+                        ' (AED) = ${AppFormat.doubleToStringUpTo2(receiptCtrlObj.totalAmount)}',
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ),
+                ),
+              );
+            }),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     CustomButton(
+            //       onTap: () {
+            //         setState(() {
+            //           selectedMethod = 1;
+            //         });
+            //       },
+            //       title: Text(
+            //         'CASH',
+            //         style: TextStyle(color: kWhiteColor),
+            //       ),
+            //       bgColor: selectedMethod == 1
+            //           ? Theme.of(context).colorScheme.primary
+            //           : strikeThroughColor,
+            //     ),
+            //     SizedBox(
+            //       width: 10,
+            //     ),
+            //     CustomButton(
+            //       onTap: () {
+            //         setState(() {
+            //           selectedMethod = 2;
+            //         });
+            //       },
+            //       title: Text(
+            //         'CHEQUE',
+            //         style: TextStyle(color: kWhiteColor),
+            //       ),
+            //       bgColor: selectedMethod == 2
+            //           ? Theme.of(context).colorScheme.primary
+            //           : strikeThroughColor,
+            //     ),
+            //   ],
+            // ),
+            CustomButton(
+              onTap: () {
+                Get.find<AllProductsController>().receiptPayment = true;
+                Get.find<AllProductsController>().finalTotal = 0.00;
+                Get.find<AllProductsController>().update();
+
+                Get.to(() => CheckOutPage(isReceipt: true));
+
+                ///for cash
+                // if (selectedMethod == 1) {}
+                //
+                // ///for cheque
+                // if (selectedMethod == 2) {}
+                // if (selectedMethod == 0) {
+                //   showToast('Please select method');
+                // }
+              },
+              btnTxt: 'submit'.tr,
+            ),
+          ],
+        ),
       ),
       // SingleChildScrollView(
       //   child: Column(

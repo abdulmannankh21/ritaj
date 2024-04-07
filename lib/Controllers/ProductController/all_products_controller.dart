@@ -64,10 +64,7 @@ class AllProductsController extends GetxController {
 
   void qtyOrderCalculation() {
     var inlineTax =
-        AppStorage
-            .getBusinessDetailsData()
-            ?.businessData
-            ?.enableInlineTax;
+        AppStorage.getBusinessDetailsData()?.businessData?.enableInlineTax;
   }
 
   Future fetchAllProducts({String? pageUrl}) async {
@@ -162,7 +159,7 @@ class AllProductsController extends GetxController {
 
   checkUnitsInList({int? id, List<Product>? product, required int index}) {
     return (product?.firstWhere((unitId) =>
-    product[index].unitId == unitListModel?.data?.first.baseUnitId));
+        product[index].unitId == unitListModel?.data?.first.baseUnitId));
   }
 
   ///function to show the unit id actual names...
@@ -694,7 +691,7 @@ class AllProductsController extends GetxController {
 
         logger.i(salesOrderModel?.sellLines);
         print(
-            'Sale Order Data Model Sell Lines --> ${salesOrderModel?.sellLines?.first.product?.name}');
+            'Sale Order Data Model Sell Lines --> ${salesOrderModel?.sellLines.first.product?.name}');
 
         if (isPDFView == true) {
           Get.offAll(TabsPage());
@@ -831,19 +828,19 @@ class AllProductsController extends GetxController {
   String receiptsFinalPayment = '0.00';
 
   ///Receipts Multiple payment Function
-  addReceipt() async {
+  Future<bool> addReceipt() async {
     // if (orderCtrlObj.singleOrderData?.id == null) {
     //   showToast('Reference for update order is missing!');
     //   return;
     // }
 
     /// Working with 2nd approach
-    multipartReceiptPutMethod();
+    return await multipartReceiptPutMethod();
   }
 
   ReceiptModel? receiptData;
 
-  multipartReceiptPutMethod() async {
+  Future<bool> multipartReceiptPutMethod() async {
     // API Method with url
     // PaymentController _paymentCtrlObj = Get.find<PaymentController>();
     AllSalesController allSalesCtrl = Get.find<AllSalesController>();
@@ -900,9 +897,9 @@ class AllProductsController extends GetxController {
 
       if (response == null) {
         stopProgress();
-        Get.offAll(TabsPage());
+        Get.offAll(() => TabsPage());
         showToast('Error occurred');
-        return;
+        return false;
       }
 
       receiptPayment = true;
@@ -912,29 +909,20 @@ class AllProductsController extends GetxController {
       //   for (int i = 0; i < receiptData!.data!.length; i++) {
       stopProgress();
       try {
-        if (isPDFView == false) {
+        if (!isPDFView) {
           debugPrint('printing calling function');
           Get.dialog(Dialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
             insetPadding: EdgeInsets.all(Dimensions.paddingSizeSmall),
-            child: InVoicePrintScreen(
-              isPrintReceipt: true,
-            ),
+            child: InVoicePrintScreen(isPrintReceipt: true),
           ));
-        }
-      } catch (e) {
-        print('Error -> $e');
-      }
-
-      // }
-      try {
-        if (isPDFView == true) {
-          Get.offAll(TabsPage());
+        } else if (isPDFView) {
+          // Get.offAll(() => TabsPage());
           print('pdf calling function');
-          Get.to(ReceiptPdfGenerate(
-            singleReceiptModel: receiptData?.data,
-          ));
+          Get.to(
+            () => ReceiptPdfGenerate(singleReceiptModel: receiptData?.data),
+          );
           // for (int i = 0; i < receiptData!.data!.length; i++) {
           //   Get.to(ReceiptPdfGenerate(
           //     singleReceiptModel: receiptData?.data?[i],
@@ -949,9 +937,12 @@ class AllProductsController extends GetxController {
 
           isPDFView = false;
         }
-      } catch (error) {
-        debugPrint('Error -> $error');
+      } catch (e) {
+        print('Error -> $e');
       }
+
+      // }
+
       // receiptPayment = false;
       update();
       clearAllOtherFields();
@@ -961,10 +952,11 @@ class AllProductsController extends GetxController {
       // Get.close(1);
       //await Get.to(() => OrderPlaced());
       // Get.offAll(HomePage());
+      return true;
     }).onError((error, stackTrace) {
       debugPrint('Error => $error');
       logger.e('StackTrace => $stackTrace');
-      return null;
+      return false;
     });
   }
 
@@ -1260,7 +1252,7 @@ class AllProductsController extends GetxController {
 
         logger.i(salesOrderModel?.sellLines);
         print(
-            'Sale Order Data Model Sell Lines --> ${salesOrderModel?.sellLines?.first.product?.name}');
+            'Sale Order Data Model Sell Lines --> ${salesOrderModel?.sellLines.first.product?.name}');
 
         if (isPDFView == true) {
           Get.offAll(TabsPage());

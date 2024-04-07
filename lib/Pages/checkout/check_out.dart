@@ -129,15 +129,34 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       ),
                       Expanded(
                         child: CustomButton(
-                          onTap: () {
-                            Get.dialog(Dialog(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      Dimensions.radiusSmall)),
-                              insetPadding:
-                                  EdgeInsets.all(Dimensions.paddingSizeSmall),
-                              child: SelectionDialogue(),
-                            ));
+                          onTap: () async {
+                            if (Get.find<PaymentController>()
+                                .paymentWidgetList
+                                .isEmpty) {
+                              showToast(
+                                'Payment information is not defined. Please Add Payment Details.',
+                              );
+                              return;
+                            }
+                            Get.dialog(
+                              barrierDismissible: false,
+                              Dialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        Dimensions.radiusSmall)),
+                                insetPadding:
+                                    EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                child: SelectionDialogue(
+                                  callback: () {
+                                    debugPrint('Selection Dialog Callback');
+                                  },
+                                ),
+                              ),
+                            ).then((isDone) {
+                              if (isDone != null && isDone) {
+                                Get.back(result: true);
+                              }
+                            });
 
                             // if (widget.orderData != null) {
                             //   _paymentCtrlObj
@@ -217,20 +236,23 @@ class _CheckOutPageState extends State<CheckOutPage> {
               // );
             }),
 
-            CustomButton(
-              btnTxt: 'add_payment_row'.tr,
-              bgColor: Theme.of(context).colorScheme.primary,
-              borderRadius: 10,
-              onTap: () {
-                _paymentCtrlObj.addPaymentWidget(
-                  totalAmount: double.parse(
-                        (Get.find<AllProductsController>().finalTotal != 0.00)
-                            ? '${Get.find<AllProductsController>().finalTotal ?? ''}'
-                            : '${Get.find<ReceiptsController>().totalAmount ?? ''}',
-                      ) -
-                      allProdCtrlObj.calculatingTotalDiscount(),
-                );
-              },
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: CustomButton(
+                btnTxt: 'add_payment_row'.tr,
+                bgColor: Theme.of(context).colorScheme.primary,
+                // borderRadius: 10,
+                onTap: () {
+                  _paymentCtrlObj.addPaymentWidget(
+                    totalAmount: double.parse(
+                          (Get.find<AllProductsController>().finalTotal != 0.00)
+                              ? '${Get.find<AllProductsController>().finalTotal ?? ''}'
+                              : '${Get.find<ReceiptsController>().totalAmount ?? ''}',
+                        ) -
+                        allProdCtrlObj.calculatingTotalDiscount(),
+                  );
+                },
+              ),
             ),
 
             AppFormField(

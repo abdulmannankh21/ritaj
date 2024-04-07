@@ -8,7 +8,8 @@ import '../../Config/utils.dart';
 import '../../Controllers/ProductController/all_products_controller.dart';
 
 class SelectionDialogue extends StatefulWidget {
-  const SelectionDialogue({Key? key}) : super(key: key);
+  final Function()? callback;
+  const SelectionDialogue({this.callback, Key? key}) : super(key: key);
 
   @override
   State<SelectionDialogue> createState() => _SelectionDialogueState();
@@ -19,6 +20,7 @@ class _SelectionDialogueState extends State<SelectionDialogue> {
       Get.find<AllProductsController>();
   @override
   Widget build(BuildContext context) {
+    print('Receipt Payment: ${allProdCtrlObj.receiptPayment}');
     return Container(
       width: MediaQuery.of(context).size.width * 0.3,
       height: MediaQuery.of(context).size.height * 0.17,
@@ -35,15 +37,15 @@ class _SelectionDialogueState extends State<SelectionDialogue> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomButton(
-                onTap: () {
-                  showProgress();
+                onTap: () async {
+                  bool isActionCompleted = false;
+                  showProgress(dismissible: false);
                   allProdCtrlObj.update();
-                  print('Receipt Payment: ${allProdCtrlObj.receiptPayment}');
                   if (allProdCtrlObj.receiptPayment) {
                     print('inside add receipt method call');
                     allProdCtrlObj.isPDFView = true;
-                    allProdCtrlObj.update();
-                    allProdCtrlObj.addReceipt();
+                    // allProdCtrlObj.update();
+                    isActionCompleted = await allProdCtrlObj.addReceipt();
                   } else if (allProdCtrlObj.isUpdate) {
                     print('->> for Update Order');
                     allProdCtrlObj.isPDFView = true;
@@ -55,6 +57,11 @@ class _SelectionDialogueState extends State<SelectionDialogue> {
                     print('->> for Create Order');
                     allProdCtrlObj.orderCreate();
                   }
+
+                  if (isActionCompleted && widget.callback != null) {
+                    Get.back(result: true);
+                    widget.callback!();
+                  }
                 },
                 title: Text(
                   'save'.tr,
@@ -62,15 +69,16 @@ class _SelectionDialogueState extends State<SelectionDialogue> {
                 ),
               ),
               CustomButton(
-                onTap: () {
-                  showProgress();
+                onTap: () async {
+                  bool isActionCompleted = false;
+                  showProgress(dismissible: false);
                   allProdCtrlObj.update();
-                  if (allProdCtrlObj.receiptPayment == true) {
+                  if (allProdCtrlObj.receiptPayment) {
                     print('inside add receipt method call');
                     allProdCtrlObj.isPDFView = false;
                     allProdCtrlObj.receiptPayment = true;
-                    allProdCtrlObj.addReceipt();
-                  } else if (allProdCtrlObj.isUpdate == true) {
+                    isActionCompleted = await allProdCtrlObj.addReceipt();
+                  } else if (allProdCtrlObj.isUpdate) {
                     print('->> for Update Order');
                     allProdCtrlObj.isPDFView = false;
                     allProdCtrlObj.addSelectedItemsInList();
@@ -80,6 +88,11 @@ class _SelectionDialogueState extends State<SelectionDialogue> {
                     allProdCtrlObj.addSelectedItemsInList();
                     print('->> for Create Order');
                     allProdCtrlObj.orderCreate();
+                  }
+
+                  if (isActionCompleted && widget.callback != null) {
+                    Get.back(result: true);
+                    widget.callback!();
                   }
                 },
                 title: Text(

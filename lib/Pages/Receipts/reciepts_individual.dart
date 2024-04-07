@@ -42,7 +42,7 @@ class _individualReceiptsState extends State<individualReceipts> {
     stockTranCtrlObj.fetchStockTransfersList();
     receiptsCtrl.totalAmount = '0';
     receiptsCtrl.listSaleOrderDataModel =
-        allSalesCtrl.allSaleOrders?.saleOrdersData;
+        allSalesCtrl.allSaleOrders?.saleOrdersData ?? [];
     scrollControllerLis();
     super.initState();
   }
@@ -171,7 +171,8 @@ class _individualReceiptsState extends State<individualReceipts> {
             builder: (AllSalesController allSalesCtrlObj) {
               return RefreshIndicator(
                 onRefresh: () async {
-                  await allSalesCtrlObj.callFirstOrderPage(globalSearch: contactCtrlObj.nameCtrl.text);
+                  await allSalesCtrlObj.callFirstOrderPage(
+                      globalSearch: contactCtrlObj.nameCtrl.text);
                   // await allSalesCtrlObj.callFirstOrderPageForReceipt();
                   setState(() {
                     receiptsCtrl.totalAmount = '0';
@@ -198,8 +199,7 @@ class _individualReceiptsState extends State<individualReceipts> {
                             final saleOrder = allSalesCtrlObj
                                 .allSaleOrders!.saleOrdersData[index];
                             String name = contactCtrlObj.id!;
-                            print(
-                                'nameCtrl.text => ${contactCtrlObj.id}');
+                            print('nameCtrl.text => ${contactCtrlObj.id}');
                             print(
                                 'saleOrder.contact.name => ${saleOrder.contactId}');
 

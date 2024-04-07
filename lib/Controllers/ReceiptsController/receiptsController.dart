@@ -8,7 +8,7 @@ class ReceiptsController extends GetxController {
   String totalAmount = '0';
   SaleOrderModel? order;
 
-  void markUnMarkOrder(SaleOrderDataModel orderSellLine, {int? index}) {
+  void markUnMarkOrder(SaleOrderDataModel orderSellLine) {
     // --------------------- is item cooked or not condition with popup
     // if (!isItCooked(index: index)) {
     //   showToast('Item is not Cooked yet!');
@@ -16,33 +16,37 @@ class ReceiptsController extends GetxController {
     // }
 
     orderSellLine.isSelected = !orderSellLine.isSelected;
-    if (orderSellLine.isSelected == true) {
+
+    if (orderSellLine.isSelected) {
       totalAmount =
           '${double.parse(totalAmount) + Get.find<OrderController>().calculateRemainingAmountToPay(orderSellLine)}';
-      listSaleOrderDataModel?.add(orderSellLine);
-      print(listSaleOrderDataModel);
-    } else if (orderSellLine.isSelected == false) {
+      listSaleOrderDataModel.add(orderSellLine);
+    } else if (!orderSellLine.isSelected) {
       totalAmount =
-          '${double.parse(totalAmount) - double.parse(orderSellLine.finalTotal!)}';
+          '${double.parse(totalAmount) - Get.find<OrderController>().calculateRemainingAmountToPay(orderSellLine)}';
+      listSaleOrderDataModel.remove(orderSellLine);
     }
-    print(orderSellLine.isSelected);
-    print(totalAmount);
+
+    print('List Sale Order Data Model => $listSaleOrderDataModel');
+    print('Is Receipt Selected => ${orderSellLine.isSelected}');
+    print('Total Amount base on selection => $totalAmount');
+
     Get.find<AllProductsController>().receiptsFinalPayment = totalAmount;
     update();
   }
 
   SaleOrderDataModel? singleOrderData;
-  List<SaleOrderDataModel>? listSaleOrderDataModel;
+  List<SaleOrderDataModel> listSaleOrderDataModel = [];
 
   markUnMarkAllOrder() {
     // listSaleOrderDataModel
     //     ?.forEach((element) => element.isSelected = !element.isSelected);
-    if (listSaleOrderDataModel != null) {
-      for (int i = 0; i < listSaleOrderDataModel!.length; i++) {
-        listSaleOrderDataModel?[i].isSelected =
-            !listSaleOrderDataModel![i].isSelected;
+    if (listSaleOrderDataModel.isNotEmpty) {
+      for (int i = 0; i < listSaleOrderDataModel.length; i++) {
+        listSaleOrderDataModel[i].isSelected =
+            !listSaleOrderDataModel[i].isSelected;
         totalAmount =
-            '${double.parse(totalAmount) + double.parse(listSaleOrderDataModel?[i].finalTotal ?? '0')}';
+            '${double.parse(totalAmount) + double.parse(listSaleOrderDataModel[i].finalTotal ?? '0')}';
         print(totalAmount);
       }
     }

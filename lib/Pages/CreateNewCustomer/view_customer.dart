@@ -181,7 +181,7 @@ class _ViewCustomerState extends State<ViewCustomer> {
                           itemBuilder: (context, index) {
                             final saleOrder = allSalesCtrlObj
                                 .allSaleOrders!.saleOrdersData[index];
-                            if (saleOrder.contact!.name ==
+                            if (saleOrder.contact?.name ==
                                 widget.customerName) {
                               return IntrinsicHeight(
                                 child: GestureDetector(

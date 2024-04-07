@@ -16,7 +16,7 @@ showToast(String msg) async {
       fontSize: 16.0);
 }
 
-showProgress() {
+showProgress({bool dismissible = true}) {
   Get.defaultDialog(
     title: 'loading'.tr,
     content: Container(
@@ -24,7 +24,7 @@ showProgress() {
           color: Colors.transparent, borderRadius: BorderRadius.circular(10)),
       child: progressIndicator(),
     ),
-    barrierDismissible: true,
+    barrierDismissible: dismissible,
   );
 }
 

@@ -67,7 +67,7 @@ class PaymentFields extends StatelessWidget {
       child: Stack(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            padding: EdgeInsets.fromLTRB(15, 30, 15, 5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
