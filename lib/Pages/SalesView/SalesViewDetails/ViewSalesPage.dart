@@ -608,14 +608,29 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
         Expanded(
           child: isHeading
               ? Text('qty'.tr.toUpperCase(), style: _headingTextStyle)
-              : Text(
-                  //'${order.sellLines[index].quantity}',
-                  '${widget.salesOrderData?.sellLines[index].quantity ?? ''}',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium!
-                      .copyWith(fontWeight: FontWeight.w500, fontSize: 15.0),
-                ),
+              : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      //'${order.sellLines[index].quantity}',
+            ' ${calculatingQty(index: index)}',
+            // '${widget.salesOrderData?.sellLines[index].quantity ?? ''}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium!
+                          .copyWith(fontWeight: FontWeight.w500, fontSize: 15.0),
+                    ),
+                  Text(
+                    //'${order.sellLines[index].quantity}',
+                    '/${Get.find<AllProductsController>().checkUnitsShortName(unitId: widget.salesOrderData?.sellLines[index].subUnitId)}',
+                    // '${widget.salesOrderData?.sellLines[index].quantity ?? ''}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineMedium!
+                        .copyWith(fontWeight: FontWeight.w500, fontSize: 15.0),
+                  ),
+                ],
+              ),
         ),
 
         /// TODO: all mark functionality implementation is remaining.
@@ -634,10 +649,12 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
               : Text(
                   // AppFormat.doubleToStringUpTo2(
                   //         order.sellLines[index].unitPriceIncTax) ??
-                  AppFormat.doubleToStringUpTo2(
-                        '${widget.salesOrderData?.sellLines[index].unitPriceIncTax ?? ''}',
-                      ) ??
-                      '0',
+            '${calculatingUnitPrice(index: index)}',
+
+            // AppFormat.doubleToStringUpTo2(
+            //             '${widget.salesOrderData?.sellLines[index].unitPriceIncTax ?? ''}',
+            //           ) ??
+            //           '0',
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall!
@@ -650,7 +667,7 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
             ? Text('total'.tr, style: _headingTextStyle)
             : Text(
                 AppFormat.doubleToStringUpTo2(
-                        '${double.parse(widget.salesOrderData?.sellLines[index].unitPriceIncTax ?? '0') * double.parse(widget.salesOrderData?.sellLines[index].quantity.toString() ?? '0')}') ??
+                        '${(double.parse(widget.salesOrderData?.sellLines[index].unitPriceIncTax ?? '0') * double.parse(widget.salesOrderData?.sellLines[index].quantity.toString() ?? '0')).roundToDouble()}') ??
                     '0.00',
                 // Get.find<ProductCartController>().totalItemPrice(
                 //     order.sellLines[index].unitPriceIncTax,
@@ -662,6 +679,32 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
               ),
       ],
     );
+  }
+  String? calculatingUnitPrice({required int index}) {
+    // var productPrice = saleOrderDataModel?.sellLines[index].product!.taxType == 'inclusive' ?
+    // saleOrderDataModel?.sellLines[index].unitPriceIncTax : saleOrderDataModel?.sellLines[index].unitPrice;
+    try {
+      return AppFormat.doubleToStringUpTo2(
+        (double.parse(
+            '${widget.salesOrderData?.sellLines[index].unitPriceIncTax}') *
+            double.parse(
+                '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: widget.salesOrderData?.sellLines[index].subUnitId)}'))
+            .toString(),
+      );
+    } catch (e) {
+      return '0.00';
+    }
+  }
+
+  double calculatingQty({required int index}) {
+    try {
+      return double.parse('${widget.salesOrderData?.sellLines[index].quantity}') /
+          double.parse(
+            '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: widget.salesOrderData?.sellLines[index].subUnitId)}',
+          );
+    } catch (e) {
+      return 0.00;
+    }
   }
 }
 
@@ -704,4 +747,5 @@ class _OrderSelectionBoxState extends State<OrderSelectionBox> {
       },
     );
   }
+
 }
