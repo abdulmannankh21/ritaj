@@ -381,13 +381,13 @@ class AllProductsController extends GetxController {
     // productVariations?.first.variations?.first.sellPriceIncTax
     //     : productModelObjs[index].
     // productVariations?.first.variations?.first.defaultSellPrice;
-    return double.parse(
+    return (double.parse(
             '${productQuantityCtrl[index].text.isEmpty ? '0.00' : productQuantityCtrl[index].text}') *
         (double.parse(
                 '${productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') *
             double.parse(checkUnitsActualBaseMultiplier(
                     unitName: unitListStatus[index]) ??
-                '1.00'));
+                '1.00'))).roundToDouble();
   }
 
   String calculatingStock({required int index}) {
@@ -1334,11 +1334,11 @@ class AllProductsController extends GetxController {
 
     return itemsDiscountCount;
   }
-
+// doubleToStringUpTo2 is not using for round off its just want to use in view
   // function to get total payable amount
   String getPayableFinalTotalAmount() {
     return AppFormat.doubleToStringUpTo2(
-            '${finalTotal - calculatingTotalDiscount()}') ??
+            '${finalTotal.roundToDouble() - calculatingTotalDiscount()}') ??
         '0';
   }
 }

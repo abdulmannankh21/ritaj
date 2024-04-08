@@ -71,7 +71,7 @@ class _ReceiptsState extends State<Receipts> {
 
   Future<void> refreshReceipts() async {
     await allSalesCtrl.callFirstOrderPage(
-        globalSearch: contactCtrl.nameCtrl.text);
+        globalSearch: contactCtrl.id);
     // await allSalesCtrlObj.callFirstOrderPageForReceipt();
     setState(() {
       receiptsCtrl.totalAmount = '0';
