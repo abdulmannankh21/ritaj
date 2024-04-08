@@ -425,7 +425,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                         bgColor: Theme.of(context).colorScheme.primary),
                     CustomButton(
                         onTap: _isProductQuantityAdded
-                            ? () {
+                            ? () async {
                                 //showProgress();
                                 allProdCtrlObj.isDirectCheckout = false;
                                 allProdCtrlObj.update();
@@ -439,7 +439,13 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                 //         .text =
                                 //     '${AppFormat.doubleToStringUpTo2('${allProdCtrlObj.finalTotal}')}';
                                 // Get.find<PaymentController>().update();
-                                Get.to(() => CheckOutPage(isReceipt: false));
+                                bool? isDone = await Get.to(
+                                    () => CheckOutPage(isReceipt: false));
+
+                                if (isDone != null && isDone) {
+                                  Get.back(result: true);
+                                }
+
                                 // allProdCtrlObj.orderCreate();
                               }
                             : null,

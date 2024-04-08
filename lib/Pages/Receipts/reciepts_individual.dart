@@ -331,9 +331,7 @@ class _individualReceiptsState extends State<individualReceipts> {
                   Get.find<AllProductsController>().receiptPayment = true;
                   Get.find<AllProductsController>().finalTotal = 0.00;
                   Get.find<AllProductsController>().update();
-                  Get.to(CheckOutPage(
-                    isReceipt: true,
-                  ));
+                  Get.to(() => CheckOutPage(isReceipt: true));
 
                   ///for cash
                   // if (selectedMethod == 1) {}

@@ -58,9 +58,11 @@ class _SelectionDialogueState extends State<SelectionDialogue> {
                     allProdCtrlObj.orderCreate();
                   }
 
-                  if (isActionCompleted && widget.callback != null) {
+                  if (isActionCompleted) {
                     Get.back(result: true);
-                    widget.callback!();
+                    if (widget.callback != null) {
+                      widget.callback!();
+                    }
                   }
                 },
                 title: Text(
@@ -90,9 +92,11 @@ class _SelectionDialogueState extends State<SelectionDialogue> {
                     allProdCtrlObj.orderCreate();
                   }
 
-                  if (isActionCompleted && widget.callback != null) {
+                  if (isActionCompleted) {
                     Get.back(result: true);
-                    widget.callback!();
+                    if (widget.callback != null) {
+                      widget.callback!();
+                    }
                   }
                 },
                 title: Text(

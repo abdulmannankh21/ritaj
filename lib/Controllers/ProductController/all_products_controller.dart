@@ -854,6 +854,7 @@ class AllProductsController extends GetxController {
       if (allSalesCtrl.allSaleOrders?.saleOrdersData[i].isSelected != false)
         _fields['transaction_id[$i]'] =
             '${allSalesCtrl.allSaleOrders?.saleOrdersData[i].id}';
+      // _fields['method'] = '${paymentCtrlObj.paymentWidgetList[i].selectedPaymentOption?.paymentMethod}';
       print('${allSalesCtrl.allSaleOrders?.saleOrdersData[i].id}');
     }
 
@@ -898,7 +899,7 @@ class AllProductsController extends GetxController {
       if (response == null) {
         stopProgress();
         Get.offAll(() => TabsPage());
-        showToast('Error occurred');
+        showToast('Unable to complete the action. Response Issue!');
         return false;
       }
 
@@ -911,16 +912,18 @@ class AllProductsController extends GetxController {
       try {
         if (!isPDFView) {
           debugPrint('printing calling function');
-          Get.dialog(Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
-            insetPadding: EdgeInsets.all(Dimensions.paddingSizeSmall),
-            child: InVoicePrintScreen(isPrintReceipt: true),
-          ));
+          await Get.dialog(
+            Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
+              insetPadding: EdgeInsets.all(Dimensions.paddingSizeSmall),
+              child: InVoicePrintScreen(isPrintReceipt: true),
+            ),
+          );
         } else if (isPDFView) {
           // Get.offAll(() => TabsPage());
           print('pdf calling function');
-          Get.to(
+          await Get.to(
             () => ReceiptPdfGenerate(singleReceiptModel: receiptData?.data),
           );
           // for (int i = 0; i < receiptData!.data!.length; i++) {
@@ -954,9 +957,11 @@ class AllProductsController extends GetxController {
       // Get.offAll(HomePage());
       return true;
     }).onError((error, stackTrace) {
+      stopProgress();
       debugPrint('Error => $error');
       logger.e('StackTrace => $stackTrace');
-      return false;
+      showToast('Error: $error');
+      return true;
     });
   }
 

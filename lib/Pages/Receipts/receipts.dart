@@ -55,7 +55,7 @@ class _ReceiptsState extends State<Receipts> {
 
         if ((maxScroll - currentScroll) <= delta) {
           // if (maxScroll == currentScroll) {
-          Get.find<AllSalesController>().loadMoreSaleOrders();
+          allSalesCtrl.loadMoreSaleOrders();
         }
       });
     }
@@ -70,9 +70,8 @@ class _ReceiptsState extends State<Receipts> {
   }
 
   Future<void> refreshReceipts() async {
-    await Get.find<AllSalesController>().callFirstOrderPage(
-      globalSearch: contactCtrl.nameCtrl.text,
-    );
+    await allSalesCtrl.callFirstOrderPage(
+        globalSearch: contactCtrl.nameCtrl.text);
     // await allSalesCtrlObj.callFirstOrderPageForReceipt();
     setState(() {
       receiptsCtrl.totalAmount = '0';
@@ -335,12 +334,25 @@ class _ReceiptsState extends State<Receipts> {
             //   ],
             // ),
             CustomButton(
-              onTap: () {
-                Get.find<AllProductsController>().receiptPayment = true;
-                Get.find<AllProductsController>().finalTotal = 0.00;
-                Get.find<AllProductsController>().update();
+              onTap: () async {
+                Get.find<AllProductsController>()
+                  ..receiptPayment = true
+                  ..finalTotal = 0.00
+                  ..update();
 
-                Get.to(() => CheckOutPage(isReceipt: true));
+                bool? isDone =
+                    await Get.to(() => CheckOutPage(isReceipt: true));
+
+                if (isDone != null && isDone) {
+                  // showProgress();
+                  refreshReceipts();
+                  // stopProgress();
+                  if (allSalesCtrl.allSaleOrders != null) {
+                    allSalesCtrl.allSaleOrders!.saleOrdersData
+                        .removeWhere((saleOrder) => saleOrder.isSelected);
+                    setState(() {});
+                  }
+                }
 
                 ///for cash
                 // if (selectedMethod == 1) {}

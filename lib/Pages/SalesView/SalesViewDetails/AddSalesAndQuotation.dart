@@ -505,9 +505,7 @@ class _AddSalesAndQuotationState extends State<AddSalesAndQuotation> {
                                 onTap: () {
                                   allProdCtrlObj.isDirectCheckout = false;
                                   allProdCtrlObj.update();
-                                  Get.to(CheckOutPage(
-                                    isReceipt: false,
-                                  ));
+                                  Get.to(() => CheckOutPage(isReceipt: false));
                                   // showDialog(
                                   //   context: context,
                                   //   builder: (context) => AlertDialog(

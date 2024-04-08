@@ -71,12 +71,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
   }
 
   void closeCheckoutPage() {
-    Get.to(TabsPage());
+    // Get.to(() => TabsPage());
     // if (_appScreenCtrlObj.getHomeCurrentSidePageSection.toString() ==
     //     'CheckOutPage') {
     //   _appScreenCtrlObj.setHomeCurrentSidePageSection(CartPage());
     // } else {
-    //   Get.back();
+    Get.back();
     // }
   }
 
