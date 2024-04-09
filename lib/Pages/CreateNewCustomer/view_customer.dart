@@ -196,7 +196,7 @@ class _ViewCustomerState extends State<ViewCustomer> {
                                             salesOrderData: allSalesCtrlObj
                                                 .allSaleOrders!
                                                 .saleOrdersData[index],
-                                          ),
+                                           ),
                                         );
                                       }
                                     },
