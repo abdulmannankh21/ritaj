@@ -372,7 +372,7 @@ class AllProductsController extends GetxController {
   //   return Get.find<TaxController>().isInlineTaxEnable &&
   //       taxType == "inclusive" ;
   // }
-  double calculatingProductAmountForUnit({required int index}) {
+  String calculatingProductAmountForUnit({required int index}) {
     // var productPrice = productModelObjs[index].taxType == "inclusive"
     //     ?
     // var productPrice = isProductPriceInclusiveTax('${productModelObjs[index].taxType}') ?
@@ -387,7 +387,7 @@ class AllProductsController extends GetxController {
                 '${productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') *
             double.parse(checkUnitsActualBaseMultiplier(
                     unitName: unitListStatus[index]) ??
-                '1.00'))).roundToDouble();
+                '1.00'))).toStringAsFixed(1);
   }
 
   String calculatingStock({required int index}) {
@@ -1337,8 +1337,8 @@ class AllProductsController extends GetxController {
 // doubleToStringUpTo2 is not using for round off its just want to use in view
   // function to get total payable amount
   String getPayableFinalTotalAmount() {
-    return AppFormat.doubleToStringUpTo2(
-            '${finalTotal.roundToDouble() - calculatingTotalDiscount()}') ??
+    return (
+            '${(finalTotal - calculatingTotalDiscount()).toStringAsFixed(2)}') ??
         '0';
   }
 }

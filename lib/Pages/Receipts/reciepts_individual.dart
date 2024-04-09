@@ -198,7 +198,7 @@ class _individualReceiptsState extends State<individualReceipts> {
                                 .paymentStatus]);
                             final saleOrder = allSalesCtrlObj
                                 .allSaleOrders!.saleOrdersData[index];
-                            String name = contactCtrlObj.id!;
+                            String name = contactCtrlObj.contactId!;
                             print('nameCtrl.text => ${contactCtrlObj.id}');
                             print(
                                 'saleOrder.contact.name => ${saleOrder.contactId}');

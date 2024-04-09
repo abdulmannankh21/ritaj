@@ -240,9 +240,8 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
 
                                                 allProdCtrlObj
                                                         .productsAmount[index] =
-                                                    allProdCtrlObj
-                                                        .calculatingProductAmountForUnit(
-                                                            index: index);
+                                                    double.parse(allProdCtrlObj.calculatingProductAmountForUnit(index: index));
+
                                                 // debugPrint(allProdCtrlObj
                                                 //     .totalAmount[index]);
                                                 // debugPrint(allProdCtrlObj
@@ -478,7 +477,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
         allProdCtrlObj.finalTotal = 0.00;
         allProdCtrlObj.productsAmount[index] =
             // created function to calculate the value Qty * (price * unit)
-            allProdCtrlObj.calculatingProductAmountForUnit(index: index);
+        double.parse(allProdCtrlObj.calculatingProductAmountForUnit(index: index));
         allProdCtrlObj.calculateFinalAmount();
         debugPrint(
             'Product Amount After all Calculation --->> ${allProdCtrlObj.productsAmount[index]}');
@@ -495,7 +494,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
       allProdCtrlObj.finalTotal = 0.00;
       allProdCtrlObj.productsAmount[index] =
           // created function to calculate the value Qty * (price * unit)
-          allProdCtrlObj.calculatingProductAmountForUnit(index: index);
+          double.parse(allProdCtrlObj.calculatingProductAmountForUnit(index: index));
 
       debugPrint(
           'Product Amount After all Calculation --->> ${allProdCtrlObj.productsAmount[index]}');

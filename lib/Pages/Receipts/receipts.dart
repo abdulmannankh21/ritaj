@@ -71,7 +71,7 @@ class _ReceiptsState extends State<Receipts> {
 
   Future<void> refreshReceipts() async {
     await allSalesCtrl.callFirstOrderPage(
-        globalSearch: contactCtrl.id);
+        globalSearch: contactCtrl.contactId);
     // await allSalesCtrlObj.callFirstOrderPageForReceipt();
     setState(() {
       receiptsCtrl.totalAmount = '0';
@@ -199,13 +199,15 @@ class _ReceiptsState extends State<Receipts> {
                             //     .paymentStatus]);
                             final saleOrder = allSalesCtrlObj
                                 .allSaleOrders!.saleOrdersData[index];
-                            String name = contactCtrl.id!;
+                            String name = contactCtrl.contactId!;
 
                             // print(name);
                             // print(name == saleOrder.contact!.name);
-                            // print(saleOrder.contact!.name);
+                            // print(saleOrder.contact!.id);
+                            print(saleOrder);
 
-                            if (name != saleOrder.contactId) {
+                            if (name != saleOrder.contact?.contactId) {
+
                               return SizedBox();
                             }
 

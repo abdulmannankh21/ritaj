@@ -667,7 +667,7 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
             ? Text('total'.tr, style: _headingTextStyle)
             : Text(
                 AppFormat.doubleToStringUpTo2(
-                        '${(double.parse(widget.salesOrderData?.sellLines[index].unitPriceIncTax ?? '0') * double.parse(widget.salesOrderData?.sellLines[index].quantity.toString() ?? '0')).roundToDouble()}') ??
+                        '${(double.parse(widget.salesOrderData?.sellLines[index].unitPriceIncTax ?? '0') * double.parse(widget.salesOrderData?.sellLines[index].quantity.toString() ?? '0')).round()}') ??
                     '0.00',
                 // Get.find<ProductCartController>().totalItemPrice(
                 //     order.sellLines[index].unitPriceIncTax,
