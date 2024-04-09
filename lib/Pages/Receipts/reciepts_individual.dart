@@ -198,12 +198,12 @@ class _individualReceiptsState extends State<individualReceipts> {
                                 .paymentStatus]);
                             final saleOrder = allSalesCtrlObj
                                 .allSaleOrders!.saleOrdersData[index];
-                            String name = contactCtrlObj.contactId!;
+                            String name = contactCtrlObj.nameCtrl.text;
                             print('nameCtrl.text => ${contactCtrlObj.id}');
                             print(
                                 'saleOrder.contact.name => ${saleOrder.contactId}');
 
-                            if (saleOrder.contactId != name) {
+                            if (saleOrder.contact?.name != name) {
                               return SizedBox();
                             }
                             return IntrinsicHeight(
