@@ -83,6 +83,17 @@ class ContactController extends GetxController {
   TextEditingController trnCtrl = TextEditingController();
   TextEditingController licenseCtrl = TextEditingController();
 
+  void setSelectedContactData(ContactDataModel contactDetails) {
+    id = contactDetails.id.toString();
+    contactId = contactId;
+    update();
+    searchCustomerCtrl.text =
+        '${contactDetails.name} (${contactDetails.contactId})';
+    mobileNumberCtrl.text = contactDetails.mobile ?? '';
+    nameCtrl.text = contactDetails.name ?? '';
+    businessNameCtrl.text = contactDetails.supplierBusinessName ?? '';
+  }
+
   ///Ending
 
   // Customer Search

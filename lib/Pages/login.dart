@@ -81,6 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(
                         width: 300,
                         child: AppFormField(
+                          keyboardType: TextInputType.visiblePassword,
                           isPasswordField: true,
                           labelText: 'password'.tr,
                           validator: (String? v) {

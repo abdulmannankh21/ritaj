@@ -17,12 +17,14 @@ import '../SalesView/SalesViewDetails/individual_sale_view.dart';
 class ViewCustomer extends StatefulWidget {
   final String id;
   final String? customerName;
+  final String? businessSupplyName;
   final bool isSalesReturn;
 
   const ViewCustomer({
     super.key,
     required this.id,
     required this.customerName,
+    required this.businessSupplyName,
     this.isSalesReturn = false,
   });
 
@@ -39,7 +41,7 @@ class _ViewCustomerState extends State<ViewCustomer> {
   @override
   void initState() {
     // Get.find<AllProductsController>().fetchAllProducts();
-    allSalesCtrl.callFirstOrderPage(globalSearch: widget.customerName);
+    allSalesCtrl.callFirstOrderPage();
     scrollControllerLis();
     super.initState();
   }
@@ -73,7 +75,9 @@ class _ViewCustomerState extends State<ViewCustomer> {
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        title: Text('${widget.customerName ?? contactCtrlObj.nameCtrl.text}'),
+        title: Text(
+          '${widget.businessSupplyName ?? contactCtrlObj.businessNameCtrl.text}',
+        ),
       ),
       body: Column(
         children: [
@@ -166,8 +170,7 @@ class _ViewCustomerState extends State<ViewCustomer> {
                   builder: (AllSalesController allSalesCtrlObj) {
                     return RefreshIndicator(
                       onRefresh: () async {
-                        await allSalesCtrlObj.callFirstOrderPage(
-                            globalSearch: widget.customerName);
+                        await allSalesCtrlObj.callFirstOrderPage();
                       },
                       child: Scrollbar(
                         controller: _pastOrdersScrollCtrl,
@@ -196,7 +199,7 @@ class _ViewCustomerState extends State<ViewCustomer> {
                                             salesOrderData: allSalesCtrlObj
                                                 .allSaleOrders!
                                                 .saleOrdersData[index],
-                                           ),
+                                          ),
                                         );
                                       }
                                     },

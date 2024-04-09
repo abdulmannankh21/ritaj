@@ -218,7 +218,7 @@ class AllProductsController extends GetxController {
     // names.add('Pieces');
     // names.add('Plate');
     names.add(checkUnits(product: product));
-    for (int i = 0; i < unitListModel!.data!.length; i++) {
+    for (int i = 0; i < (unitListModel?.data?.length ?? 0); i++) {
       // if (unitListModel?.data?[i].baseUnitId == product?.unitId)
       if (unitListModel?.data?[i].baseUnitId != null) {
         if (product?.unitId == unitListModel?.data?[i].baseUnitId) {
@@ -382,12 +382,13 @@ class AllProductsController extends GetxController {
     //     : productModelObjs[index].
     // productVariations?.first.variations?.first.defaultSellPrice;
     return (double.parse(
-            '${productQuantityCtrl[index].text.isEmpty ? '0.00' : productQuantityCtrl[index].text}') *
-        (double.parse(
-                '${productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') *
-            double.parse(checkUnitsActualBaseMultiplier(
-                    unitName: unitListStatus[index]) ??
-                '1.00'))).toStringAsFixed(1);
+                '${productQuantityCtrl[index].text.isEmpty ? '0.00' : productQuantityCtrl[index].text}') *
+            (double.parse(
+                    '${productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') *
+                double.parse(checkUnitsActualBaseMultiplier(
+                        unitName: unitListStatus[index]) ??
+                    '1.00')))
+        .toStringAsFixed(1);
   }
 
   String calculatingStock({required int index}) {
@@ -1334,11 +1335,11 @@ class AllProductsController extends GetxController {
 
     return itemsDiscountCount;
   }
+
 // doubleToStringUpTo2 is not using for round off its just want to use in view
   // function to get total payable amount
   String getPayableFinalTotalAmount() {
-    return (
-            '${(finalTotal - calculatingTotalDiscount()).toStringAsFixed(2)}') ??
+    return ('${(finalTotal - calculatingTotalDiscount()).toStringAsFixed(2)}') ??
         '0';
   }
 }

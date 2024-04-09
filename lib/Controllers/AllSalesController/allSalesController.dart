@@ -151,6 +151,9 @@ class AllSalesController extends GetxController {
           '?page=$page'
           '&per_page=20'
           '${globalSearch != null ? '&global_search=$globalSearch' : ''}'
+          '${Get.find<ContactController>().id != null ? '&contact_id=${Get.find<ContactController>().id}' : ''}'
+          '${AppStorage.getLoggedUserData()!.staffUser.isAdmin! ? '&created_by=${AppStorage.getLoggedUserData()?.staffUser.id}' : ''}'
+          '&business_id=${AppStorage.getBusinessDetailsData()?.businessData?.id}'
           '&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}',
     ).then((_res) {
       if (_res == null) return null;
@@ -226,12 +229,12 @@ class AllSalesController extends GetxController {
   }
 
   // initial order page load function
-  callFirstOrderPage({String? globalSearch}) async {
+  callFirstOrderPage() async {
     allSaleOrdersPage = 1;
     isFirstLoadRunning.value = true;
     hasNextPage = true;
     isLoadMoreRunning.value = false;
-    await fetchAllSalesList(page: 1, globalSearch: globalSearch);
+    await fetchAllSalesList(page: 1);
     isFirstLoadRunning.value = false;
     update();
   }
@@ -288,9 +291,12 @@ class AllSalesController extends GetxController {
     return await ApiServices.getMethod(
       feedUrl: '${ApiUrls.allOrders}'
           '?page=$_page'
-          '&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}'
-          '&per_page=500'
-          '&global_search=${contactCtrlObj.nameCtrl.text.isNotEmpty ? contactCtrlObj.nameCtrl.text : ''}',
+          '&per_page=20'
+          // '&global_search=${contactCtrlObj.nameCtrl.text.isNotEmpty ? contactCtrlObj.nameCtrl.text : ''}'
+          '${Get.find<ContactController>().id != null ? '&contact_id=${Get.find<ContactController>().id}' : ''}'
+          '${AppStorage.getLoggedUserData()!.staffUser.isAdmin! ? '&created_by=${AppStorage.getLoggedUserData()?.staffUser.id}' : ''}'
+          '&business_id=${AppStorage.getBusinessDetailsData()?.businessData?.id}'
+          '&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}',
     ).then((_res) {
       if (_res == null) return null;
       final _data = saleOrderModelFromJson(_res);

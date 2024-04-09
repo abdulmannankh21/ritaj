@@ -331,7 +331,7 @@ class _CustomerSearchState extends State<CustomerSearch> {
                                     .customerContacts?.contactDataList.length ??
                                 0,
                             itemBuilder: (context, index) {
-                              var contactDetails = contactCtrlObj
+                              ContactDataModel contactDetails = contactCtrlObj
                                   .customerContacts!.contactDataList[index];
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -340,16 +340,9 @@ class _CustomerSearchState extends State<CustomerSearch> {
                                     onTap: () {
                                       //  Get.close(0);
 
-                                      contactCtrlObj.id =
-                                          contactDetails.id.toString();
-                                      contactCtrlObj.contactId =
-                                          contactDetails.contactId;
-                                      contactCtrlObj.searchCustomerCtrl.text =
-                                          '${contactDetails.name} (${contactDetails.contactId})';
-                                      contactCtrlObj.mobileNumberCtrl.text =
-                                          contactDetails.mobile ?? '';
-                                      contactCtrlObj.nameCtrl.text =
-                                          contactDetails.name ?? '';
+                                      contactCtrlObj.setSelectedContactData(
+                                          contactDetails);
+
                                       if (widget.dashBoardId == 1) {
                                         // Get.to(ShowCustomerDetails(
                                         //     contactApi: contactCtrlObj
@@ -357,15 +350,20 @@ class _CustomerSearchState extends State<CustomerSearch> {
                                         //         .contactDataList[index]
                                         //         .id
                                         //         .toString()));
-                                        Get.to(() => ViewCustomer(
-                                              id: contactDetails.id.toString(),
-                                              customerName: contactDetails.name,
-                                            ));
+                                        Get.to(
+                                          () => ViewCustomer(
+                                            id: contactDetails.id.toString(),
+                                            customerName: contactDetails.name,
+                                            businessSupplyName: contactDetails
+                                                .supplierBusinessName,
+                                          ),
+                                        );
                                       } else if (widget.dashBoardId == 2) {
                                         Get.to(() => CreateOrderPage());
                                       } else if (widget.dashBoardId == 3) {
-                                        Get.to(() =>
-                                            SalesView(isSalesReturn: true));
+                                        Get.to(
+                                          () => SalesView(isSalesReturn: true),
+                                        );
                                         // Get.to(Return());
                                       } else if (widget.dashBoardId == 4) {
                                         Get.to(() => Receipts());
@@ -382,7 +380,7 @@ class _CustomerSearchState extends State<CustomerSearch> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 15, vertical: 10),
                                         child: Text(
-                                          '${contactDetails.supplierBusinessName != null ? contactDetails.supplierBusinessName : contactDetails.name}'
+                                          '${contactDetails.supplierBusinessName ?? contactDetails.name}'
                                           ' (${contactDetails.contactId})',
                                         ),
                                       ),
