@@ -427,7 +427,7 @@ class AllProductsController extends GetxController {
     // productVariations?.first.variations?.first.sellPriceIncTax
     //     : selectedProducts[i].
     // productVariations?.first.variations?.first.defaultSellPrice;
-    return '${double.parse(AppFormat.doubleToStringUpTo2('${double.parse('${selectedProducts[i].productVariations?.first.variations?.first.sellPriceIncTax ?? 0.0}') * double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')}') ?? '0.00') * double.parse(selectedQuantityList[i])}';
+    return '${double.parse(AppFormat.doubleToStringUpTo2('${double.parse('${selectedProducts[i].productVariations?.first.variations?.first.sellPriceIncTax ?? 0.0}') * double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]).toStringAsFixed(2) ?? '1.00')}') ?? '0.00') * double.parse(selectedQuantityList[i])}';
   }
 
   //
@@ -572,7 +572,7 @@ class AllProductsController extends GetxController {
         _fields['variation_id[$i]'] =
             '${selectedProducts[i].productVariations?.first.variations?.first.id}';
         _fields['quantity[$i]'] =
-            '${double.parse(selectedQuantityList[i]) * double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')}'; //
+            '${(double.parse(selectedQuantityList[i]) * double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')).toStringAsFixed(1)}';  //
         _fields['line_discount_type[$i]'] = 'fixed';
         _fields['unit_price_before_discount[$i]'] =
             // calculatingProductAmountAfterTaxForOrder(i: i);

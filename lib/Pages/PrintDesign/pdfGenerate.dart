@@ -316,7 +316,7 @@ class PrintData extends StatelessWidget {
                           padding: pw.EdgeInsets.symmetric(horizontal: 2.5),
                           child: pw.Text(
                             AppFormat.doubleToStringUpTo2(
-                                    '${double.parse(calculatingUnitPrice(index: index)!) * calculatingQty(index: index)}') ??
+                                    '${double.parse(calculatingUnitPrice(index: index)!) * double.parse(calculatingQty(index: index))}') ??
                                 '',
                             //  '${double.parse(saleOrderDataModel.sellLines[index].unitPriceIncTax ?? '0.00') * double.parse('${saleOrderDataModel.sellLines[index].quantity}')}',
                             textAlign: pw.TextAlign.right,
@@ -437,7 +437,7 @@ class PrintData extends StatelessWidget {
       print(
         'Item Tax After Calculation --->>> ${Get.find<TaxController>().inlineTaxAmountForPDF(
           saleOrderDataModel?.sellLines[i].taxId,
-          '${double.parse(calculatingUnitPrice(index: i)!) * calculatingQty(index: i)}',
+          '${double.parse(calculatingUnitPrice(index: i)!) * double.parse(calculatingQty(index: i))}',
         )}',
       );
       // totalTax +=
@@ -448,7 +448,7 @@ class PrintData extends StatelessWidget {
       totalTax +=
           double.parse('${Get.find<TaxController>().inlineTaxAmountForPDF(
                 saleOrderDataModel?.sellLines[i].taxId,
-                '${double.parse(calculatingUnitPrice(index: i)!) * calculatingQty(index: i)}',
+                '${double.parse(calculatingUnitPrice(index: i)!) * double.parse(calculatingQty(index: i))}',
               ).toStringAsFixed(2)}');
 
       // // (double.parse('${saleOrderDataModel?.sellLines[i].itemTax}'))
@@ -500,14 +500,14 @@ class PrintData extends StatelessWidget {
     }
   }
 
-  double calculatingQty({required int index}) {
+  String calculatingQty({required int index}) {
     try {
-      return double.parse('${saleOrderDataModel?.sellLines[index].quantity}') /
+      return (double.parse('${saleOrderDataModel?.sellLines[index].quantity}') /
           double.parse(
             '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[index].subUnitId)}',
-          );
+          )).toStringAsFixed(1);
     } catch (e) {
-      return 0.00;
+      return "0.00";
     }
   }
 
