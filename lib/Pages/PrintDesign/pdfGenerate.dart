@@ -340,9 +340,11 @@ class PrintData extends StatelessWidget {
             children: [
               pw.SizedBox(height: 15),
               finalDetails(
-                txt1: 'Subtotal:',
-                txt2:
-                    '${AppFormat.doubleToStringUpTo2('${double.parse('${saleOrderDataModel.totalBeforeTax}') /* - totalItemsTax()*/}')}',
+                // txt1: 'Subtotal:',
+                txt1: 'Total:',
+                txt2:                    '${AppFormat.doubleToStringUpTo2(saleOrderDataModel.finalTotal)}',
+
+                // '${AppFormat.doubleToStringUpTo2('${double.parse('${saleOrderDataModel.totalBeforeTax}') /* - totalItemsTax()*/}')}',
               ),
               pw.SizedBox(height: 5),
               finalDetails(

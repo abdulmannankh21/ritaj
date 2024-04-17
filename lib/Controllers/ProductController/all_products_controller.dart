@@ -561,7 +561,8 @@ class AllProductsController extends GetxController {
     _fields['shipping_charges'] =
         '${productCtrlCtrlObj.shippingChargeCtrl.text.isNotEmpty ? productCtrlCtrlObj.shippingChargeCtrl.text : '0'}';
     _fields['is_suspend'] = '0';
-    _fields['total_before_tax'] = '${subTotalAmount()}';
+    // _fields['total_before_tax'] = '${subTotalAmount()}';
+    _fields['total_before_tax'] = getPayableFinalTotalAmount();
     // request.fields['discount_type'] = 'Fixed';
     _fields['tax_amount'] = '${taxCtrlObj.orderTaxAmount}';
     for (int i = 0; i < selectedProducts.length; i++) {
@@ -1092,7 +1093,8 @@ class AllProductsController extends GetxController {
     _fields['status'] = 'final';
     _fields['type'] = 'sell';
     // payment sy related kam
-    _fields['total_before_tax'] = subTotalAmount();
+    // _fields['total_before_tax'] = subTotalAmount();
+    _fields['total_before_tax'] = '${finalTotal - calculatingTotalDiscount()}';
     _fields['tax_amount'] = ''; //'${taxCtrlObj.orderTaxAmount}';
     if (orderCtrlObj.singleOrderData?.taxId != null)
       _fields['tax_rate__id'] = '${orderCtrlObj.singleOrderData?.taxId}';

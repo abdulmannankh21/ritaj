@@ -529,7 +529,9 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
     // Total Items
     cTxt1: 'Items: ${selectedSaleOrderData?.sellLines.length}',
     cTxt2: 'Sub Total:'
-        ' ${AppFormat.doubleToStringUpTo2('${double.parse('${selectedSaleOrderData?.totalBeforeTax}') /* - totalItemsTax()*/}')}',
+    //     ' ${AppFormat.doubleToStringUpTo2('${double.parse('${selectedSaleOrderData?.totalBeforeTax}') /* - totalItemsTax()*/
+    // }')}',
+    '${AppFormat.doubleToStringUpTo2('${selectedSaleOrderData?.finalTotal}')}',
   );
 
   // Discount

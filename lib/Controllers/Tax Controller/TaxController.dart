@@ -190,10 +190,13 @@ class TaxController extends GetxController {
     } else {
       productPrice = itemProduct
           .productVariations?.first.variations?.first.defaultSellPrice;
-
-      return ((double.parse('$productPrice')) *
-          double.parse('${itemProduct.productTax?.amount ?? 0.00}') /
-          (100 + double.parse('${itemProduct.productTax?.amount ?? 0.00}')));
+//exclusive formula without tax
+      return ((double.parse('$productPrice'))  /
+          100 ) * double.parse('${itemProduct.productTax?.amount ?? 0.00}');
+      //inclusive ka formula ha inline ka
+      // return ((double.parse('$productPrice')) *
+      //     double.parse('${itemProduct.productTax?.amount ?? 0.00}') /
+      //     (100 + double.parse('${itemProduct.productTax?.amount ?? 0.00}')));
     }
   }
 
