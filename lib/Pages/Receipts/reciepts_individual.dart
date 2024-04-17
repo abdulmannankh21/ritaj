@@ -171,8 +171,7 @@ class _individualReceiptsState extends State<individualReceipts> {
             builder: (AllSalesController allSalesCtrlObj) {
               return RefreshIndicator(
                 onRefresh: () async {
-                  await allSalesCtrlObj.callFirstOrderPage(
-                      globalSearch: contactCtrlObj.id);
+                  await allSalesCtrlObj.callFirstOrderPage();
                   // await allSalesCtrlObj.callFirstOrderPageForReceipt();
                   setState(() {
                     receiptsCtrl.totalAmount = '0';

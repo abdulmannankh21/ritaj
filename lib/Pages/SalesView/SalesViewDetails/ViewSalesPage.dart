@@ -94,15 +94,26 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            title: Text(
-              '${widget.salesOrderData?.invoiceNo ?? ''}',
-              style: AppTextStyles.style13w500,
+            title: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    Get.find<ContactController>().businessNameCtrl.text,
+                    style: AppTextStyles.style13w500,
+                  ),
+                ),
+                Text(
+                  '${widget.salesOrderData?.invoiceNo ?? ''}',
+                  style: AppTextStyles.style13w500,
+                ),
+              ],
             ),
             // subtitle: Text(
-            //   (order.serviceStaff?.firstName ?? '') +
+            //   (widget.salesOrderData?.serviceStaff?.firstName ?? '') +
             //       ' ' +
-            //       (order.serviceStaff?.lastName ?? '') +
-            //       ' | ${AppFormat.ddMMM12h(order.createdAt)}',
+            //       (widget.salesOrderData?.serviceStaff?.lastName ?? '') +
+            //       // ' | ${AppFormat.ddMMM12h(widget.salesOrderData.createdAt)}'
+            //   ,
             //   style: Theme.of(context)
             //       .textTheme
             //       .headline6!
@@ -120,9 +131,12 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
                 //     ],
                 //   ),
                 // ),
-                AppStyles.p2p5(CustomerInfo(
+                AppStyles.p2p5(
+                  CustomerInfo(
                     '${widget.salesOrderData?.contact?.name ?? ''}',
-                    widget.salesOrderData?.transactionDate)),
+                    widget.salesOrderData?.transactionDate,
+                  ),
+                ),
               ],
             ),
           ),
@@ -609,28 +623,30 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
           child: isHeading
               ? Text('qty'.tr.toUpperCase(), style: _headingTextStyle)
               : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
                       //'${order.sellLines[index].quantity}',
-            ' ${calculatingQty(index: index)}',
-            // '${widget.salesOrderData?.sellLines[index].quantity ?? ''}',
+                      ' ${calculatingQty(index: index)}',
+                      // '${widget.salesOrderData?.sellLines[index].quantity ?? ''}',
                       style: Theme.of(context)
                           .textTheme
                           .headlineMedium!
-                          .copyWith(fontWeight: FontWeight.w500, fontSize: 15.0),
+                          .copyWith(
+                              fontWeight: FontWeight.w500, fontSize: 15.0),
                     ),
-                  Text(
-                    //'${order.sellLines[index].quantity}',
-                    '/${Get.find<AllProductsController>().checkUnitsShortName(unitId: widget.salesOrderData?.sellLines[index].subUnitId)}',
-                    // '${widget.salesOrderData?.sellLines[index].quantity ?? ''}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineMedium!
-                        .copyWith(fontWeight: FontWeight.w500, fontSize: 15.0),
-                  ),
-                ],
-              ),
+                    Text(
+                      //'${order.sellLines[index].quantity}',
+                      '/${Get.find<AllProductsController>().checkUnitsShortName(unitId: widget.salesOrderData?.sellLines[index].subUnitId)}',
+                      // '${widget.salesOrderData?.sellLines[index].quantity ?? ''}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium!
+                          .copyWith(
+                              fontWeight: FontWeight.w500, fontSize: 15.0),
+                    ),
+                  ],
+                ),
         ),
 
         /// TODO: all mark functionality implementation is remaining.
@@ -649,12 +665,12 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
               : Text(
                   // AppFormat.doubleToStringUpTo2(
                   //         order.sellLines[index].unitPriceIncTax) ??
-            '${calculatingUnitPrice(index: index)}',
+                  '${calculatingUnitPrice(index: index)}',
 
-            // AppFormat.doubleToStringUpTo2(
-            //             '${widget.salesOrderData?.sellLines[index].unitPriceIncTax ?? ''}',
-            //           ) ??
-            //           '0',
+                  // AppFormat.doubleToStringUpTo2(
+                  //             '${widget.salesOrderData?.sellLines[index].unitPriceIncTax ?? ''}',
+                  //           ) ??
+                  //           '0',
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall!
@@ -680,15 +696,16 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
       ],
     );
   }
+
   String? calculatingUnitPrice({required int index}) {
     // var productPrice = saleOrderDataModel?.sellLines[index].product!.taxType == 'inclusive' ?
     // saleOrderDataModel?.sellLines[index].unitPriceIncTax : saleOrderDataModel?.sellLines[index].unitPrice;
     try {
       return AppFormat.doubleToStringUpTo2(
         (double.parse(
-            '${widget.salesOrderData?.sellLines[index].unitPriceIncTax}') *
-            double.parse(
-                '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: widget.salesOrderData?.sellLines[index].subUnitId)}'))
+                    '${widget.salesOrderData?.sellLines[index].unitPriceIncTax}') *
+                double.parse(
+                    '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: widget.salesOrderData?.sellLines[index].subUnitId)}'))
             .toString(),
       );
     } catch (e) {
@@ -696,14 +713,14 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
     }
   }
 
-  double calculatingQty({required int index}) {
+  String? calculatingQty({required int index}) {
     try {
-      return double.parse('${widget.salesOrderData?.sellLines[index].quantity}') /
-          double.parse(
-            '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: widget.salesOrderData?.sellLines[index].subUnitId)}',
-          );
+      return AppFormat.doubleToStringUpTo2(
+          '${double.parse('${widget.salesOrderData?.sellLines[index].quantity}') / double.parse(
+                '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: widget.salesOrderData?.sellLines[index].subUnitId)}',
+              )}');
     } catch (e) {
-      return 0.00;
+      return '0.00';
     }
   }
 }
@@ -747,5 +764,4 @@ class _OrderSelectionBoxState extends State<OrderSelectionBox> {
       },
     );
   }
-
 }

@@ -9,8 +9,10 @@ import '/Models/order_type_model/SellLineModel.dart';
 import '/Models/order_type_model/payment_line_model.dart';
 import '/Services/api_services.dart';
 import '/Services/api_urls.dart';
+import '../../../Controllers/ContactController/ContactController.dart';
 import '../../../Controllers/OrderController/order_type_controller.dart';
 import '../../../Controllers/exception_controller.dart';
+import '../../../Services/storage_services.dart';
 import '../../Stocks/ViewStockAdjustment/viewStockAdjustment.dart';
 import '../../Stocks/ViewStockTransfer/viewStockTransfer.dart';
 
@@ -50,8 +52,16 @@ class OrderController extends GetxController {
     print('========================================');
     print('Function calling');
     return await ApiServices.getMethod(
-            feedUrl: '${ApiUrls.allOrders}?page=$_page&per_page=20')
-        .then((_res) {
+      feedUrl: '${ApiUrls.allOrders}'
+          '?page=$_page'
+          '&per_page=20'
+          '${Get.find<ContactController>().id != null ? '&contact_id=${Get.find<ContactController>().id}' : ''}'
+          '${AppStorage.getLoggedUserData()!.staffUser.isAdmin! ? '&created_by=${AppStorage.getLoggedUserData()?.staffUser.id}' : ''}'
+          '&business_id=${AppStorage.getBusinessDetailsData()?.businessData?.id}'
+          '&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}'
+      // '${globalSearch != null ? '&global_search=$globalSearch' : ''}'
+      ,
+    ).then((_res) {
       if (_res == null) return null;
       final _data = saleOrderModelFromJson(_res);
       if (_page > 1 && allSaleOrders != null) {
