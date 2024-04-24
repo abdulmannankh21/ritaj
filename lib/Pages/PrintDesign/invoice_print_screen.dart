@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import '../CreateOrder/selectionDialogue.dart';
 
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ import '/Theme/style.dart';
 import '../../Controllers/AllPrinterController/allPrinterController.dart';
 import '../../Services/storage_services.dart';
 import '../../const/dimensions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // class CustomPrintPaperSize {
 //   const CustomPrintPaperSize._internal(this.value);
@@ -56,6 +58,7 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
   String ipAddress = '';
   String port = '9100';
   bool isZebra = false;
+  bool isDialogShown = false;
   final TextEditingController _ipController = TextEditingController();
   final TextEditingController _portController = TextEditingController();
   bool _searchingMode = true;
@@ -64,6 +67,7 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
   void initState() {
     if (Platform.isWindows) allPrinterCtrl.defaultPrinterType = PrinterType.usb;
     super.initState();
+    loadIsDialogShown();
     zebraPrintCheck();
     _portController.text = port;
     allPrinterCtrl.scan();
@@ -137,6 +141,20 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
     }
     allPrinterCtrl.selectedPrinters = device;
     setState(() {});
+  }
+
+  Future<void> loadIsDialogShown() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      // Retrieve the value of isDialogShown from SharedPreferences
+      isDialogShown = prefs.getBool('isDialogShown') ?? false;
+    });
+  }
+
+  Future<void> saveIsDialogShown(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // Save the value of isDialogShown to SharedPreferences
+    await prefs.setBool('isDialogShown', value);
   }
 
   @override
@@ -279,7 +297,7 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                           allPrinterCtrlObj.selectedPaperSize, profile);
                       // bytes += generator.text('Retail App Print');
                       print(Get.find<AllProductsController>().receiptPayment);
-                      if (widget.isPrintReceipt == true) {
+                      if (widget.isPrintReceipt) {
                         print('Inside receipt print screen');
                         bytes = await posReceiptLayout(
                           generator,
@@ -299,10 +317,46 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
 
                       print(allPrinterCtrlObj.bluetoothDevices[index].address);
                       print(allPrinterCtrlObj.bluetoothDevices[index].port);
-                      Get.offAll(TabsPage());
+                      // Get.offAll(() => TabsPage());
                       setState(() {
                         _searchingMode = false;
                       });
+                      loadIsDialogShown();
+                      if (!isDialogShown) {
+                        setState(() {
+                          isDialogShown = true;
+                        });
+                        await Get.dialog(
+                          barrierDismissible: false,
+                          Dialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    Dimensions.radiusSmall)),
+                            insetPadding:
+                                EdgeInsets.all(Dimensions.paddingSizeSmall),
+                            child: CustomerCopyDialogue(
+                                // callback: () {
+                                //   debugPrint('Selection Dialog Callback');
+                                // },
+                                ),
+                          ),
+                        ).then((isCustomerCopyDone) {
+                          if (isCustomerCopyDone != null &&
+                              isCustomerCopyDone) {
+                            Get.offAll(() => TabsPage());
+                          }
+
+                        });
+                        // Save the updated value of isDialogShown to SharedPreferences
+                        saveIsDialogShown(true);
+                      } else {
+                        // If the dialog has already been shown, simply navigate back
+                        // Get.back();
+                        // Get.back();
+                        // Get.back();
+                        Get.offAll(() => TabsPage());
+
+                      }
                     },
                     child: Stack(children: [
                       Column(

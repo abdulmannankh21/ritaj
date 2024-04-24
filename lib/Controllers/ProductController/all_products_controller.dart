@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../../Pages/CreateOrder/selectionDialogue.dart';
 import '/Config/app_format.dart';
 import '/Config/utils.dart';
 import '/Controllers/ProductController/product_cart_controller.dart';
@@ -667,7 +668,7 @@ class AllProductsController extends GetxController {
 
       if (response == null) {
         stopProgress();
-        Get.offAll(TabsPage());
+        // Get.offAll(() => TabsPage());
         showToast('Error occurred');
         return;
       }
@@ -678,12 +679,13 @@ class AllProductsController extends GetxController {
 
         stopProgress();
         showToast('Finalize Created Successfully');
+
         receiptPayment = false;
         update();
-        if (isPDFView == false) {
+        if (!isPDFView) {
           print('inside print invoice');
 
-          Get.dialog(Dialog(
+          await Get.dialog(Dialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
             insetPadding: EdgeInsets.all(Dimensions.paddingSizeSmall),
@@ -695,9 +697,9 @@ class AllProductsController extends GetxController {
         print(
             'Sale Order Data Model Sell Lines --> ${salesOrderModel?.sellLines.first.product?.name}');
 
-        if (isPDFView == true) {
-          Get.offAll(TabsPage());
-          Get.to(PrintData(
+        if (isPDFView) {
+          Get.offAll(() => TabsPage());
+          Get.to(() => PrintData(
             salesView: false,
             saleOrderDataModel: salesOrderModel,
           ));
@@ -900,7 +902,7 @@ class AllProductsController extends GetxController {
 
       if (response == null) {
         stopProgress();
-        Get.offAll(() => TabsPage());
+        // Get.offAll(() => TabsPage());
         showToast('Unable to complete the action. Response Issue!');
         return false;
       }
@@ -1234,7 +1236,7 @@ class AllProductsController extends GetxController {
 
       if (response == null) {
         stopProgress();
-        Get.offAll(TabsPage());
+        // Get.offAll(TabsPage());
         showToast('Error occurred');
         return;
       }
@@ -1263,7 +1265,7 @@ class AllProductsController extends GetxController {
             'Sale Order Data Model Sell Lines --> ${salesOrderModel?.sellLines.first.product?.name}');
 
         if (isPDFView == true) {
-          Get.offAll(TabsPage());
+          // Get.offAll(TabsPage());
           Get.to(PrintData(
             salesView: false,
             saleOrderDataModel: salesOrderModel,

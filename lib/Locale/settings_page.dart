@@ -152,7 +152,7 @@ class _SettingsState extends State<Settings> {
                   Get.updateLocale(Locale('ro', 'RO'));
                 }
                 if (widget.allowToNaviGate)
-                  Get.offAll(LoginPage()); //TableSelectionPage());
+                  Get.offAll(() => LoginPage()); //TableSelectionPage());
                 else {
                   Get.back();
                 }

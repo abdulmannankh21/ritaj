@@ -70,7 +70,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
     super.initState();
   }
 
-  void closeCheckoutPage() {
+  void _closeCheckoutPage() {
     // Get.to(() => TabsPage());
     // if (_appScreenCtrlObj.getHomeCurrentSidePageSection.toString() ==
     //     'CheckOutPage') {
@@ -121,7 +121,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                     children: [
                       Expanded(
                         child: CustomButton(
-                          onTap: closeCheckoutPage,
+                          onTap: _closeCheckoutPage,
                           bgColor: Colors.redAccent,
                           btnTxt: 'close'.tr,
                           borderRadius: 0,

@@ -353,7 +353,7 @@ class AllPrinterController extends GetxController {
         if (kDebugMode) {
           print('------$currentStatus');
         }
-        Get.offAll(TabsPage());
+        // Get.offAll(TabsPage());
         printerManager.send(type: bluetoothPrinter.typePrinter, bytes: bytes);
         pendingTask = null;
       } catch (_) {}

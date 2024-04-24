@@ -203,7 +203,8 @@ class _ViewCustomerState extends State<ViewCustomer> {
                                         );
                                       }
                                     },
-                                    child: SalesViewTile(
+                                    child:
+                                    SalesViewTile(
                                       pastOrder: allSalesCtrlObj
                                           .allSaleOrders!.saleOrdersData[index],
                                     )),
