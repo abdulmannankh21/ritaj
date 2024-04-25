@@ -317,46 +317,47 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
 
                       print(allPrinterCtrlObj.bluetoothDevices[index].address);
                       print(allPrinterCtrlObj.bluetoothDevices[index].port);
-                      // Get.offAll(() => TabsPage());
+                      Get.offAll(() => TabsPage());
                       setState(() {
                         _searchingMode = false;
                       });
-                      loadIsDialogShown();
-                      if (!isDialogShown) {
-                        setState(() {
-                          isDialogShown = true;
-                        });
-                        await Get.dialog(
-                          barrierDismissible: false,
-                          Dialog(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    Dimensions.radiusSmall)),
-                            insetPadding:
-                                EdgeInsets.all(Dimensions.paddingSizeSmall),
-                            child: CustomerCopyDialogue(
-                                // callback: () {
-                                //   debugPrint('Selection Dialog Callback');
-                                // },
-                                ),
+                      await Get.dialog(
+                        barrierDismissible: false,
+                        Dialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  Dimensions.radiusSmall)),
+                          insetPadding:
+                          EdgeInsets.all(Dimensions.paddingSizeSmall),
+                          child: CustomerCopyDialogue(
+                            // callback: () {
+                            //   debugPrint('Selection Dialog Callback');
+                            // },
                           ),
-                        ).then((isCustomerCopyDone) {
-                          if (isCustomerCopyDone != null &&
-                              isCustomerCopyDone) {
-                            Get.offAll(() => TabsPage());
-                          }
+                        ),
+                      ).then((isCustomerCopyDone) {
+                        if (isCustomerCopyDone != null &&
+                            isCustomerCopyDone) {
+                          Get.offAll(() => TabsPage());
+                        }
 
-                        });
-                        // Save the updated value of isDialogShown to SharedPreferences
-                        saveIsDialogShown(true);
-                      } else {
-                        // If the dialog has already been shown, simply navigate back
-                        // Get.back();
-                        // Get.back();
-                        // Get.back();
-                        Get.offAll(() => TabsPage());
-
-                      }
+                      });
+                      // loadIsDialogShown();
+                      // if (!isDialogShown) {
+                      //   setState(() {
+                      //     isDialogShown = true;
+                      //   });
+                      //
+                      //   // Save the updated value of isDialogShown to SharedPreferences
+                      //   saveIsDialogShown(true);
+                      // } else {
+                      //   // If the dialog has already been shown, simply navigate back
+                      //   // Get.back();
+                      //   // Get.back();
+                      //   // Get.back();
+                      //   Get.offAll(() => TabsPage());
+                      //
+                      // }
                     },
                     child: Stack(children: [
                       Column(

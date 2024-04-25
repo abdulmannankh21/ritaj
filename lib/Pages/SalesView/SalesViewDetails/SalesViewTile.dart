@@ -88,7 +88,7 @@ class SalesViewTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomerInfo(
-                  '${pastOrder.contact?.name}', pastOrder.transactionDate),
+                  '${pastOrder.contact?.supplierBusinessName}', pastOrder.transactionDate),
               //if (pastOrder.totalAmountRecovered != null)
               AmountInfo(
                 amount: '${pastOrder.totalPaid ?? '0.00'}',

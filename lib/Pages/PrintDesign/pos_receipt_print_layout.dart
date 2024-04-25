@@ -268,6 +268,9 @@ Future<List<int>> posReceiptLayout(
         : null,
   );
   bytes += cl2(
+    cTxt1:'Company: ${singleReceiptModel?.first.contact?.supplierBusinessName ?? ''}',
+  );
+  bytes += cl2(
     cTxt1:
         'Salesman: ${singleReceiptModel?.first.salesPerson?.firstName ?? ''}',
     // Invoice Number
