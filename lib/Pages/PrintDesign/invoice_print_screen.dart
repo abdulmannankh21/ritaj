@@ -318,9 +318,7 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                       print(allPrinterCtrlObj.bluetoothDevices[index].address);
                       print(allPrinterCtrlObj.bluetoothDevices[index].port);
                       Get.offAll(() => TabsPage());
-                      setState(() {
-                        _searchingMode = false;
-                      });
+
                       await Get.dialog(
                         barrierDismissible: false,
                         Dialog(
@@ -341,6 +339,9 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                           Get.offAll(() => TabsPage());
                         }
 
+                      });
+                      setState(() {
+                        _searchingMode = false;
                       });
                       // loadIsDialogShown();
                       // if (!isDialogShown) {
