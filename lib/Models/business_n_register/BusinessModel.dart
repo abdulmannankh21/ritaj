@@ -1216,7 +1216,7 @@ class BankTransfer {
     this.account,
   });
 
-  final String? isEnabled;
+  final dynamic isEnabled;
   final String? account;
 
   factory BankTransfer.fromJson(Map<String, dynamic> json) => BankTransfer(

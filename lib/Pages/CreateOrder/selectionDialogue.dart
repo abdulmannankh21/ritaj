@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '/Pages/Tabs/View/TabsPage.dart';
 
+import '/Pages/Tabs/View/TabsPage.dart';
 import '/Theme/colors.dart';
 import '/Theme/style.dart';
 import '../../Components/custom_circular_button.dart';
@@ -91,7 +91,6 @@ class _SelectionDialogueState extends State<SelectionDialogue> {
                     allProdCtrlObj.addSelectedItemsInList();
                     print('->> for Create Order');
                     allProdCtrlObj.orderCreate();
-
                   }
 
                   if (isActionCompleted) {
@@ -114,7 +113,6 @@ class _SelectionDialogueState extends State<SelectionDialogue> {
   }
 }
 
-
 class CustomerCopyDialogue extends StatefulWidget {
   final Function()? callback;
   const CustomerCopyDialogue({this.callback, Key? key}) : super(key: key);
@@ -125,7 +123,7 @@ class CustomerCopyDialogue extends StatefulWidget {
 
 class _CustomerCopyDialogueState extends State<CustomerCopyDialogue> {
   final AllProductsController allProdCtrlObj =
-  Get.find<AllProductsController>();
+      Get.find<AllProductsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +172,6 @@ class _CustomerCopyDialogueState extends State<CustomerCopyDialogue> {
                   //   }
                   // }
                   Get.offAll(() => TabsPage());
-
                 },
                 title: Text(
                   'Cancel',
@@ -191,14 +188,12 @@ class _CustomerCopyDialogueState extends State<CustomerCopyDialogue> {
                     allProdCtrlObj.isPDFView = false;
                     allProdCtrlObj.receiptPayment = true;
                     isActionCompleted = await allProdCtrlObj.addReceipt();
-                  }
-                  else if (allProdCtrlObj.isUpdate) {
+                  } else if (allProdCtrlObj.isUpdate) {
                     print('->> for Update Order');
                     allProdCtrlObj.isPDFView = false;
                     // allProdCtrlObj.addSelectedItemsInList();
                     allProdCtrlObj.updateOrder();
-                  }
-                  else {
+                  } else {
                     allProdCtrlObj.isPDFView = false;
                     // allProdCtrlObj.addSelectedItemsInList();
                     print('->> for Create Order');
@@ -211,7 +206,6 @@ class _CustomerCopyDialogueState extends State<CustomerCopyDialogue> {
                       widget.callback!();
                     }
                   }
-
                 },
                 title: Text(
                   'Print Customer Copy',

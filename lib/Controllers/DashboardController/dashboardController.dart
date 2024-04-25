@@ -77,7 +77,6 @@ class DashboardController extends GetxController {
       ];
       print(namesData);
       print(' record${_res}');
-      stopProgress();
       update();
     }).onError((error, stackTrace) async {
       debugPrint('Error => $error');

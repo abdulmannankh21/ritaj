@@ -27,7 +27,7 @@ class AppConfig {
   static String scope = "";
 
   /// For AE
-  // Client Access Token & ID
+  // // Client Access Token & ID
   // static String clientId = "8";
   // // static String clientId = "1";
   // // static String clientSecret = "vq0BFIMp8w2aQAZsrhtLm9Wnl7TXxde9Va3W9uWj";
@@ -38,7 +38,7 @@ class AppConfig {
   // static String socketBaseUrl = "https://manage.bizmodo.ae:8008";
 
   /// For IO
-  // // Client Access Token & ID
+  // Client Access Token & ID
   static String clientId = "12";
   static String clientSecret = "GA4KPGEzIAl2C5yndKldgB0paAzGC2f3t2vp5Qg2";
   // API base url

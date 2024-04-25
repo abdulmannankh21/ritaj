@@ -13,7 +13,6 @@ import '/Controllers/ProductController/PaymentController.dart';
 import '/Controllers/ProductController/all_products_controller.dart';
 import '/Controllers/ProductController/product_cart_controller.dart';
 import '/Controllers/ReceiptsController/receiptsController.dart';
-import '/Pages/Tabs/View/TabsPage.dart';
 import '/Theme/style.dart';
 import '/const/dimensions.dart';
 import '../CreateOrder/selectionDialogue.dart';
@@ -146,11 +145,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                         Dimensions.radiusSmall)),
                                 insetPadding:
                                     EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                child: SelectionDialogue(
-                                  callback: () {
-                                    debugPrint('Selection Dialog Callback');
-                                  },
-                                ),
+                                child: SelectionDialogue(),
                               ),
                             ).then((isDone) {
                               if (isDone != null && isDone) {

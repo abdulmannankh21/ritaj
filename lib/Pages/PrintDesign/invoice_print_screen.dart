@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-import '../CreateOrder/selectionDialogue.dart';
 
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '/Components/custom_circular_button.dart';
 import '/Config/utils.dart';
@@ -19,7 +19,7 @@ import '/Theme/style.dart';
 import '../../Controllers/AllPrinterController/allPrinterController.dart';
 import '../../Services/storage_services.dart';
 import '../../const/dimensions.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../CreateOrder/selectionDialogue.dart';
 
 // class CustomPrintPaperSize {
 //   const CustomPrintPaperSize._internal(this.value);
@@ -236,6 +236,31 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
             ]),
             // Text("${allPrinterCtrlObj.selectedPaperSize.width}"),
             const SizedBox(height: Dimensions.paddingSizeSmall),
+            // ElevatedButton(
+            //   child: Text('print tab action bypass'),
+            //   onPressed: () async {
+            //     setState(() {
+            //       _searchingMode = false;
+            //     });
+            //     Get.offAll(() => TabsPage());
+            //
+            //     await Get.dialog(
+            //       barrierDismissible: false,
+            //       Dialog(
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius:
+            //               BorderRadius.circular(Dimensions.radiusSmall),
+            //         ),
+            //         insetPadding: EdgeInsets.all(Dimensions.paddingSizeSmall),
+            //         child: CustomerCopyDialogue(),
+            //       ),
+            //     ).then((isCustomerCopyDone) {
+            //       if (isCustomerCopyDone != null && isCustomerCopyDone) {
+            //         Get.back();
+            //       }
+            //     });
+            //   },
+            // ),
             ListView.builder(
               itemCount: allPrinterCtrlObj.bluetoothDevices.length,
               shrinkWrap: true,
@@ -315,6 +340,10 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                         allPrinterCtrlObj.printEscPos(bytes, generator);
                       }
 
+                      setState(() {
+                        _searchingMode = false;
+                      });
+
                       print(allPrinterCtrlObj.bluetoothDevices[index].address);
                       print(allPrinterCtrlObj.bluetoothDevices[index].port);
                       Get.offAll(() => TabsPage());
@@ -326,23 +355,19 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                               borderRadius: BorderRadius.circular(
                                   Dimensions.radiusSmall)),
                           insetPadding:
-                          EdgeInsets.all(Dimensions.paddingSizeSmall),
+                              EdgeInsets.all(Dimensions.paddingSizeSmall),
                           child: CustomerCopyDialogue(
-                            // callback: () {
-                            //   debugPrint('Selection Dialog Callback');
-                            // },
-                          ),
+                              // callback: () {
+                              //   debugPrint('Selection Dialog Callback');
+                              // },
+                              ),
                         ),
                       ).then((isCustomerCopyDone) {
-                        if (isCustomerCopyDone != null &&
-                            isCustomerCopyDone) {
-                          Get.offAll(() => TabsPage());
+                        if (isCustomerCopyDone != null && isCustomerCopyDone) {
+                          Get.back();
                         }
+                      });
 
-                      });
-                      setState(() {
-                        _searchingMode = false;
-                      });
                       // loadIsDialogShown();
                       // if (!isDialogShown) {
                       //   setState(() {
