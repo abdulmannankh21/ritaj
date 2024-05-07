@@ -47,10 +47,10 @@ class AppFormat {
     return double.tryParse(number)?.toStringAsFixed(2);
   }
 
-  // static String? doubleToStringUpTo1(String? number) {
-  //   if (number == null) return null;
-  //   return double.tryParse(number)?.toStringAsFixed(1);
-  // }
+  static String? doubleToStringUpTo1(String? number) {
+    if (number == null) return null;
+    return double.tryParse(number)?.toStringAsFixed(1);
+  }
 
   static String removeArabic(String text) {
     final arabicPattern = RegExp(

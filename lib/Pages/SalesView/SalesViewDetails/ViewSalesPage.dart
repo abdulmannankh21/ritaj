@@ -683,7 +683,7 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
             ? Text('total'.tr, style: _headingTextStyle)
             : Text(
                 AppFormat.doubleToStringUpTo2(
-                        '${(double.parse(widget.salesOrderData?.sellLines[index].unitPriceIncTax ?? '0') * double.parse(widget.salesOrderData?.sellLines[index].quantity.toString() ?? '0')).round()}') ??
+                        '${(double.parse(widget.salesOrderData?.sellLines[index].unitPriceIncTax ?? '0') * double.parse(widget.salesOrderData?.sellLines[index].quantity.toString() ?? '0')).toStringAsFixed(2)}') ??
                     '0.00',
                 // Get.find<ProductCartController>().totalItemPrice(
                 //     order.sellLines[index].unitPriceIncTax,
@@ -715,7 +715,7 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
 
   String? calculatingQty({required int index}) {
     try {
-      return AppFormat.doubleToStringUpTo2(
+      return AppFormat.doubleToStringUpTo1(
           '${double.parse('${widget.salesOrderData?.sellLines[index].quantity}') / double.parse(
                 '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: widget.salesOrderData?.sellLines[index].subUnitId)}',
               )}');

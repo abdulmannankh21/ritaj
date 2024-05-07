@@ -40,9 +40,11 @@ import '../CreateOrder/selectionDialogue.dart';
 
 class InVoicePrintScreen extends StatefulWidget {
   final bool isPrintReceipt;
+  final bool isPrintCustomer;
 
   InVoicePrintScreen({
     Key? key,
+    this.isPrintCustomer = false,
     this.isPrintReceipt = false,
   }) : super(key: key);
 
@@ -91,7 +93,7 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
   zebraPrintCheck() async {
     // SharedPreferences prefs = await SharedPreferences.getInstance();
     // isZebra = prefs.getBool('zebraPrinter')!;
-    isZebra = AppStorage.getZebraPrinter();
+    // isZebra = AppStorage.getZebraPrinter();
   }
 
   @override
@@ -347,26 +349,28 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                       print(allPrinterCtrlObj.bluetoothDevices[index].address);
                       print(allPrinterCtrlObj.bluetoothDevices[index].port);
                       Get.offAll(() => TabsPage());
-
-                      await Get.dialog(
-                        barrierDismissible: false,
-                        Dialog(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  Dimensions.radiusSmall)),
-                          insetPadding:
-                              EdgeInsets.all(Dimensions.paddingSizeSmall),
-                          child: CustomerCopyDialogue(
-                              // callback: () {
-                              //   debugPrint('Selection Dialog Callback');
-                              // },
+                      if(!widget.isPrintCustomer)
+                       await Get.dialog(
+                              // barrierDismissible: false,
+                              Dialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        Dimensions.radiusSmall)),
+                                insetPadding:
+                                    EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                child: CustomerCopyDialogue(
+                                    // callback: () {
+                                    //   debugPrint('Selection Dialog Callback');
+                                    // },
+                                    ),
                               ),
-                        ),
-                      ).then((isCustomerCopyDone) {
-                        if (isCustomerCopyDone != null && isCustomerCopyDone) {
-                          Get.back();
-                        }
-                      });
+                            ).then((isCustomerCopyDone) {
+                              if (isCustomerCopyDone != null &&
+                                  isCustomerCopyDone) {
+                                // AppStorage.removeCutomerCopy();
+                                Get.back();
+                              }
+                            });
 
                       // loadIsDialogShown();
                       // if (!isDialogShown) {

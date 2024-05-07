@@ -23,7 +23,7 @@ class AppMenuPage extends StatefulWidget {
 }
 
 class _AppMenuPageState extends State<AppMenuPage> {
-  bool isSwitched = AppStorage.getZebraPrinter();
+  // bool isSwitched = AppStorage.getZebraPrinter();
 
   final String supportNumber = "+971504059006";
 

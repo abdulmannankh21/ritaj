@@ -23,7 +23,7 @@ class AppStorage {
   static String printerDataStorageKey = "printers";
   static String printInvoiceTitleStorageKey = "printInvoiceTitle";
   static String printedInvoiceOrderIDsStorageKey = "printedInvoiceOrderIDs";
-  static String zebraPrinterCheck = "zebraPrinter";
+  static String customerCopyCheck = "CustomerCopy";
 
   static Future<void> _write(String key, dynamic value) async {
     await box.write(key, value);
@@ -206,16 +206,34 @@ class AppStorage {
   }
 
   /// Zebra Printer enabled or not
-  static setZebraPrinter(bool value) async {
-    await box.write(AppStorage.zebraPrinterCheck, value);
+  // static setZebraPrinter(bool value) async {
+  //   await box.write(AppStorage.zebraPrinterCheck, value);
+  // }
+  //
+  // static bool getZebraPrinter() {
+  //   try {
+  //     return box.read(AppStorage.zebraPrinterCheck) ?? false;
+  //   } catch (e) {
+  //     logger.e('Error => $e');
+  //     return false;
+  //   }
+  // }
+
+
+  static setCutomerCopy(bool value) async {
+    await box.write(AppStorage.customerCopyCheck, value);
   }
 
-  static bool getZebraPrinter() {
+  static bool getCutomerCopy() {
     try {
-      return box.read(AppStorage.zebraPrinterCheck) ?? false;
+      return box.read(AppStorage.customerCopyCheck) ?? false;
     } catch (e) {
       logger.e('Error => $e');
       return false;
     }
+  }
+
+  static removeCutomerCopy() async {
+    await box.remove(AppStorage.customerCopyCheck);
   }
 }

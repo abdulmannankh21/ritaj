@@ -510,7 +510,7 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
         // Item Quantity
         cTxt3:
             // '${double.parse('${selectedSaleOrderData?.sellLines[index].quantity}') / double.parse('${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: selectedSaleOrderData?.sellLines[index].subUnitId)}')} ${Get.find<AllProductsController>().checkUnitsShortName(unitId: selectedSaleOrderData?.sellLines[index].subUnitId)}',
-            ' ${calculatingQty(index: index)}/${Get.find<AllProductsController>().checkUnitsShortName(unitId: selectedSaleOrderData?.sellLines[index].subUnitId)}',
+            ' ${double.parse(calculatingQty(index: index).toStringAsFixed(1))}/${Get.find<AllProductsController>().checkUnitsShortName(unitId: selectedSaleOrderData?.sellLines[index].subUnitId)}',
         // Price
 
         cTxt4: '${calculatingUnitPrice(index: index)}',
@@ -549,7 +549,8 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   bytes += cl2(
     cTxt1: '',
     cTxt2: 'Tax (VAT):'
-        '${selectedSaleOrderData?.totalItemLineTax}',
+        '${selectedSaleOrderData!.totalItemLineTax}',
+        // '${double.parse(selectedSaleOrderData!.totalItemLineTax!.toStringAsFixed(2))}',
         // ' ${Get.find<TaxController>().checkTaxName(taxId: selectedSaleOrderData?.taxId)}(${Get.find<TaxController>().checkTaxAmount(taxId: selectedSaleOrderData?.taxId)}%)'
         // '  ${totalItemsTax()}',
   );
