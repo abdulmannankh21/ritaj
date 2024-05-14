@@ -342,9 +342,9 @@ class PrintData extends StatelessWidget {
               finalDetails(
                 // txt1: 'Subtotal:',
                 txt1: 'Total:',
-                txt2:                    '${AppFormat.doubleToStringUpTo2(saleOrderDataModel.finalTotal)}',
-
-                // '${AppFormat.doubleToStringUpTo2('${double.parse('${saleOrderDataModel.totalBeforeTax}') /* - totalItemsTax()*/}')}',
+                // txt2:                    '${AppFormat.doubleToStringUpTo2(saleOrderDataModel.finalTotal)}',
+                txt2:
+                    '${AppFormat.doubleToStringUpTo2('${double.parse('${saleOrderDataModel.totalBeforeTax}') /* - totalItemsTax()*/}')}',
               ),
               pw.SizedBox(height: 5),
               finalDetails(
@@ -503,9 +503,10 @@ class PrintData extends StatelessWidget {
   String calculatingQty({required int index}) {
     try {
       return (double.parse('${saleOrderDataModel?.sellLines[index].quantity}') /
-          double.parse(
-            '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[index].subUnitId)}',
-          )).toStringAsFixed(1);
+              double.parse(
+                '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[index].subUnitId)}',
+              ))
+          .toStringAsFixed(1);
     } catch (e) {
       return "0.00";
     }

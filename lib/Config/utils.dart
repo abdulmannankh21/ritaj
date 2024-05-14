@@ -16,7 +16,7 @@ showToast(String msg) async {
       fontSize: 16.0);
 }
 
-showProgress({bool dismissible = true}) {
+showProgress({bool dismissible = false}) {
   Get.defaultDialog(
     title: 'loading'.tr,
     content: Container(
