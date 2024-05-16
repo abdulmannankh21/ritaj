@@ -11,7 +11,7 @@ class Product {
   String? type;
   int? unitId;
   dynamic secondaryUnitId;
-  String? subUnitIds;
+  List? subUnitIds;
   int? brandId;
   int? categoryId;
   int? subCategoryId;
