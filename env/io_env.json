@@ -1,0 +1,6 @@
+{
+  "clientId": "12",
+  "clientSecret": "GA4KPGEzIAl2C5yndKldgB0paAzGC2f3t2vp5Qg2",
+  "baseUrl": "https://manage.bizmodo.io/",
+  "socketBaseUrl": "https://manage.bizmodo.io:8006"
+}

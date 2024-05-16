@@ -170,112 +170,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
 
                                     // Unit
                                     if (allProdCtrlObj.nestedist.isNotEmpty)
-                                      Container(
-                                        // height:
-                                        //     MediaQuery.of(context).size.height *
-                                        //         0.06,
-                                        //width: MediaQuery.of(context).size.width,
-                                        child: DropdownButtonHideUnderline(
-                                          child: DropdownButton2(
-                                            isExpanded: true,
-                                            hint: Align(
-                                                alignment: AlignmentDirectional
-                                                    .centerStart,
-                                                child: Text(
-                                                  'Select',
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                )),
-                                            items: allProdCtrlObj.nestedist[
-                                                    index] //unitStatusList()
-                                                .map((String items) {
-                                              return DropdownMenuItem(
-                                                value: items,
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 10.0),
-                                                  child: Text(
-                                                    items,
-                                                    style:
-                                                        TextStyle(fontSize: 10),
-                                                  ),
-                                                ),
-                                              );
-                                            }).toList(),
-                                            value: allProdCtrlObj
-                                                .unitListStatus[index],
-                                            dropdownWidth:
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.2,
-                                            dropdownDecoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(5)),
-                                            dropdownMaxHeight:
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.7,
-                                            dropdownPadding:
-                                                EdgeInsets.only(left: 5),
-                                            buttonPadding: EdgeInsets.only(
-                                                left: 10, right: 10),
-                                            onChanged: (String? value) {
-                                              setState(() {
-                                                allProdCtrlObj
-                                                        .unitListStatus[index] =
-                                                    value!;
-
-                                                allProdCtrlObj
-                                                            .unitListStatusIds[
-                                                        index] =
-                                                    allProdCtrlObj
-                                                        .checkSelectedUnitsIds(
-                                                            unitName: value);
-
-                                                allProdCtrlObj
-                                                        .productsAmount[index] =
-                                                    double.parse(allProdCtrlObj.calculatingProductAmountForUnit(index: index));
-
-                                                // debugPrint(allProdCtrlObj
-                                                //     .totalAmount[index]);
-                                                // debugPrint(allProdCtrlObj
-                                                //     .unitListStatus[index]);
-
-                                                allProdCtrlObj
-                                                    .calculateFinalAmount();
-                                                allProdCtrlObj.update();
-                                              });
-                                            },
-                                            // buttonHeight: 40,
-                                            buttonWidth: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.27,
-                                            // buttonDecoration: BoxDecoration(
-                                            //     color: kWhiteColor,
-                                            //     border: Border.all(
-                                            //         width: 1,
-                                            //         color: Theme.of(context)
-                                            //             .colorScheme
-                                            //             .primary),
-                                            //     borderRadius:
-                                            //         BorderRadius.circular(15)),
-                                            // itemHeight: 40,
-                                            //icon: SizedBox(),
-                                            itemPadding: EdgeInsets.zero,
-                                            itemHighlightColor:
-                                                Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                          ),
-                                        ),
-                                      ),
+                                      unitSelectionWidget(index),
 
                                     // Stock
                                     Expanded(
@@ -463,6 +358,90 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
     );
   }
 
+  Widget unitSelectionWidget(int index) {
+    try {
+      // return SizedBox();
+      return Container(
+        // height:
+        //     MediaQuery.of(context).size.height *
+        //         0.06,
+        //width: MediaQuery.of(context).size.width,
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton2(
+            isExpanded: true,
+            hint: Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Text(
+                  'Select',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500),
+                )),
+            items: allProdCtrlObj.nestedist[index] //unitStatusList()
+                .map((String items) {
+              return DropdownMenuItem(
+                value: items,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Text(
+                    items,
+                    style: TextStyle(fontSize: 10),
+                  ),
+                ),
+              );
+            }).toList(),
+            value: allProdCtrlObj.unitListStatus[index],
+            dropdownWidth: MediaQuery.of(context).size.width * 0.2,
+            dropdownDecoration:
+                BoxDecoration(borderRadius: BorderRadius.circular(5)),
+            dropdownMaxHeight: MediaQuery.of(context).size.height * 0.7,
+            dropdownPadding: EdgeInsets.only(left: 5),
+            buttonPadding: EdgeInsets.only(left: 10, right: 10),
+            onChanged: (String? value) {
+              setState(() {
+                allProdCtrlObj.unitListStatus[index] = value!;
+
+                allProdCtrlObj.unitListStatusIds[index] =
+                    allProdCtrlObj.checkSelectedUnitsIds(unitName: value);
+
+                allProdCtrlObj.productsAmount[index] = double.parse(
+                    allProdCtrlObj.calculatingProductAmountForUnit(
+                        index: index));
+
+                // debugPrint(allProdCtrlObj
+                //     .totalAmount[index]);
+                // debugPrint(allProdCtrlObj
+                //     .unitListStatus[index]);
+
+                allProdCtrlObj.calculateFinalAmount();
+                allProdCtrlObj.update();
+              });
+            },
+            // buttonHeight: 40,
+            buttonWidth: MediaQuery.of(context).size.width * 0.27,
+            // buttonDecoration: BoxDecoration(
+            //     color: kWhiteColor,
+            //     border: Border.all(
+            //         width: 1,
+            //         color: Theme.of(context)
+            //             .colorScheme
+            //             .primary),
+            //     borderRadius:
+            //         BorderRadius.circular(15)),
+            // itemHeight: 40,
+            //icon: SizedBox(),
+            itemPadding: EdgeInsets.zero,
+            itemHighlightColor: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+      );
+    } catch (e) {
+      debugPrint('Unit Change Dropdown Error => $e');
+      return SizedBox();
+    }
+  }
+
   calculateAmountOnChangeQuantity(int index) {
     if (double.parse(
           '${allProdCtrlObj.productModelObjs[index].productVariationsDetails?.qtyAvailable ?? 0.00}',
@@ -477,7 +456,8 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
         allProdCtrlObj.finalTotal = 0.00;
         allProdCtrlObj.productsAmount[index] =
             // created function to calculate the value Qty * (price * unit)
-        double.parse(allProdCtrlObj.calculatingProductAmountForUnit(index: index));
+            double.parse(
+                allProdCtrlObj.calculatingProductAmountForUnit(index: index));
         allProdCtrlObj.calculateFinalAmount();
         debugPrint(
             'Product Amount After all Calculation --->> ${allProdCtrlObj.productsAmount[index]}');
@@ -494,7 +474,8 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
       allProdCtrlObj.finalTotal = 0.00;
       allProdCtrlObj.productsAmount[index] =
           // created function to calculate the value Qty * (price * unit)
-          double.parse(allProdCtrlObj.calculatingProductAmountForUnit(index: index));
+          double.parse(
+              allProdCtrlObj.calculatingProductAmountForUnit(index: index));
 
       debugPrint(
           'Product Amount After all Calculation --->> ${allProdCtrlObj.productsAmount[index]}');
