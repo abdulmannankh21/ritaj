@@ -344,7 +344,7 @@ class PrintData extends StatelessWidget {
                 txt1: 'Total:',
                 // txt2:                    '${AppFormat.doubleToStringUpTo2(saleOrderDataModel.finalTotal)}',
                 txt2:
-                    '${AppFormat.doubleToStringUpTo2('${double.parse('${saleOrderDataModel.totalBeforeTax}') /* - totalItemsTax()*/}')}',
+                    '${AppFormat.doubleToStringUpTo2('${double.parse('${saleOrderDataModel.totalBeforeTax}')  - double.parse(saleOrderDataModel.totalItemLineTax!.toStringAsFixed(2)) /* - totalItemsTax()*/}')}',
               ),
               pw.SizedBox(height: 5),
               finalDetails(
@@ -490,7 +490,7 @@ class PrintData extends StatelessWidget {
     try {
       return AppFormat.doubleToStringUpTo2(
         (double.parse(
-                    '${saleOrderDataModel?.sellLines[index].unitPriceIncTax}') *
+                    '${saleOrderDataModel?.sellLines[index].unitPrice}') *
                 double.parse(
                     '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: saleOrderDataModel?.sellLines[index].subUnitId)}'))
             .toString(),

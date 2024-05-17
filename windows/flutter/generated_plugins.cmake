@@ -6,7 +6,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   charset_converter
   flutter_pos_printer_platform
   geolocator_windows
-  network_info_plus
+  network_info_plus_windows
   printing
   url_launcher_windows
 )

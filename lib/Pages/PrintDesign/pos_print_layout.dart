@@ -528,11 +528,11 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   bytes += cl2(
     // Total Items
     cTxt1: 'Items: ${selectedSaleOrderData?.sellLines.length}',
-    cTxt2: 'Sub Total:' '${double.parse('${selectedSaleOrderData?.totalBeforeTax}',
+    cTxt2: 'Sub Total:' '${double.parse('${selectedSaleOrderData?.totalBeforeTax}' )- double.parse('${selectedSaleOrderData?.totalItemLineTax}' )}',
     //     ' ${AppFormat.doubleToStringUpTo2() /* - totalItemsTax()*/
     // }'
       //
-      )}',
+
     // '${AppFormat.doubleToStringUpTo2('${selectedSaleOrderData?.finalTotal}')}',
   );
 

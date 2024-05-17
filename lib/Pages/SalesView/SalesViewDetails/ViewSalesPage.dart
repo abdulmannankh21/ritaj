@@ -205,8 +205,13 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
                 ),
                 Text(
                   AppFormat.doubleToStringUpTo2(
+                      "${double.parse(
                         '${widget.salesOrderData?.totalBeforeTax ?? ''}',
-                      ) ??
+                      ) - double.parse(
+                        '${widget.salesOrderData?.totalItemLineTax ?? ''}',
+                      ) }"
+                  )
+                      ??
                       '',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
@@ -227,7 +232,7 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
                 Text(
                   AppFormat.doubleToStringUpTo2(
                         '${widget.salesOrderData?.discountAmount ?? ''}',
-                      ) ??
+                      )??
                       '',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
@@ -683,7 +688,7 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
             ? Text('total'.tr, style: _headingTextStyle)
             : Text(
                 AppFormat.doubleToStringUpTo2(
-                        '${(double.parse(widget.salesOrderData?.sellLines[index].unitPriceIncTax ?? '0') * double.parse(widget.salesOrderData?.sellLines[index].quantity.toString() ?? '0')).toStringAsFixed(2)}') ??
+                        '${(double.parse(widget.salesOrderData?.sellLines[index].unitPrice ?? '0') * double.parse(widget.salesOrderData?.sellLines[index].quantity.toString() ?? '0')).toStringAsFixed(2)}') ??
                     '0.00',
                 // Get.find<ProductCartController>().totalItemPrice(
                 //     order.sellLines[index].unitPriceIncTax,
@@ -703,7 +708,7 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
     try {
       return AppFormat.doubleToStringUpTo2(
         (double.parse(
-                    '${widget.salesOrderData?.sellLines[index].unitPriceIncTax}') *
+                    '${widget.salesOrderData?.sellLines[index].unitPrice}') *
                 double.parse(
                     '${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: widget.salesOrderData?.sellLines[index].subUnitId)}'))
             .toString(),
