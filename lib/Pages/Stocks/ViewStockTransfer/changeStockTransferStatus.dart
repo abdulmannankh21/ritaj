@@ -25,7 +25,8 @@ class _ChangeStockTransferStatusState extends State<ChangeStockTransferStatus> {
     List<String> optionsStatus = [];
     if (stockTranCtrlObj.statusListModel != null) {
       for (int i = 0; i < stockTranCtrlObj.statusListModel!.length; i++) {
-        optionsStatus.add('${stockTranCtrlObj.statusListModel?[i].value}');
+        stockTranCtrlObj.statusListModel?[i].value != "Completed"?
+        optionsStatus.add('${stockTranCtrlObj.statusListModel?[i].value}') :"";
       }
     }
 

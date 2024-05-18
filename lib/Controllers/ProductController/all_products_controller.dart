@@ -76,6 +76,7 @@ class AllProductsController extends GetxController {
     ).then((_res) {
       update();
       if (_res == null) return null;
+      print(_res);
       listProductsModel = listProductsModelFromJson(_res);
       print(listProductsModel?.data);
       showingAllItems();
@@ -382,14 +383,13 @@ class AllProductsController extends GetxController {
     // productVariations?.first.variations?.first.sellPriceIncTax
     //     : productModelObjs[index].
     // productVariations?.first.variations?.first.defaultSellPrice;
-    return (double.parse(
-                '${productQuantityCtrl[index].text.isEmpty ? '0.00' : productQuantityCtrl[index].text}') *
-            (double.parse(
-                    '${productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') *
-                double.parse(checkUnitsActualBaseMultiplier(
-                        unitName: unitListStatus[index]) ??
-                    '1.00')))
-        .toStringAsFixed(1);
+    return "${double.parse(
+        '${productQuantityCtrl[index].text.isEmpty ? '0.00' : productQuantityCtrl[index].text}') *
+        (double.parse(
+            '${productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') *
+            double.parse(checkUnitsActualBaseMultiplier(
+                unitName: unitListStatus[index]) ??
+                '1.00'))}";
   }
 
   String calculatingStock({required int index}) {

@@ -73,7 +73,9 @@ class _CreateStockTransferState extends State<CreateStockTransfer> {
     List<String> options = [];
     if (stockTranCtrlObj.statusListModel != null) {
       for (int i = 0; i < stockTranCtrlObj.statusListModel!.length; i++) {
-        options.add('${stockTranCtrlObj.statusListModel?[i].value}');
+        stockTranCtrlObj.statusListModel?[i].value != "Completed"?
+
+        options.add('${stockTranCtrlObj.statusListModel?[i].value}') :"";
       }
     }
 

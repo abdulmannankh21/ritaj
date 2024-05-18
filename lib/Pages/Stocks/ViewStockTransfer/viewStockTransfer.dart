@@ -43,6 +43,8 @@ class ViewStockTransfer extends StatelessWidget {
                           .viewStockTransferMoodel?.data.length ??
                       0,
                   itemBuilder: (context, index) {
+                    print(stockTransferCtrlObj
+                        .viewStockTransferMoodel?.data[index].status);
                     return (stockTransferCtrlObj.viewStockTransferMoodel
                                     ?.data[index].locationTo ==
                                 AppStorage.getBusinessDetailsData()

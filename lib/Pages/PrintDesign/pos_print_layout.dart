@@ -56,7 +56,7 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   calculatingUnitPrice({required int index}) {
     // var productPrice = selectedSaleOrderData?.sellLines[index].product!.taxType == 'inclusive' ?
     // selectedSaleOrderData?.sellLines[index].unitPriceIncTax : selectedSaleOrderData?.sellLines[index].unitPrice;
-    return '${AppFormat.doubleToStringUpTo2('${double.parse('${selectedSaleOrderData?.sellLines[index].unitPriceIncTax}') * double.parse('${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: selectedSaleOrderData?.sellLines[index].subUnitId)}')}')}';
+    return '${AppFormat.doubleToStringUpTo2('${double.parse('${selectedSaleOrderData?.sellLines[index].unitPrice}') * double.parse('${Get.find<AllProductsController>().checkUnitValueWithGivenId(idNumber: selectedSaleOrderData?.sellLines[index].subUnitId)}')}')}';
   }
 
   List<int> bytes = [];
@@ -528,7 +528,7 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   bytes += cl2(
     // Total Items
     cTxt1: 'Items: ${selectedSaleOrderData?.sellLines.length}',
-    cTxt2: 'Sub Total:' '${double.parse('${selectedSaleOrderData?.totalBeforeTax}' )- double.parse('${selectedSaleOrderData?.totalItemLineTax}' )}',
+    cTxt2: 'Sub Total:' "${AppFormat.doubleToStringUpTo2('${double.parse('${selectedSaleOrderData?.totalBeforeTax}' )- double.parse('${selectedSaleOrderData?.totalItemLineTax}' )}')}",
     //     ' ${AppFormat.doubleToStringUpTo2() /* - totalItemsTax()*/
     // }'
       //

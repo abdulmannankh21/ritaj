@@ -38,7 +38,8 @@ class _ViwStockTileState extends State<ViwStockTile> {
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
                   content: ChangeStockTransferStatus(
-                      id: widget.stockTransferData?.id),
+                      id: widget.stockTransferData?.id
+                  ),
                 ),
               );
             },
@@ -49,9 +50,11 @@ class _ViwStockTileState extends State<ViwStockTile> {
                 height: 35,
                 width: 140,
                 decoration: BoxDecoration(
-                  color: (widget.stockTransferData?.status == 'final')
+                  color:
+                  (widget.stockTransferData?.status == 'final')
                       ? Colors.green
-                      : (widget.stockTransferData?.status == 'pending')
+                      :
+                  (widget.stockTransferData?.status == 'pending')
                           ? Colors.red
                           : Colors.orange,
                   borderRadius: BorderRadius.only(
