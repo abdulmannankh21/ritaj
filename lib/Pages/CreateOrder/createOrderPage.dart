@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '/Components/custom_circular_button.dart';
@@ -16,6 +17,7 @@ import '/Services/storage_services.dart';
 import '/Theme/colors.dart';
 import '/Theme/style.dart';
 import '/const/dimensions.dart';
+import '../../Controllers/ProductController/PaymentController.dart';
 import '../SalesView/discount.dart';
 
 class CreateOrderPage extends StatefulWidget {
@@ -36,20 +38,22 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
   @override
   void initState() {
     allProdCtrlObj.finalTotal = 0.00;
-    if (widget.isUpdate == false) {
-      allProdCtrlObj.nestedist.clear();
-      allProdCtrlObj.productQuantityCtrl.clear();
-      allProdCtrlObj.selectedProducts.clear();
-      allProdCtrlObj.selectedUnitsList.clear();
-      allProdCtrlObj.unitListStatusIds.clear();
-      allProdCtrlObj.unitListStatus.clear();
-      allProdCtrlObj.selectedUnitsNames.clear();
-      allProdCtrlObj.fetchAllProducts();
+    if (!widget.isUpdate) {
+      allProdCtrlObj
+        ..nestedist.clear()
+        ..productQuantityCtrl.clear()
+        ..selectedProducts.clear()
+        ..selectedUnitsList.clear()
+        ..unitListStatusIds.clear()
+        ..unitListStatus.clear()
+        ..selectedUnitsNames.clear()
+        ..fetchAllProducts();
+      Get.find<PaymentController>().paymentWidgetList.clear();
     }
-
-    if (widget.isUpdate == true)
+    if (widget.isUpdate)
       allProdCtrlObj.finalTotal =
           double.parse('${widget.salesOrderData?.finalTotal ?? '0.00'}');
+
     allProdCtrlObj.addOrderedItemsQty(salesOrderData: widget.salesOrderData);
     Get.find<TaxController>().fetchListTax();
 
@@ -57,13 +61,14 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
   }
 
   void dispose() {
-    allProdCtrlObj.finalTotal = 0.00;
-    allProdCtrlObj.productsAmount.clear();
-    allProdCtrlObj.selectedQuantityList.clear();
-    allProdCtrlObj.selectedUnitsList.clear();
-    allProdCtrlObj.selectedProducts.clear();
-    allProdCtrlObj.productQuantityCtrl.clear();
-    allProdCtrlObj.listProductsModel = null;
+    allProdCtrlObj
+      ..finalTotal = 0.00
+      ..productsAmount.clear()
+      ..selectedQuantityList.clear()
+      ..selectedUnitsList.clear()
+      ..selectedProducts.clear()
+      ..productQuantityCtrl.clear()
+      ..listProductsModel = null;
     super.dispose();
   }
 
@@ -198,6 +203,14 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                             isColor: index.isEven
                                                 ? kWhiteColor
                                                 : Colors.transparent,
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                                    decimal: true,
+                                                    signed: false),
+                                            inputFormatterList: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r'^\d+(?:\.\d+)?$')),
+                                            ],
                                             // onEditingComp: (){
                                             //
                                             // },

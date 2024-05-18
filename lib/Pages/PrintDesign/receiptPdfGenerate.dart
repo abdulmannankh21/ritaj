@@ -134,29 +134,33 @@ class ReceiptPdfGenerate extends StatelessWidget {
           //             fontSize: 18, fontWeight: pw.FontWeight.bold))),
 
           pw.SizedBox(height: 10),
-          printBasicInfoWidget(
-              title: 'Customer Name: ',
-              titleVal: '${singleReceiptModel?.first.contact?.name}'),
-          pw.Row(
-              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-              children: [
-                printBasicInfoWidget(
-                    title: 'Salesman: ',
-                    titleVal:
-                        '${singleReceiptModel?.first.salesPerson?.firstName}'),
-                printBasicInfoWidget(
-                    title: 'Receipt Date: ',
-                    titleVal:
-                        '${AppFormat.dateYYYYMMDDHHMM24(singleReceiptModel?.first.transactionDate)}'),
-              ]),
+          if (singleReceiptModel != null && singleReceiptModel.isNotEmpty)
+            printBasicInfoWidget(
+                title: 'Customer Name: ',
+                titleVal: '${singleReceiptModel.first.contact?.name}'),
+          if (singleReceiptModel != null && singleReceiptModel.isNotEmpty)
+            pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  printBasicInfoWidget(
+                      title: 'Salesman: ',
+                      titleVal:
+                          '${singleReceiptModel.first.salesPerson?.firstName}'),
+                  printBasicInfoWidget(
+                      title: 'Receipt Date: ',
+                      titleVal:
+                          '${AppFormat.dateYYYYMMDDHHMM24(singleReceiptModel.first.transactionDate)}'),
+                ]),
           // printBasicInfoWidget(
           //     title: 'Invoice No: ',
           //     titleVal: '${singleReceiptModel?.invoiceNo ?? ''}'),
-          if (singleReceiptModel?.first.contact?.taxNumber != null)
+          if (singleReceiptModel != null &&
+              singleReceiptModel.isNotEmpty &&
+              singleReceiptModel.first.contact?.taxNumber != null)
             printBasicInfoWidget(
                 title: 'Customer Tax No: ',
                 titleVal:
-                    '${singleReceiptModel?.first.contact?.taxNumber ?? ''}'),
+                    '${singleReceiptModel.first.contact?.taxNumber ?? ''}'),
 
           pw.SizedBox(height: 10),
           pw.Divider(),

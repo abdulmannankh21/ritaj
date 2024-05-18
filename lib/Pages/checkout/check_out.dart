@@ -41,28 +41,18 @@ class _CheckOutPageState extends State<CheckOutPage> {
     _paymentCtrlObj.staffNoteCtrl.clear();
     try {
       // if payment widget list is empty then new payment fields widget add
-      if (_paymentCtrlObj.paymentWidgetList.isEmpty) {
-        _paymentCtrlObj.addPaymentWidget(
-          totalAmount: double.parse(
-                (Get.find<AllProductsController>().finalTotal != 0.00)
-                    ? '${Get.find<AllProductsController>().finalTotal ?? ''}'
-                    : '${Get.find<ReceiptsController>().totalAmount ?? ''}',
-              ) -
-              allProdCtrlObj.paidAmount -
-              allProdCtrlObj.calculatingTotalDiscount(),
-        );
-      } else if (_paymentCtrlObj.paymentWidgetList.isNotEmpty) {
+      if (_paymentCtrlObj.paymentWidgetList.isNotEmpty) {
         _paymentCtrlObj.paymentWidgetList.clear();
-        _paymentCtrlObj.addPaymentWidget(
-          totalAmount: double.parse(
-                (Get.find<AllProductsController>().finalTotal != 0.00)
-                    ? '${Get.find<AllProductsController>().finalTotal ?? ''}'
-                    : '${Get.find<ReceiptsController>().totalAmount ?? ''}',
-              ) -
-              allProdCtrlObj.paidAmount -
-              allProdCtrlObj.calculatingTotalDiscount(),
-        );
       }
+      _paymentCtrlObj.addPaymentWidget(
+        totalAmount: double.parse(
+              (Get.find<AllProductsController>().finalTotal != 0.00)
+                  ? '${Get.find<AllProductsController>().finalTotal ?? ''}'
+                  : '${Get.find<ReceiptsController>().totalAmount ?? ''}',
+            ) -
+            allProdCtrlObj.paidAmount -
+            allProdCtrlObj.calculatingTotalDiscount(),
+      );
     } catch (e) {
       logger.e('Error -> check_out -> initState -> addPaymentWidget => $e');
     }
@@ -149,6 +139,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               ),
                             ).then((isDone) {
                               if (isDone != null && isDone) {
+                                Get.find<PaymentController>()
+                                    .paymentWidgetList
+                                    .clear();
                                 Get.back(result: true);
                               }
                             });

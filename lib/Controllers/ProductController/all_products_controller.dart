@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../../Pages/CreateOrder/selectionDialogue.dart';
 import '/Config/app_format.dart';
 import '/Config/utils.dart';
 import '/Controllers/ProductController/product_cart_controller.dart';
@@ -383,13 +382,7 @@ class AllProductsController extends GetxController {
     // productVariations?.first.variations?.first.sellPriceIncTax
     //     : productModelObjs[index].
     // productVariations?.first.variations?.first.defaultSellPrice;
-    return "${double.parse(
-        '${productQuantityCtrl[index].text.isEmpty ? '0.00' : productQuantityCtrl[index].text}') *
-        (double.parse(
-            '${productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') *
-            double.parse(checkUnitsActualBaseMultiplier(
-                unitName: unitListStatus[index]) ??
-                '1.00'))}";
+    return "${double.parse('${productQuantityCtrl[index].text.isEmpty ? '0.00' : productQuantityCtrl[index].text}') * (double.parse('${productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') * double.parse(checkUnitsActualBaseMultiplier(unitName: unitListStatus[index]) ?? '1.00'))}";
   }
 
   String calculatingStock({required int index}) {
@@ -573,7 +566,7 @@ class AllProductsController extends GetxController {
         _fields['variation_id[$i]'] =
             '${selectedProducts[i].productVariations?.first.variations?.first.id}';
         _fields['quantity[$i]'] =
-            '${(double.parse(selectedQuantityList[i]) * double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')).toStringAsFixed(1)}';  //
+            '${(double.parse(selectedQuantityList[i]) * double.parse(checkUnitsActualBaseMultiplier(unitName: selectedUnitsNames[i]) ?? '1.00')).toStringAsFixed(1)}'; //
         _fields['line_discount_type[$i]'] = 'fixed';
         _fields['unit_price_before_discount[$i]'] =
             // calculatingProductAmountAfterTaxForOrder(i: i);
@@ -700,9 +693,9 @@ class AllProductsController extends GetxController {
         if (isPDFView) {
           Get.offAll(() => TabsPage());
           Get.to(() => PrintData(
-            salesView: false,
-            saleOrderDataModel: salesOrderModel,
-          ));
+                salesView: false,
+                saleOrderDataModel: salesOrderModel,
+              ));
           isPDFView = false;
         }
 
@@ -727,29 +720,31 @@ class AllProductsController extends GetxController {
   SaleOrderDataModel? salesOrderModel;
 
   void clearAllAddPaymentControllerInformation() {
-    paymentCtrlObj.amountCtrl.clear();
     receiptPayment = false;
-    paymentCtrlObj.transactionNoCtrl.clear();
-    paymentCtrlObj.checkNoCtrl.clear();
-    paymentCtrlObj.paymentNoteCtrl.clear();
-    paymentCtrlObj.paymentAccountCtrl.clear();
-    paymentCtrlObj.fileNameCtrl.clear();
-    paymentCtrlObj.paymentMethodCtrl.clear();
-    paymentCtrlObj.accountIdCtrl.clear();
     nestedist.clear();
     paidAmount = 0.00;
     unitListStatusIds.clear();
     unitListStatus.clear();
     selectedUnitsList.clear();
     selectedUnitsNames.clear();
-    for (int checkoutIndex = 0;
-        checkoutIndex < paymentCtrlObj.paymentWidgetList.length;
-        checkoutIndex++) {
-      paymentCtrlObj.paymentWidgetList[checkoutIndex].amountCtrl.clear();
-      paymentCtrlObj.paymentWidgetList[checkoutIndex].transactionNoCtrl.clear();
-      paymentCtrlObj.paymentWidgetList[checkoutIndex].checkNoCtrl.clear();
-      paymentCtrlObj.paymentWidgetList[checkoutIndex].paymentNoteCtrl.clear();
-    }
+    paymentCtrlObj
+      ..transactionNoCtrl.clear()
+      ..amountCtrl.clear()
+      ..checkNoCtrl.clear()
+      ..paymentNoteCtrl.clear()
+      ..paymentAccountCtrl.clear()
+      ..fileNameCtrl.clear()
+      ..paymentMethodCtrl.clear()
+      ..accountIdCtrl.clear()
+      ..paymentWidgetList.clear();
+    // for (int checkoutIndex = 0;
+    //     checkoutIndex < paymentCtrlObj.paymentWidgetList.length;
+    //     checkoutIndex++) {
+    //   paymentCtrlObj.paymentWidgetList[checkoutIndex].amountCtrl.clear();
+    //   paymentCtrlObj.paymentWidgetList[checkoutIndex].transactionNoCtrl.clear();
+    //   paymentCtrlObj.paymentWidgetList[checkoutIndex].checkNoCtrl.clear();
+    //   paymentCtrlObj.paymentWidgetList[checkoutIndex].paymentNoteCtrl.clear();
+    // }
   }
 
   void clearAllOtherFields() {
@@ -758,27 +753,29 @@ class AllProductsController extends GetxController {
     listProductsModel = null;
     paidAmount = 0.00;
     receiptPayment = false;
-    paymentCtrlObj.amountCtrl.clear();
-    paymentCtrlObj.transactionNoCtrl.clear();
-    paymentCtrlObj.paymentMethodCtrl.clear();
-    paymentCtrlObj.accountIdCtrl.clear();
-    paymentCtrlObj.paymentMethodCtrl.clear();
-    paymentCtrlObj.staffNoteCtrl.clear();
-    paymentCtrlObj.sellNoteCtrl.clear();
-    paymentCtrlObj.paymentNoteCtrl.clear();
     nestedist.clear();
     unitListStatusIds.clear();
     unitListStatus.clear();
     selectedUnitsList.clear();
     selectedUnitsNames.clear();
-    for (int checkoutIndex = 0;
-        checkoutIndex < paymentCtrlObj.paymentWidgetList.length;
-        checkoutIndex++) {
-      paymentCtrlObj.paymentWidgetList[checkoutIndex].amountCtrl.clear();
-      paymentCtrlObj.paymentWidgetList[checkoutIndex].transactionNoCtrl.clear();
-      paymentCtrlObj.paymentWidgetList[checkoutIndex].checkNoCtrl.clear();
-      paymentCtrlObj.paymentWidgetList[checkoutIndex].paymentNoteCtrl.clear();
-    }
+    paymentCtrlObj
+      ..amountCtrl.clear()
+      ..transactionNoCtrl.clear()
+      ..paymentMethodCtrl.clear()
+      ..accountIdCtrl.clear()
+      ..paymentMethodCtrl.clear()
+      ..staffNoteCtrl.clear()
+      ..sellNoteCtrl.clear()
+      ..paymentNoteCtrl.clear()
+      ..paymentWidgetList.clear();
+    // for (int checkoutIndex = 0;
+    //     checkoutIndex < paymentCtrlObj.paymentWidgetList.length;
+    //     checkoutIndex++) {
+    //   paymentCtrlObj.paymentWidgetList[checkoutIndex].amountCtrl.clear();
+    //   paymentCtrlObj.paymentWidgetList[checkoutIndex].transactionNoCtrl.clear();
+    //   paymentCtrlObj.paymentWidgetList[checkoutIndex].checkNoCtrl.clear();
+    //   paymentCtrlObj.paymentWidgetList[checkoutIndex].paymentNoteCtrl.clear();
+    // }
   }
 
   fieldsForAddPayment(http.MultipartRequest request) {
