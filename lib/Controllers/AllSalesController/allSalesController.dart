@@ -291,12 +291,16 @@ class AllSalesController extends GetxController {
     return await ApiServices.getMethod(
       feedUrl: '${ApiUrls.allOrders}'
           '?page=$_page'
-          '&per_page=20'
+          '&per_page=50'
+
           // '&global_search=${contactCtrlObj.nameCtrl.text.isNotEmpty ? contactCtrlObj.nameCtrl.text : ''}'
-          // '${Get.find<ContactController>().id != null ? '&contact_id=${Get.find<ContactController>().id}' : ''}'
+       '${Get.find<ContactController>().id != null ? '&contact_id=${Get.find<ContactController>().id}' : ''}'
           '${AppStorage.getLoggedUserData()!.staffUser.isAdmin! ? '&created_by=${AppStorage.getLoggedUserData()?.staffUser.id}' : ''}'
           '&business_id=${AppStorage.getBusinessDetailsData()?.businessData?.id}'
-          '&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}',
+          '&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}'
+      '&payment_status=partial'
+          '&payment_status=due'
+      ,
     ).then((_res) {
       if (_res == null) return null;
       final _data = saleOrderModelFromJson(_res);

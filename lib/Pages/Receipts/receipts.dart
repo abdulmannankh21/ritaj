@@ -28,6 +28,7 @@ class Receipts extends StatefulWidget {
 
 class _ReceiptsState extends State<Receipts> with TickerProviderStateMixin {
   AllSalesController allSalesCtrl = Get.find<AllSalesController>();
+  AllSalesController allSalesCtrlObj = Get.find<AllSalesController>();
   ReceiptsController receiptsCtrl = Get.find<ReceiptsController>();
   ContactController contactCtrl = Get.find<ContactController>();
 
@@ -41,6 +42,7 @@ class _ReceiptsState extends State<Receipts> with TickerProviderStateMixin {
   void initState() {
     // _tabController = TabController(length: 2, vsync: this);
 
+    allSalesCtrl.callFirstOrderPageForReceipt();
     allSalesCtrl.callFirstOrderPage();
     Get.find<StockTransferController>().fetchStockTransfersList();
     receiptsCtrl.totalAmount = '0';
@@ -77,8 +79,8 @@ class _ReceiptsState extends State<Receipts> with TickerProviderStateMixin {
   }
 
   Future<void> refreshReceipts() async {
-    await allSalesCtrl.callFirstOrderPage();
-    // await allSalesCtrlObj.callFirstOrderPageForReceipt();
+   await allSalesCtrl.callFirstOrderPage();
+   await allSalesCtrl.callFirstOrderPageForReceipt();
     setState(() {
       receiptsCtrl.totalAmount = '0';
     });
