@@ -149,9 +149,9 @@ class AllSalesController extends GetxController {
     return await ApiServices.getMethod(
       feedUrl: '${ApiUrls.allOrders}'
           '?page=$page'
-          '&per_page=20'
+          '&per_page=200'
           '${globalSearch != null ? '&global_search=$globalSearch' : ''}'
-          // '${Get.find<ContactController>().id != null ? '&contact_id=${Get.find<ContactController>().id}' : ''}'
+          '${Get.find<ContactController>().id != null ? '&contact_id=${Get.find<ContactController>().id}' : ''}'
           '${AppStorage.getLoggedUserData()!.staffUser.isAdmin! ? '&created_by=${AppStorage.getLoggedUserData()?.staffUser.id}' : ''}'
           '&business_id=${AppStorage.getBusinessDetailsData()?.businessData?.id}'
           '&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}',
@@ -234,7 +234,7 @@ class AllSalesController extends GetxController {
     isFirstLoadRunning.value = true;
     hasNextPage = true;
     isLoadMoreRunning.value = false;
-    await fetchAllSalesList(page: 1);
+    await fetchAllSalesList();
     isFirstLoadRunning.value = false;
     update();
   }

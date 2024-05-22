@@ -121,10 +121,10 @@ class TaxController extends GetxController {
           i++) {
         double _itemPrice = double.parse(
             '${prodCartCtrlObj.selectedProducts[i].productVariations?.first.variations?.first.defaultSellPrice ?? 0.0}');
-        itemsTax += (_itemPrice *
+        itemsTax += ((_itemPrice *
                 double.parse(
                     Get.find<AllProductsController>().selectedQuantityList[i] ??
-                        '0.00') *
+                        '0.00')) *
                 double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')) /
             ((double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')) *
                 100);
