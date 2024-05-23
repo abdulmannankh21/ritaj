@@ -19,6 +19,7 @@ import '../CreateOrder/selectionDialogue.dart';
 
 class CheckOutPage extends StatefulWidget {
   final orderData;
+  
   bool isReceipt;
   CheckOutPage({this.orderData, this.isReceipt = true, Key? key})
       : super(key: key);

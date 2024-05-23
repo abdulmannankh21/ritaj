@@ -121,13 +121,20 @@ class TaxController extends GetxController {
           i++) {
         double _itemPrice = double.parse(
             '${prodCartCtrlObj.selectedProducts[i].productVariations?.first.variations?.first.defaultSellPrice ?? 0.0}');
-        itemsTax += ((_itemPrice *
+        print("Item Price or qty or tax: ${((_itemPrice *
+            double.parse(
+                Get.find<AllProductsController>().selectedQuantityList[i] ??
+                    '0.00'))
+
+            / (100 * double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')))}");
+        itemsTax += (_itemPrice *
                 double.parse(
                     Get.find<AllProductsController>().selectedQuantityList[i] ??
-                        '0.00')) *
-                double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')) /
-            ((double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')) *
-                100);
+                        '0.00'))
+
+            / 100 * double.parse(listTaxModel?.data?[0].amount.toString() ?? '0');
+        // *
+        // double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')) /
       }
       print('Order tax ;;;;${itemsTax}');
     } catch (e) {
@@ -149,7 +156,7 @@ class TaxController extends GetxController {
     String? productPrice;
     if (itemProduct.taxType.toString() == "TaxType.INCLUSIVE") {
       productPrice = itemProduct
-          .productVariations?.first.variations?.first.sellPriceIncTax;
+          .productVariations?.first.variations?.first.defaultSellPrice;
     } else {
       productPrice = itemProduct
           .productVariations?.first.variations?.first.defaultSellPrice;

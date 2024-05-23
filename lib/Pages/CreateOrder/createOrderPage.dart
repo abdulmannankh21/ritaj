@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../../Config/app_format.dart';
 import '/Components/custom_circular_button.dart';
 import '/Components/p4Headings.dart';
 import '/Components/textfield.dart';
@@ -32,6 +33,8 @@ class CreateOrderPage extends StatefulWidget {
 
 class _CreateOrderPageState extends State<CreateOrderPage> {
   ContactController contactCtrlObjj = Get.find<ContactController>();
+  final TaxController taxCtrlObj = Get.find<TaxController>();
+
   bool cannotSupply = false;
   AllProductsController allProdCtrlObj = Get.find<AllProductsController>();
 
@@ -286,7 +289,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
 
                 Center(
                   child: Text(
-                    '${'total'.tr} (AED) = ${allProdCtrlObj.getPayableFinalTotalAmount()}',
+                    '${'total'.tr} (AED) = ${AppFormat.doubleToStringUpTo2("${double.parse(allProdCtrlObj.getPayableFinalTotalAmount())  + orderTaxAmount}")}',
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -454,7 +457,19 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
       return SizedBox();
     }
   }
+  double get orderTaxAmount {
+    double itemsTax = 0.0;
+    try {
 
+        itemsTax += double.parse(allProdCtrlObj.getPayableFinalTotalAmount())
+            / 100 * double.parse(taxCtrlObj.listTaxModel?.data?[0].amount.toString() ?? '0');
+
+      print('Order tax ;;;;${itemsTax}');
+    } catch (e) {
+      logger.e('Error to calculate total tax amount => $e');
+    }
+    return double.parse(AppFormat.doubleToStringUpTo2('${itemsTax}')!);
+  }
   calculateAmountOnChangeQuantity(int index) {
     if (double.parse(
           '${allProdCtrlObj.productModelObjs[index].productVariationsDetails?.qtyAvailable ?? 0.00}',

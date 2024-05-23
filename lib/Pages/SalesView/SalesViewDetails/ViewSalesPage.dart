@@ -253,7 +253,7 @@ class _SalesViewDetailsPageState extends State<SalesViewDetailsPage> {
                 Text(
                   // calculateTotalTax(widget.salesOrderData),
                   AppFormat.doubleToStringUpTo2(
-                        '${widget.salesOrderData?.totalItemLineTax ?? ''}',
+                        '${widget.salesOrderData?.taxAmount ?? ''}',
                       ) ??
                       '',
                   style: Theme.of(context).textTheme.bodySmall,

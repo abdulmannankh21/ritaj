@@ -551,7 +551,7 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   bytes += cl2(
     cTxt1: '',
     cTxt2: 'Tax (VAT):'
-        '${selectedSaleOrderData!.totalItemLineTax}',
+        '${selectedSaleOrderData!.taxAmount}',
         // '${double.parse(selectedSaleOrderData!.totalItemLineTax!.toStringAsFixed(2))}',
         // ' ${Get.find<TaxController>().checkTaxName(taxId: selectedSaleOrderData?.taxId)}(${Get.find<TaxController>().checkTaxAmount(taxId: selectedSaleOrderData?.taxId)}%)'
         // '  ${totalItemsTax()}',

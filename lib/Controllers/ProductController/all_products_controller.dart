@@ -373,16 +373,16 @@ class AllProductsController extends GetxController {
   //   return Get.find<TaxController>().isInlineTaxEnable &&
   //       taxType == "inclusive" ;
   // }
+  // var productPrice = productModelObjs[index].taxType == "inclusive"
+  //     ?
+  // var productPrice = isProductPriceInclusiveTax('${productModelObjs[index].taxType}') ?
+  //
+  // productModelObjs[index].
+  // productVariations?.first.variations?.first.sellPriceIncTax
+  //     : productModelObjs[index].
+  // productVariations?.first.variations?.first.defaultSellPrice;
   String calculatingProductAmountForUnit({required int index}) {
-    // var productPrice = productModelObjs[index].taxType == "inclusive"
-    //     ?
-    // var productPrice = isProductPriceInclusiveTax('${productModelObjs[index].taxType}') ?
-    //
-    // productModelObjs[index].
-    // productVariations?.first.variations?.first.sellPriceIncTax
-    //     : productModelObjs[index].
-    // productVariations?.first.variations?.first.defaultSellPrice;
-    return "${double.parse('${productQuantityCtrl[index].text.isEmpty ? '0.00' : productQuantityCtrl[index].text}') * (double.parse('${productModelObjs[index].productVariations?.first.variations?.first.sellPriceIncTax}') * double.parse(checkUnitsActualBaseMultiplier(unitName: unitListStatus[index]) ?? '1.00'))}";
+    return "${double.parse('${productQuantityCtrl[index].text.isEmpty ? '0.00' : productQuantityCtrl[index].text}') * (double.parse('${productModelObjs[index].productVariations?.first.variations?.first.defaultSellPrice}') * double.parse(checkUnitsActualBaseMultiplier(unitName: unitListStatus[index]) ?? '1.00'))}";
   }
 
   String calculatingStock({required int index}) {
@@ -545,7 +545,7 @@ class AllProductsController extends GetxController {
     _fields['discounttype'] =
         '${productCtrlCtrlObj.discountType.text.toLowerCase()}';
     _fields['discount_amount'] = '${productCtrlCtrlObj.discoutCtrl.text}';
-    _fields['final_total'] = getPayableFinalTotalAmount();
+    _fields['final_total'] = "${double.parse(getPayableFinalTotalAmount())+ taxCtrlObj.orderTaxAmount}";
     _fields['exchange_rate'] = '0.00';
     _fields['packing_charge'] = '0.00';
     _fields['packing_charge_type'] = 'fixed';
@@ -556,8 +556,8 @@ class AllProductsController extends GetxController {
     _fields['shipping_charges'] =
         '${productCtrlCtrlObj.shippingChargeCtrl.text.isNotEmpty ? productCtrlCtrlObj.shippingChargeCtrl.text : '0'}';
     _fields['is_suspend'] = '0';
-    // _fields['total_before_tax'] = '${subTotalAmount()}';
-    _fields['total_before_tax'] = getPayableFinalTotalAmount();
+    _fields['total_before_tax'] = '${subTotalAmount()}';
+    // _fields['total_before_tax'] = getPayableFinalTotalAmount();
     // request.fields['discount_type'] = 'Fixed';
     _fields['tax_amount'] = '${taxCtrlObj.orderTaxAmount}';
     for (int i = 0; i < selectedProducts.length; i++) {
@@ -1340,6 +1340,7 @@ class AllProductsController extends GetxController {
 // doubleToStringUpTo2 is not using for round off its just want to use in view
   // function to get total payable amount
   String getPayableFinalTotalAmount() {
+    taxCtrlObj.orderTaxAmount;
     return ('${(finalTotal - calculatingTotalDiscount()).toStringAsFixed(2)}') ??
         '0';
   }

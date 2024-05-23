@@ -359,9 +359,10 @@ class PrintData extends StatelessWidget {
               // pw.SizedBox(height: 5),
               finalDetails(
                 txt1: 'Tax (VAT):',
-                txt2: salesView
-                    ? '${double.parse(saleOrderDataModel.totalItemLineTax!.toStringAsFixed(2))}'
-                    : '${totalTax()}',
+                txt2: '${double.parse(saleOrderDataModel.taxAmount!)}'
+                // salesView
+                //     ?
+                    // : '${totalTax()}',
               ),
               pw.SizedBox(height: 5),
               finalDetails(
