@@ -14,7 +14,6 @@ import '../exception_controller.dart';
 
 class TaxController extends GetxController {
   ListTaxModel? listTaxModel;
-  AllProductsController allProdCtrlObj = Get.find<AllProductsController>();
 
   /// Fetching All Tax List
   Future fetchListTax({String? pageUrl}) async {
@@ -144,11 +143,12 @@ class TaxController extends GetxController {
   //   return double.parse(AppFormat.doubleToStringUpTo2('${itemsTax}')!);
   // }
   double get orderTaxAmount {
+    AllProductsController allProdCtrlObj = Get.find<AllProductsController>();
     double itemsTax = 0.0;
     try {
-
-      itemsTax = (double.parse(allProdCtrlObj.getPayableFinalTotalAmount())
-          / (100 * double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')));
+      itemsTax = (double.parse(allProdCtrlObj.getPayableFinalTotalAmount()) /
+          (100 *
+              double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')));
 
       print('Order tax ;;;;${itemsTax}');
     } catch (e) {
@@ -156,6 +156,7 @@ class TaxController extends GetxController {
     }
     return double.parse(AppFormat.doubleToStringUpTo2('${itemsTax}')!);
   }
+
   /// inline tax amount calculation method
   double inlineTaxAmount(
     Product itemProduct,
@@ -206,13 +207,13 @@ class TaxController extends GetxController {
       //     100);
       return (double.parse('$productPrice')) -
           double.parse(
-              '${itemProduct.productVariations?.first.variations?.first.defaultSellPrice}')  ;
+              '${itemProduct.productVariations?.first.variations?.first.defaultSellPrice}');
     } else {
       productPrice = itemProduct
           .productVariations?.first.variations?.first.defaultSellPrice;
 //exclusive formula without tax
-      return ((double.parse('$productPrice'))  /
-          100 ) * double.parse('${itemProduct.productTax?.amount ?? 0.00}');
+      return ((double.parse('$productPrice')) / 100) *
+          double.parse('${itemProduct.productTax?.amount ?? 0.00}');
       //inclusive ka formula ha inline ka
       // return ((double.parse('$productPrice')) *
       //     double.parse('${itemProduct.productTax?.amount ?? 0.00}') /

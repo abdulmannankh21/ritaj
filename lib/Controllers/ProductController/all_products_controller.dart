@@ -545,7 +545,8 @@ class AllProductsController extends GetxController {
     _fields['discounttype'] =
         '${productCtrlCtrlObj.discountType.text.toLowerCase()}';
     _fields['discount_amount'] = '${productCtrlCtrlObj.discoutCtrl.text}';
-    _fields['final_total'] = "${double.parse(getPayableFinalTotalAmount())+ taxCtrlObj.orderTaxAmount}";
+    _fields['final_total'] =
+        "${double.parse(getPayableFinalTotalAmount()) + taxCtrlObj.orderTaxAmount}";
     _fields['exchange_rate'] = '0.00';
     _fields['packing_charge'] = '0.00';
     _fields['packing_charge_type'] = 'fixed';
@@ -1340,7 +1341,7 @@ class AllProductsController extends GetxController {
 // doubleToStringUpTo2 is not using for round off its just want to use in view
   // function to get total payable amount
   String getPayableFinalTotalAmount() {
-    taxCtrlObj.orderTaxAmount;
+    // taxCtrlObj.orderTaxAmount;
     return ('${(finalTotal - calculatingTotalDiscount()).toStringAsFixed(2)}') ??
         '0';
   }
