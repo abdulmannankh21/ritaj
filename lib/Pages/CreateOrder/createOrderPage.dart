@@ -350,7 +350,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                 //     '${AppFormat.doubleToStringUpTo2('${allProdCtrlObj.finalTotal}')}';
                                 // Get.find<PaymentController>().update();
                                 bool? isDone = await Get.to(
-                                    () => CheckOutPage(isReceipt: false));
+                                    () => CheckOutPage(isReceipt: false,Amount: "${orderTaxAmount}",));
 
                                 if (isDone != null && isDone) {
                                   Get.back(result: true);
