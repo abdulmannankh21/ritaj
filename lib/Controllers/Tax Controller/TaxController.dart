@@ -14,6 +14,7 @@ import '../exception_controller.dart';
 
 class TaxController extends GetxController {
   ListTaxModel? listTaxModel;
+  AllProductsController allProdCtrlObj = Get.find<AllProductsController>();
 
   /// Fetching All Tax List
   Future fetchListTax({String? pageUrl}) async {
@@ -95,54 +96,66 @@ class TaxController extends GetxController {
   }
 
   /// Order tax amount calculation method
+  // double get orderTaxAmount {
+  //   if (!isOrderTaxEnable && isInlineTaxEnable) return 0;
+  //   final AllProductsController prodCartCtrlObj =
+  //       Get.find<AllProductsController>();
+  //   // fetchListTax();
+  //   // (double.parse(totalAmount())/100)*tax; // TODO: tax calculation
+  //   double itemsTax = 0.0;
+  //   try {
+  //     // for (var _itr in prodCartCtrlObj.selectedProducts) {
+  //     //   double _itemPrice = double.parse(
+  //     //       '${_itr.productVariations?.first.variations?.first.sellPriceIncTax ?? 0.0}');
+  //     //   print('Item Price');
+  //     //   print(_itemPrice);
+  //     //   int _itemTax = _itr.productTax?.amount ?? 0;
+  //     //   itemsTax += (_itemPrice *
+  //     //           _itr.quantity *
+  //     //           double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')) /
+  //     //       ((double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')) +
+  //     //           100);
+  //     // }
+  //
+  //     for (int i = 0;
+  //         i < Get.find<AllProductsController>().selectedQuantityList.length;
+  //         i++) {
+  //       double _itemPrice = double.parse(
+  //           '${prodCartCtrlObj.selectedProducts[i].productVariations?.first.variations?.first.defaultSellPrice ?? 0.0}');
+  //       print("Item Price or qty or tax: ${((_itemPrice *
+  //           double.parse(
+  //               Get.find<AllProductsController>().selectedQuantityList[i] ??
+  //                   '0.00'))
+  //
+  //           / (100 * double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')))}");
+  //       itemsTax += (_itemPrice *
+  //               double.parse(
+  //                   Get.find<AllProductsController>().selectedQuantityList[i] ??
+  //                       '0.00'))
+  //
+  //           / 100 * double.parse(listTaxModel?.data?[0].amount.toString() ?? '0');
+  //       // *
+  //       // double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')) /
+  //     }
+  //     print('Order tax ;;;;${itemsTax}');
+  //   } catch (e) {
+  //     logger.e('Error to calculate total tax amount => $e');
+  //   }
+  //   return double.parse(AppFormat.doubleToStringUpTo2('${itemsTax}')!);
+  // }
   double get orderTaxAmount {
-    if (!isOrderTaxEnable && isInlineTaxEnable) return 0;
-    final AllProductsController prodCartCtrlObj =
-        Get.find<AllProductsController>();
-    // fetchListTax();
-    // (double.parse(totalAmount())/100)*tax; // TODO: tax calculation
     double itemsTax = 0.0;
     try {
-      // for (var _itr in prodCartCtrlObj.selectedProducts) {
-      //   double _itemPrice = double.parse(
-      //       '${_itr.productVariations?.first.variations?.first.sellPriceIncTax ?? 0.0}');
-      //   print('Item Price');
-      //   print(_itemPrice);
-      //   int _itemTax = _itr.productTax?.amount ?? 0;
-      //   itemsTax += (_itemPrice *
-      //           _itr.quantity *
-      //           double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')) /
-      //       ((double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')) +
-      //           100);
-      // }
 
-      for (int i = 0;
-          i < Get.find<AllProductsController>().selectedQuantityList.length;
-          i++) {
-        double _itemPrice = double.parse(
-            '${prodCartCtrlObj.selectedProducts[i].productVariations?.first.variations?.first.defaultSellPrice ?? 0.0}');
-        print("Item Price or qty or tax: ${((_itemPrice *
-            double.parse(
-                Get.find<AllProductsController>().selectedQuantityList[i] ??
-                    '0.00'))
+      itemsTax = (double.parse(allProdCtrlObj.getPayableFinalTotalAmount())
+          / (100 * double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')));
 
-            / (100 * double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')))}");
-        itemsTax += (_itemPrice *
-                double.parse(
-                    Get.find<AllProductsController>().selectedQuantityList[i] ??
-                        '0.00'))
-
-            / 100 * double.parse(listTaxModel?.data?[0].amount.toString() ?? '0');
-        // *
-        // double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')) /
-      }
       print('Order tax ;;;;${itemsTax}');
     } catch (e) {
       logger.e('Error to calculate total tax amount => $e');
     }
     return double.parse(AppFormat.doubleToStringUpTo2('${itemsTax}')!);
   }
-
   /// inline tax amount calculation method
   double inlineTaxAmount(
     Product itemProduct,
