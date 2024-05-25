@@ -4,7 +4,8 @@ import 'dart:io';
 
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
+import 'package:flutter_pos_printer_platform_image_3_sdt/flutter_pos_printer_platform_image_3_sdt.dart';
+// import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,7 +18,6 @@ import '/Pages/Tabs/View/TabsPage.dart';
 import '/Theme/colors.dart';
 import '/Theme/style.dart';
 import '../../Controllers/AllPrinterController/allPrinterController.dart';
-import '../../Services/storage_services.dart';
 import '../../const/dimensions.dart';
 import '../CreateOrder/selectionDialogue.dart';
 
@@ -349,28 +349,28 @@ class _InVoicePrintScreenState extends State<InVoicePrintScreen> {
                       print(allPrinterCtrlObj.bluetoothDevices[index].address);
                       print(allPrinterCtrlObj.bluetoothDevices[index].port);
                       Get.offAll(() => TabsPage());
-                      if(!widget.isPrintCustomer)
-                       await Get.dialog(
-                              // barrierDismissible: false,
-                              Dialog(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        Dimensions.radiusSmall)),
-                                insetPadding:
-                                    EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                child: CustomerCopyDialogue(
-                                    // callback: () {
-                                    //   debugPrint('Selection Dialog Callback');
-                                    // },
-                                    ),
-                              ),
-                            ).then((isCustomerCopyDone) {
-                              if (isCustomerCopyDone != null &&
-                                  isCustomerCopyDone) {
-                                // AppStorage.removeCutomerCopy();
-                                Get.back();
-                              }
-                            });
+                      if (!widget.isPrintCustomer)
+                        await Get.dialog(
+                          // barrierDismissible: false,
+                          Dialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    Dimensions.radiusSmall)),
+                            insetPadding:
+                                EdgeInsets.all(Dimensions.paddingSizeSmall),
+                            child: CustomerCopyDialogue(
+                                // callback: () {
+                                //   debugPrint('Selection Dialog Callback');
+                                // },
+                                ),
+                          ),
+                        ).then((isCustomerCopyDone) {
+                          if (isCustomerCopyDone != null &&
+                              isCustomerCopyDone) {
+                            // AppStorage.removeCutomerCopy();
+                            Get.back();
+                          }
+                        });
 
                       // loadIsDialogShown();
                       // if (!isDialogShown) {

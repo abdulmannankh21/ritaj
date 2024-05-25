@@ -8,7 +8,7 @@ import Foundation
 import device_info_plus
 import flutter_local_notifications
 import geolocator_apple
-import network_info_plus_macos
+import network_info_plus
 import package_info_plus
 import path_provider_foundation
 import printing

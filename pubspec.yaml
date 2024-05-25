@@ -3,7 +3,7 @@ description: A new Flutter application.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.11+26
+version: 1.0.12+27
 
 environment:
   sdk: '>=2.18.5 <3.0.0'
@@ -55,12 +55,15 @@ dependencies:
   geocoding: ^2.1.1
   upgrader: ^6.5.0
   mailer: ^6.0.1
-  flutter_pos_printer_platform:
-    path: ./plugins/flutter_pos_printer_platform-1.4.2
+#  flutter_pos_printer_platform: ^1.4.1
+  flutter_pos_printer_platform_image_3_sdt: ^1.1.3
+#  flutter_pos_printer_platform:
+#    path: ./plugins/flutter_pos_printer_platform-1.4.2
   esc_pos_printer: ^4.1.0
-  esc_pos_utils: ^1.1.0
+  flutter_esc_pos_utils: ^0.1.8
   package_info_plus: ^3.0.3
   zsdk: ^3.2.0+3
+  permission_handler: ^10.2.0
 
 dependency_overrides:
   intl: ^0.18.0

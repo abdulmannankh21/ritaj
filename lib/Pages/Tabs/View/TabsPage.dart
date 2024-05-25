@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '/Controllers/FundsController/fundsController.dart';
 import '/Controllers/OrderController/order_type_controller.dart';
@@ -21,7 +22,25 @@ class _TabsPageState extends State<TabsPage> {
     Get.find<AllProductsController>().fetchUnitList();
     Get.find<AllProductsController>().fetchAllProducts();
     Get.find<FundsController>().fetchPaymentAccountList();
+    _initializePrinter();
     super.initState();
+  }
+
+  Future<void> _initializePrinter() async {
+    // Request permissions
+    if (await Permission.bluetooth.request().isGranted &&
+        await Permission.bluetoothConnect.request().isGranted &&
+        await Permission.bluetoothScan.request().isGranted &&
+        await Permission.location.request().isGranted) {
+      // _printerPlatform = FlutterPosPrinterPlatform.instance;
+      // _printerPlatform
+      //     .setPrinterBluetooth(false); // Example method call, adjust as needed
+      // Initialize or use the printer service here
+      print('Printer platform initialized');
+    } else {
+      // Handle the case where permissions are not granted
+      print('Required permissions are not granted');
+    }
   }
 
   @override

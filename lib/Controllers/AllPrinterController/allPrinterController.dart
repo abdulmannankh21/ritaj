@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
+import 'package:flutter_pos_printer_platform_image_3_sdt/flutter_pos_printer_platform_image_3_sdt.dart';
 import 'package:get/get.dart';
 import 'package:image/image.dart' as i;
 
@@ -12,7 +12,6 @@ import '../../Config/utils.dart';
 import '../../Models/AllPrinterModel/AllPrinterModels.dart';
 import '../../Models/order_type_model/SaleOrderModel.dart';
 import '../../Pages/PrintDesign/pos_print_layout.dart';
-import '../../Pages/Tabs/View/TabsPage.dart';
 import '../../Services/storage_services.dart';
 
 class AllPrinterController extends GetxController {
@@ -295,8 +294,7 @@ class AllPrinterController extends GetxController {
   Future printReceipt(i.Image image) async {
     i.Image resized = i.copyResize(image, width: selectedPaperSize.width - 50);
     CapabilityProfile profile = await CapabilityProfile.load();
-    Generator generator =
-        Generator(selectedPaperSize, profile);
+    Generator generator = Generator(selectedPaperSize, profile);
     List<int> bytes = [];
     bytes += generator.image(resized);
     printEscPos(bytes, generator);
