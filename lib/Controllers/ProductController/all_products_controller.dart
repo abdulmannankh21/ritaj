@@ -1353,7 +1353,6 @@ class AllProductsController extends GetxController {
   // function to get total payable amount
   String getPayableFinalTotalAmount() {
     // taxCtrlObj.orderTaxAmount;
-    return ('${(finalTotal - calculatingTotalDiscount()).toStringAsFixed(2)}') ??
-        '0';
+    return ('${(finalTotal - calculatingTotalDiscount()).toStringAsFixed(2)}');
   }
 }

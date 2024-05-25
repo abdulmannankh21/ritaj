@@ -289,7 +289,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
 
                 Center(
                   child: Text(
-                    '${'total'.tr} (AED) = ${AppFormat.doubleToStringUpTo2("${double.parse(allProdCtrlObj.getPayableFinalTotalAmount()) + orderTaxAmount}")}',
+                    '${'total'.tr} (AED) = ${AppFormat.doubleToStringUpTo2("${double.parse(allProdCtrlObj.getPayableFinalTotalAmount()) + taxCtrlObj.orderTaxAmount}")}',
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -351,7 +351,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                 // Get.find<PaymentController>().update();
                                 bool? isDone = await Get.to(() => CheckOutPage(
                                       isReceipt: false,
-                                      Amount: "${orderTaxAmount}",
+                                      Amount: "${taxCtrlObj.orderTaxAmount}",
                                     ));
 
                                 if (isDone != null && isDone) {
@@ -458,21 +458,6 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
       debugPrint('Unit Change Dropdown Error => $e');
       return SizedBox();
     }
-  }
-
-  double get orderTaxAmount {
-    double itemsTax = 0.0;
-    try {
-      itemsTax += double.parse(allProdCtrlObj.getPayableFinalTotalAmount()) /
-          100 *
-          double.parse(
-              taxCtrlObj.listTaxModel?.data?[0].amount.toString() ?? '0');
-
-      print('Order tax ;;;;${itemsTax}');
-    } catch (e) {
-      logger.e('Error to calculate total tax amount => $e');
-    }
-    return double.parse(AppFormat.doubleToStringUpTo2('${itemsTax}')!);
   }
 
   calculateAmountOnChangeQuantity(int index) {

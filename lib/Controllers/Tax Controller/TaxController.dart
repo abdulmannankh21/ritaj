@@ -146,9 +146,9 @@ class TaxController extends GetxController {
     AllProductsController allProdCtrlObj = Get.find<AllProductsController>();
     double itemsTax = 0.0;
     try {
-      itemsTax = (double.parse(allProdCtrlObj.getPayableFinalTotalAmount()) /
-          (100 *
-              double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')));
+      itemsTax += double.parse(allProdCtrlObj.getPayableFinalTotalAmount()) /
+          100 *
+          double.parse(listTaxModel?.data?[0].amount.toString() ?? '0');
 
       print('Order tax ----- ${itemsTax}');
     } catch (e) {
