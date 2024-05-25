@@ -17,6 +17,7 @@ import '/Services/storage_services.dart';
 import '/Theme/colors.dart';
 import '/Theme/style.dart';
 import '/const/dimensions.dart';
+import '../../Config/app_format.dart';
 import '../../Controllers/ProductController/PaymentController.dart';
 import '../SalesView/discount.dart';
 
