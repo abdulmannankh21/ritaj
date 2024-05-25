@@ -21,7 +21,7 @@ class CheckOutPage extends StatefulWidget {
   final orderData;
   String? Amount;
   bool isReceipt;
-  CheckOutPage({this.Amount,this.orderData, this.isReceipt = true, Key? key})
+  CheckOutPage({this.Amount, this.orderData, this.isReceipt = true, Key? key})
       : super(key: key);
 
   @override
@@ -48,7 +48,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
       _paymentCtrlObj.addPaymentWidget(
         totalAmount: double.parse(
               (Get.find<AllProductsController>().finalTotal != 0.00)
-                  ? '${double.parse(Get.find<AllProductsController>().getPayableFinalTotalAmount())+double.parse(widget.Amount!)  ?? ''}'
+                  ? '${double.parse(Get.find<AllProductsController>().getPayableFinalTotalAmount()) + double.parse(widget.Amount!) ?? ''}'
                   : '${Get.find<ReceiptsController>().totalAmount ?? ''}',
             ) -
             allProdCtrlObj.paidAmount -

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../../Config/app_format.dart';
 import '/Components/custom_circular_button.dart';
 import '/Components/p4Headings.dart';
 import '/Components/textfield.dart';
@@ -58,7 +57,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
           double.parse('${widget.salesOrderData?.finalTotal ?? '0.00'}');
 
     allProdCtrlObj.addOrderedItemsQty(salesOrderData: widget.salesOrderData);
-    Get.find<TaxController>().fetchListTax();
+    taxCtrlObj.fetchListTax();
 
     super.initState();
   }
@@ -289,7 +288,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
 
                 Center(
                   child: Text(
-                    '${'total'.tr} (AED) = ${AppFormat.doubleToStringUpTo2("${double.parse(allProdCtrlObj.getPayableFinalTotalAmount())  + orderTaxAmount}")}',
+                    '${'total'.tr} (AED) = ${AppFormat.doubleToStringUpTo2("${double.parse(allProdCtrlObj.getPayableFinalTotalAmount()) + orderTaxAmount}")}',
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -349,8 +348,10 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
                                 //         .text =
                                 //     '${AppFormat.doubleToStringUpTo2('${allProdCtrlObj.finalTotal}')}';
                                 // Get.find<PaymentController>().update();
-                                bool? isDone = await Get.to(
-                                    () => CheckOutPage(isReceipt: false,Amount: "${orderTaxAmount}",));
+                                bool? isDone = await Get.to(() => CheckOutPage(
+                                      isReceipt: false,
+                                      Amount: "${orderTaxAmount}",
+                                    ));
 
                                 if (isDone != null && isDone) {
                                   Get.back(result: true);
@@ -457,12 +458,14 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
       return SizedBox();
     }
   }
+
   double get orderTaxAmount {
     double itemsTax = 0.0;
     try {
-
-        itemsTax += double.parse(allProdCtrlObj.getPayableFinalTotalAmount())
-            / 100 * double.parse(taxCtrlObj.listTaxModel?.data?[0].amount.toString() ?? '0');
+      itemsTax += double.parse(allProdCtrlObj.getPayableFinalTotalAmount()) /
+          100 *
+          double.parse(
+              taxCtrlObj.listTaxModel?.data?[0].amount.toString() ?? '0');
 
       print('Order tax ;;;;${itemsTax}');
     } catch (e) {
@@ -470,6 +473,7 @@ class _CreateOrderPageState extends State<CreateOrderPage> {
     }
     return double.parse(AppFormat.doubleToStringUpTo2('${itemsTax}')!);
   }
+
   calculateAmountOnChangeQuantity(int index) {
     if (double.parse(
           '${allProdCtrlObj.productModelObjs[index].productVariationsDetails?.qtyAvailable ?? 0.00}',

@@ -150,7 +150,7 @@ class TaxController extends GetxController {
           (100 *
               double.parse(listTaxModel?.data?[0].amount.toString() ?? '0')));
 
-      print('Order tax ;;;;${itemsTax}');
+      print('Order tax ----- ${itemsTax}');
     } catch (e) {
       logger.e('Error to calculate total tax amount => $e');
     }

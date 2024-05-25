@@ -235,6 +235,11 @@ class AllProductsController extends GetxController {
   }
 
   addSelectedItemsInList() {
+    selectedProducts.clear();
+    selectedQuantityList.clear();
+    selectedUnitsList.clear();
+    selectedUnitsNames.clear();
+
     for (int i = 0; i < productModelObjs.length; i++) {
       if (productQuantityCtrl[i].text.isNotEmpty &&
           productQuantityCtrl[i].text != '0') {
@@ -779,28 +784,28 @@ class AllProductsController extends GetxController {
     // }
   }
 
-  fieldsForAddPayment(http.MultipartRequest request) {
-    request.fields['amount[0]'] = '${paymentCtrlObj.amountCtrl.text}';
-    request.fields['method[0]'] = '${paymentCtrlObj.paymentMethodCtrl.text}';
-    // '${paymentWidgetList[checkoutIndex].selectedPaymentOption?.paymentMethod}';
-    request.fields['account_id[0]'] =
-        '${paymentCtrlObj.accountIdCtrl.text}'; //'27';
-    // '${paymentWidgetList[checkoutIndex].selectedPaymentOption?.account?.id}';
-    request.fields['card_type[0]'] = 'credit'; // debit
-
-    request.fields['transaction_no_1[0]'] =
-        '${paymentCtrlObj.transactionNoCtrl.text}';
-
-    // if (isSelectedPaymentOptionCheque(index: checkoutIndex)) {
-    //   request.fields['cheque_number[$checkoutIndex]'] =
-    //       '${paymentWidgetList[checkoutIndex].checkNoCtrl.text}';
-    // } else if (!isSelectedPaymentOptionCash(index: checkoutIndex)) {
-    //   request.fields['transaction_no_1[$checkoutIndex]'] =
-    //       '${paymentWidgetList[checkoutIndex].transactionNoCtrl.text}';
-    // }
-
-    request.fields['note[0]'] = '${paymentCtrlObj.paymentNoteCtrl.text}';
-  }
+  // fieldsForAddPayment(http.MultipartRequest request) {
+  //   request.fields['amount[0]'] = '${paymentCtrlObj.amountCtrl.text}';
+  //   request.fields['method[0]'] = '${paymentCtrlObj.paymentMethodCtrl.text}';
+  //   // '${paymentWidgetList[checkoutIndex].selectedPaymentOption?.paymentMethod}';
+  //   request.fields['account_id[0]'] =
+  //       '${paymentCtrlObj.accountIdCtrl.text}'; //'27';
+  //   // '${paymentWidgetList[checkoutIndex].selectedPaymentOption?.account?.id}';
+  //   request.fields['card_type[0]'] = 'credit'; // debit
+  //
+  //   request.fields['transaction_no_1[0]'] =
+  //       '${paymentCtrlObj.transactionNoCtrl.text}';
+  //
+  //   // if (isSelectedPaymentOptionCheque(index: checkoutIndex)) {
+  //   //   request.fields['cheque_number[$checkoutIndex]'] =
+  //   //       '${paymentWidgetList[checkoutIndex].checkNoCtrl.text}';
+  //   // } else if (!isSelectedPaymentOptionCash(index: checkoutIndex)) {
+  //   //   request.fields['transaction_no_1[$checkoutIndex]'] =
+  //   //       '${paymentWidgetList[checkoutIndex].transactionNoCtrl.text}';
+  //   // }
+  //
+  //   request.fields['note[0]'] = '${paymentCtrlObj.paymentNoteCtrl.text}';
+  // }
 
   ListProductsModel? listProductModel;
 
@@ -847,17 +852,22 @@ class AllProductsController extends GetxController {
     // PaymentController _paymentCtrlObj = Get.find<PaymentController>();
     AllSalesController allSalesCtrl = Get.find<AllSalesController>();
     String _url = '${ApiUrls.multiPaymentApi}';
-    var length = allSalesCtrl.allSaleOrders?.saleOrdersData.length ?? 0;
+    List<SaleOrderDataModel> saleOrderData = allSalesCtrl
+            .allSaleOrders?.saleOrdersData
+            .where((order) => order.isSelected)
+            .toList() ??
+        [];
 
     // 'card_number': '',
 
     Map<String, String> _fields = {};
-    for (int i = 0; i < length; i++) {
-      if (allSalesCtrl.allSaleOrders?.saleOrdersData[i].isSelected != false)
-        _fields['transaction_id[$i]'] =
-            '${allSalesCtrl.allSaleOrders?.saleOrdersData[i].id}';
+    for (int i = 0; i < saleOrderData.length; i++) {
+      // if (allSalesCtrl.allSaleOrders?.saleOrdersData[i].isSelected != false) {
+      _fields['transaction_id[$i]'] = '${saleOrderData[i].id}';
+      // }
       // _fields['method'] = '${paymentCtrlObj.paymentWidgetList[i].selectedPaymentOption?.paymentMethod}';
-      print('${allSalesCtrl.allSaleOrders?.saleOrdersData[i].id}');
+      print(
+          'all_products_controller -> multipartReceiptPutMethod -> Transaction ID => ${allSalesCtrl.allSaleOrders?.saleOrdersData[i].id}');
     }
 
     _fields['method'] = 'cash';
@@ -890,6 +900,7 @@ class AllProductsController extends GetxController {
     _fields['card_holder_name'] = '';
     _fields['card_number'] = '';
     logger.i(_fields);
+    // return false;
 
     // return await request.send().then((response) async {
     //   String result = await response.stream.bytesToString();
