@@ -539,7 +539,7 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   // Discount
   bytes += cl2(
     cTxt1: '',
-    cTxt2: 'Discount: ${selectedSaleOrderData?.discountAmount ?? 0}',
+    cTxt2: 'Discount: ${AppFormat.doubleToStringUpTo2("${selectedSaleOrderData?.discountAmount ?? 0}")}',
   );
 
   // VAT name, percent and value
@@ -551,7 +551,7 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
   bytes += cl2(
     cTxt1: '',
     cTxt2: 'Tax (VAT):'
-        '${selectedSaleOrderData!.taxAmount}',
+        '${AppFormat.doubleToStringUpTo2(selectedSaleOrderData!.taxAmount)}',
         // '${double.parse(selectedSaleOrderData!.totalItemLineTax!.toStringAsFixed(2))}',
         // ' ${Get.find<TaxController>().checkTaxName(taxId: selectedSaleOrderData?.taxId)}(${Get.find<TaxController>().checkTaxAmount(taxId: selectedSaleOrderData?.taxId)}%)'
         // '  ${totalItemsTax()}',
@@ -639,7 +639,7 @@ Future<List<int>> posInvoiceAndKotPrintLayout(
           'Total Paid Amount ${AppFormat.doubleToStringUpTo2(selectedSaleOrderData?.totalPaid)}',
     );
 
-  if (anyAmountDue() != null) bytes += cl2(cTxt2: 'Due ${anyAmountDue()}');
+  if (anyAmountDue() != null) bytes += cl2(cTxt2: 'Due ${AppFormat.doubleToStringUpTo2("${anyAmountDue()}")}');
 
   // Divider
   if (selectedSaleOrderData?.additionalNotes != null) bytes += printDivider();

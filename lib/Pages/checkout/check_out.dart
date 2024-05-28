@@ -51,8 +51,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   ? '${double.parse(Get.find<AllProductsController>().getPayableFinalTotalAmount()) + double.parse(widget.Amount!) ?? ''}'
                   : '${Get.find<ReceiptsController>().totalAmount ?? ''}',
             ) -
-            allProdCtrlObj.paidAmount -
-            allProdCtrlObj.calculatingTotalDiscount(),
+            allProdCtrlObj.paidAmount ,
+            // -
+            // allProdCtrlObj.calculatingTotalDiscount(),
       );
     } catch (e) {
       logger.e('Error -> check_out -> initState -> addPaymentWidget => $e');
