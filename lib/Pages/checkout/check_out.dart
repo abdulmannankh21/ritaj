@@ -50,7 +50,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
               (Get.find<AllProductsController>().finalTotal != 0.00)
                   ? '${double.parse(Get.find<AllProductsController>().getPayableFinalTotalAmount()) + double.parse(widget.Amount!) ?? ''}'
                   : '${Get.find<ReceiptsController>().totalAmount ?? ''}',
-            ) -
+            )
+            -
             allProdCtrlObj.paidAmount ,
             // -
             // allProdCtrlObj.calculatingTotalDiscount(),
@@ -144,6 +145,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                 Get.find<PaymentController>()
                                     .paymentWidgetList
                                     .clear();
+                                // Get.find<TaxController>().;
+
+                                // Get.find<ProductCartController>().discoutCtrl.clear();
                                 Get.back(result: true);
                               }
                             });

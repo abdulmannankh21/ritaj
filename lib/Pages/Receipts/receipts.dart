@@ -43,7 +43,7 @@ class _ReceiptsState extends State<Receipts> with TickerProviderStateMixin {
     // _tabController = TabController(length: 2, vsync: this);
 
     allSalesCtrl.callFirstOrderPageForReceipt();
-    allSalesCtrl.callFirstOrderPage();
+    allSalesCtrl.callFirstRecieptOrderPage();
     Get.find<StockTransferController>().fetchStockTransfersList();
     receiptsCtrl.totalAmount = '0';
     receiptsCtrl.listSaleOrderDataModel =
@@ -62,7 +62,7 @@ class _ReceiptsState extends State<Receipts> with TickerProviderStateMixin {
 
         if ((maxScroll - currentScroll) <= delta) {
           // if (maxScroll == currentScroll) {
-          allSalesCtrl.loadMoreSaleOrders();
+          allSalesCtrl.loadMoreRecieptSaleOrders();
         }
       });
     }

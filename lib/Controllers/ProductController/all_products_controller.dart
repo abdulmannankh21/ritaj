@@ -598,7 +598,7 @@ class AllProductsController extends GetxController {
       _fields['payment_status'] = 'due';
     } else {
       _fields['payment_status'] =
-          paymentCtrlObj.totalPayingAmount() < double.parse('${finalTotal}')
+          paymentCtrlObj.totalPayingAmount() < double.parse(getPayableFinalTotalAmount())
               ? 'partial'
               : 'paid';
     }
@@ -1160,7 +1160,7 @@ class AllProductsController extends GetxController {
       _fields['payment_status'] = 'due';
     } else {
       _fields['payment_status'] =
-          paymentCtrlObj.totalPayingAmount() < double.parse('${finalTotal}')
+          paymentCtrlObj.totalPayingAmount() < double.parse(getPayableFinalTotalAmount())
               ? 'partial'
               : 'paid';
     }
@@ -1353,6 +1353,9 @@ class AllProductsController extends GetxController {
   // function to get total payable amount
   String getPayableFinalTotalAmount() {
     // taxCtrlObj.orderTaxAmount;
+     if(finalTotal == 0){
+       return "0.0";
+     }
     return ('${(finalTotal - calculatingTotalDiscount()).toStringAsFixed(2)}');
   }
 }

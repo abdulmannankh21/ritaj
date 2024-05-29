@@ -140,6 +140,26 @@ class AllSalesController extends GetxController {
       isLoadMoreRunning.value = false;
     }
   }
+  void loadMoreRecieptSaleOrders() async {
+    logger.wtf('load more sale orders function called!');
+    if (hasNextPage && !isFirstLoadRunning.value) {
+      isLoadMoreRunning.value = true;
+
+      allSaleOrdersPage += 1;
+
+      await fetchAllSalesListRecipts(page: allSaleOrdersPage)
+          .then((bool? _isFinished) {
+        if (_isFinished == null) {
+          allSaleOrdersPage -= 1;
+        } else if (_isFinished) {
+          // This means there is no more data
+          // and therefore, we will not send another request
+          hasNextPage = false;
+        }
+      });
+      isLoadMoreRunning.value = false;
+    }
+  }
 
   SaleOrderModel? allSaleOrders;
   // fetch all sale orders list
@@ -151,7 +171,7 @@ class AllSalesController extends GetxController {
           '?page=$page'
           '&per_page=200'
           '${globalSearch != null ? '&global_search=$globalSearch' : ''}'
-          '${Get.find<ContactController>().id != null ? '&contact_id=${Get.find<ContactController>().id}' : ''}'
+          // '${Get.find<ContactController>().id != null ? '&contact_id=${Get.find<ContactController>().id}' : ''}'
           '${AppStorage.getLoggedUserData()!.staffUser.isAdmin! ? '&created_by=${AppStorage.getLoggedUserData()?.staffUser.id}' : ''}'
           '&business_id=${AppStorage.getBusinessDetailsData()?.businessData?.id}'
           '&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}',
@@ -186,6 +206,50 @@ class AllSalesController extends GetxController {
       return null;
     });
   }
+  Future<bool?> fetchAllSalesListRecipts({int page = 0, String? globalSearch}) async {
+    print('========================================');
+    print('Function calling');
+    return await ApiServices.getMethod(
+      feedUrl: '${ApiUrls.allOrders}'
+          '?page=$page'
+          '&per_page=200'
+          '${globalSearch != null ? '&global_search=$globalSearch' : ''}'
+      '${Get.find<ContactController>().id != null ? '&contact_id=${Get.find<ContactController>().id}' : ''}'
+          '${AppStorage.getLoggedUserData()!.staffUser.isAdmin! ? '&created_by=${AppStorage.getLoggedUserData()?.staffUser.id}' : ''}'
+          '&business_id=${AppStorage.getBusinessDetailsData()?.businessData?.id}'
+          '&location_id=${AppStorage.getBusinessDetailsData()?.businessData?.locations.first.id}',
+    ).then((_res) {
+      if (_res == null) return null;
+      final _data = saleOrderModelFromJson(_res);
+      if (page > 1 && allSaleOrders != null) {
+        allSaleOrders!.saleOrdersData.addAll(_data.saleOrdersData);
+      } else {
+        allSaleOrders = _data;
+      }
+      stopProgress();
+      //Get.close(1);
+      update();
+
+      /* fallback end status means is all item finished or not */
+      if (allSaleOrders?.meta?.lastPage != null &&
+          page == allSaleOrders?.meta?.lastPage) {
+        return true;
+      }
+      // errorMsg: '$errorMsgrror';
+
+      return false;
+    }).onError((error, stackTrace) async {
+      debugPrint('Error => $error');
+      logger.e('StackTrace => $stackTrace');
+      await ExceptionController().exceptionAlert(
+        errorMsg: '$error',
+        exceptionFormat: ApiServices.methodExceptionFormat(
+            'POST', ApiUrls.allOrders, error, stackTrace),
+      );
+      return null;
+    });
+  }
+
 
   SaleReturnListModel? allSaleReturnOrders;
   Future<bool?> fetchAllSalesReturnList(
@@ -235,6 +299,15 @@ class AllSalesController extends GetxController {
     hasNextPage = true;
     isLoadMoreRunning.value = false;
     await fetchAllSalesList();
+    isFirstLoadRunning.value = false;
+    update();
+  }
+  callFirstRecieptOrderPage() async {
+    allSaleOrdersPage = 1;
+    isFirstLoadRunning.value = true;
+    hasNextPage = true;
+    isLoadMoreRunning.value = false;
+    await fetchAllSalesListRecipts();
     isFirstLoadRunning.value = false;
     update();
   }
