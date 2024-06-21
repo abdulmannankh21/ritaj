@@ -27,14 +27,14 @@ dependencies:
   whatsapp: ^2.0.0
   url_launcher: ^6.1.6
   image_picker:
-  cached_network_image: ^3.2.2
+  cached_network_image:
   socket_io_client: ^2.0.3+1
   #  flutter_locales: ^2.0.2
   intl: ^0.17.0
   pdf: ^3.1.0
   path_provider: ^2.1.1
   #  open_file: ^3.1.0
-  printing: ^5.9.3
+  printing:
   dotted_line: ^3.2.2
   google_fonts: ^4.0.4
   flutter_polyline_points: ^1.0.0
